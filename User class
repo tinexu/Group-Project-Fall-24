@@ -1,1 +1,79 @@
+import java.util.*;
 
+public class User {
+    private static int totalUsers;
+    private String username;
+    private String password;
+    private int followerCount;
+    private ArrayList<String> friends;
+    private ArrayList<String> blocked;
+
+    public static final Object lock = new Object();
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+
+        followerCount = 0;
+
+        friends = new ArrayList<>();
+        blocked = new ArrayList<>();
+
+        synchronized (lock) {
+            totalUsers++;
+        }
+    }
+
+    public void addFriend(String friend) {
+        friends.add(friend);
+    }
+
+    public void removeFriend(String friend) {
+        friends.remove(friend);
+    }
+
+    public void blockFriend(String friend) {
+        blocked.add(friend);
+        friends.remove(friend);
+    }
+
+    public void unblockFriend(String friend) {
+        blocked.remove(friend);
+        friends.add(friend);
+    }
+
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (o instanceof User) {
+            User user = (User) o;
+            if (username.equals(user.username)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void newFollower() {
+        followerCount++;
+    }
+
+    public ArrayList<String> getFriends() {
+        return friends;
+    }
+
+    public ArrayList<String> getBlocked() {
+        return blocked;
+    }
+
+    public int getFollowerCount() {
+        return followerCount;
+    }
+
+    // to be implemented with the GUI
+
+
+}
