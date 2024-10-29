@@ -1,1 +1,11 @@
+import java.util.*;
 
+public class Posts {
+    private int likes;
+    private int dislikes;
+    private ArrayList<String> commentsList;
+    private int comments;
+    private boolean isHidden;
+
+
+}
