@@ -1,1 +1,15 @@
+import javax.swing.*;
+import java.awt.*;
 
+public class VisualPlatform {
+    public VisualPlatform() {
+        JFrame frame = new JFrame();
+        JPanel panel = new JPanel();
+
+    }
+
+    public static void main(String[] args) {
+        VisualPlatform visualPlatform = new VisualPlatform();
+
+    }
+}
