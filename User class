@@ -5,8 +5,8 @@ public class User {
     private String username;
     private String password;
     private int followerCount;
-    private ArrayList<String> friends;
-    private ArrayList<String> blocked;
+    private ArrayList<User> friends;
+    private ArrayList<User> blocked;
 
     public static final Object lock = new Object();
 
@@ -24,22 +24,23 @@ public class User {
         }
     }
 
-    public void addFriend(String friend) {
+    public void addFriend(User friend) {
         friends.add(friend);
     }
 
-    public void removeFriend(String friend) {
+    public void removeFriend(User friend) {
         friends.remove(friend);
     }
 
-    public void blockFriend(String friend) {
+    public void blockFriend(User friend) {
         blocked.add(friend);
-        friends.remove(friend);
+        if (friends.contains(friend) {
+         friends.remove(friend);
+        }
     }
 
-    public void unblockFriend(String friend) {
+    public void unblockFriend(User friend) {
         blocked.remove(friend);
-        friends.add(friend);
     }
 
     public boolean equals(Object o) {
@@ -61,11 +62,11 @@ public class User {
         followerCount++;
     }
 
-    public ArrayList<String> getFriends() {
+    public ArrayList<User> getFriends() {
         return friends;
     }
 
-    public ArrayList<String> getBlocked() {
+    public ArrayList<User> getBlocked() {
         return blocked;
     }
 
