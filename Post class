@@ -1,17 +1,20 @@
 import java.util.*;
 
 public class Post {
-    private int likes;
-    private int dislikes;
-    private ArrayList<String> commentsList;
-    private int comments;
-    private boolean isHidden;
+    private int likes; // An integer holding the number of likes the post received
+    private int dislikes; // An integer holding the number of dislikes the post received
+    private ArrayList<String> commentsList; // An arrayList of Strings holding the comments the post received
+    private int comments; // An integer holding the number of comments the post received
     private boolean canComment;
     private User posted;
+    private boolean isHidden;
+    private ArrayList<User> postFriends;
     private User commented;
     private int upvoteCount;
     private int downvoteCount;
 
+    // The Post class constructor assigns the User given in the parameter to the instance variable
+    // It sets all the other values to our platform default settings
     public Post(User posted) {
         this.likes = 0;
         this.dislikes = 0;
@@ -22,7 +25,9 @@ public class Post {
         this.canComment = true;
         this.upvoteCount = 0;
         this.downvoteCount = 0;
+        this.postFriends = posted.getFriends();
     }
+
 
     public void setCommentStatus(boolean commentStatus) {
         this.canComment = commentStatus;
@@ -51,5 +56,20 @@ public class Post {
         this.downvoteCount++;
     }
 
+    public void hidePost(User wantHidden) {
+        if (!isHidden) {
+            this.isHidden = true;
+            postFriends.add(wantHidden);
+        }
+    }
+
+    public void unHidepost(User wantUnHidden) {
+        if (isHidden) {
+            postFriends.remove(wantUnHidden);
+            this.isHidden = false;
+        }
+    }
+    
+    
 
 }
