@@ -1,4 +1,5 @@
 # Group-Project-Fall-24 <br />
+_**L30-Team 1: Oscar Katz, Tommy Wei, Srinidhi Saravanan, Christine Xu**_
 
 **Compling and Running our Project** <br />
 For Phase 1, compiling our project will involve using the command line "javac class_name.java" for each class that wants to be ran separately, but will most likely only employ the main runner class, SocialMediaPlatformRunner, or the main method in SocialMediaPlatform. As there is no GUI/visual component yet, the running of our project will be through verifying the success of our methods and a RunLocalTest class. 
