@@ -98,4 +98,10 @@ public class SocialMediaPlatform extends Thread {
         }
         return true;
     }
+
+    // Main method of this class
+    // For testing, program/debug running, and GUI
+    public static void main(String[] args) {
+        // need to write main method
+    }
 }
