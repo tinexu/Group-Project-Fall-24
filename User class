@@ -1,48 +1,85 @@
 import java.util.*;
 
+/**
+ * Group Project -- User
+ *
+ * This class creates User objects for our platform
+ *
+ * @author L30-Team 1, CS180
+ *
+ * @version Nov 2, 2024
+ *
+ */
+
 public class User {
-    private static int totalUsers;
-    private String username;
-    private String password;
-    private int followerCount;
-    private ArrayList<User> friends;
-    private ArrayList<User> blocked;
+    private String username; // the username of a User
+    private String password; // the password of a User's account
+    private ArrayList<User> friends; // the list of friends for a User
+    private ArrayList<User> blocked; // the list of blocked people/friends for a User
+    private ArrayList<Posts> posts; // the posts associated with a User
 
-    public static final Object lock = new Object();
+    public static final Object lock = new Object(); // the shared Object, lock, between all Threads using this platform
 
+    // ** // Constructor for a User with a String parameter, username
+    // Used in conjunction with the Post class to specify who posted a post and who commented on that post
+    public User(String username) {
+        this.username = username;
+    }
+
+    // Constructor for the creation of a new User
+    // User can specify their username and password, but all other instance variables are set to their default values
     public User(String username, String password) {
         this.username = username;
         this.password = password;
 
-        followerCount = 0;
-
         friends = new ArrayList<>();
         blocked = new ArrayList<>();
-
-        synchronized (lock) {
-            totalUsers++;
-        }
+        posts = new ArrayList<>();
     }
 
+    // Accessor method for the username
+    // returns a String username
+    public String getUsername() {
+        return username;
+    }
+
+    // Mutator method for the username (in case a User wants to change their username)
+    // void return; changes an instance variable
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    // Method to add a User friend (follow someone) to a User's list of friends
+    // void return; changes an instance variable
     public void addFriend(User friend) {
         friends.add(friend);
     }
 
+    // Method to remove a friend (unfollow someone) from a User's list of friends
+    // void return; changes an instance variable
     public void removeFriend(User friend) {
         friends.remove(friend);
     }
 
-    public void blockFriend(User friend) {
-        blocked.add(friend);
-        if (friends.contains(friend) {
-         friends.remove(friend);
+    // Method to block a friend (stop messaging and displaying posts) from the database of Users for a User
+    // void return; changes instance variables
+    public void blockUser(User user) {
+        blocked.add(user);
+        if (friends.contains(user)) {
+            friends.remove(user);
         }
     }
 
-    public void unblockFriend(User friend) {
-        blocked.remove(friend);
+    // Method to unblock a friend (reinstate messaging and post displaying privileges) from the database of Users for a User
+    // void return; changes an instance variable
+    public void unblockUser(User user) {
+        blocked.remove(user);
     }
 
+    // Method that checks if the usernames of two User objects is the same
+    // Can check if a username already exists in the database of Users or for other functionalities included in Post, Feed, and Messaging classes
+    // returns a boolean, true (equals) or false (not equal)
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -58,23 +95,28 @@ public class User {
         return false;
     }
 
-    public void newFollower() {
-        followerCount++;
-    }
-
+    // Accessor method for the friends list of a User
+    // returns ArrayList<User> of friends
     public ArrayList<User> getFriends() {
         return friends;
     }
 
+    // Accessor method for the blocked list of a User
+    // returns ArrayList<User> of blocked people/friends
     public ArrayList<User> getBlocked() {
         return blocked;
     }
 
-    public int getFollowerCount() {
-        return followerCount;
+    // Accessor method for the posts of a User
+    // returns ArrayList<Posts> of posts
+    public ArrayList<Posts> getPosts() {
+        return posts;
     }
 
-    // to be implemented with the GUI
-
-
+    // Method that returns the String value of a user, displaying all of their necessary information (eventually used for profile viewing/displaying purposes
+    // returns a String of a User's username, password, follower count, and following count
+    @Override
+    public String toString() {
+        return String.format("Username: %s, Password: %s, Followers: %d, Following: %d", username, password, friends.size(), friends.size());
+    }
 }
