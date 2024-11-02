@@ -1,0 +1,101 @@
+import java.util.*;
+import java.io.*;
+import java.lang.*;
+
+/**
+ * Group Project -- SocialMediaPlatform
+ *
+ * This class is a runner class for our program and extends the Thread class for "multiple-client" implementation purposes
+ *
+ * @author L30-Team 1, CS180
+ *
+ * @version Nov 2, 2024
+ *
+ */
+
+public class SocialMediaPlatform extends Thread {
+    private static ArrayList<User> users; // list of all the users stored in the database
+    private static ArrayList<Posts> images; // list of all the images that have been posted (the ones that currently exist on the platform)
+
+    // only for Phase 1
+    private String filename; // instance variable that stores the output filename to make testing clearer and more efficient
+
+    private static final Object lock = new Object(); // the shared Object, lock, between all Threads using this platform
+
+    // Constructor for the SocialMediaPlatform class that sets all instance variables to their default values and filename (for now) to the designated output filename
+    public SocialMediaPlatform() {
+        users = new ArrayList<>();
+        images = new ArrayList<>();
+        filename = "output.txt";
+    }
+
+    // Method that adds a User to the list of all the users in the database immediately after successful creation
+    // returns void; changes an instance variable
+    // involves concurrent programming to avoid race conditions
+    public void addUser(User user) {
+        synchronized (lock) {
+            users.add(user);
+        }
+    }
+
+    // Accessor method for the list of users
+    // returns ArrayList<User> of all the users stored in the database
+    public ArrayList<User> getUsers() {
+        return users;
+    }
+
+    // Accessor method for the list of images
+    // returns ArrayList<Posts> of all the images that exist and are stored in the database
+    public ArrayList<Posts> getImages() {
+        return images;
+    }
+
+    // (For Phase 1 testing) Method that reads all the users from a file for input processing
+    // returns ArrayList<String> of all the input in a list of Strings
+    public ArrayList<String> readUsers(String filename) {
+        ArrayList<String> lines = new ArrayList<>();
+
+        File file = new File(filename);
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
+            String line = bufferedReader.readLine();
+            while (line != null) {
+                lines.add(line);
+                line = bufferedReader.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return lines;
+    }
+
+    // Method that adds the '@' character to a username for presentation and processing
+    // returns void; changes an instance variable
+    public void editUsername(User user) {
+        String holdUsername = user.getUsername();
+        holdUsername = "@" + holdUsername;
+        user.setUsername(holdUsername);
+    }
+
+    // Method that displays all the users to the platform screen for viewing purposes
+    // returns void; designed so that a User knows who they can "follow"
+    public void displayUsers() {
+        /*
+        to be implemented alongside the GUI
+         */
+    }
+
+    // (For Phase 1 testing) Method that writes the output to an output file
+    // returns boolean stating that the process completed without error (true), or it resulted in an error (false)
+    public boolean writeUser(User user) {
+        File file = new File(filename);
+        try (FileOutputStream fileOutputStream = new FileOutputStream(file, true)) {
+            try (PrintWriter printWriter = new PrintWriter(fileOutputStream)) {
+                printWriter.println(user.toString());
+            }
+        } catch (IOException e) {
+            return false;
+        }
+        return true;
+    }
+}
