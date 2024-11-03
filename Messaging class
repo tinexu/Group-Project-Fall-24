@@ -16,9 +16,11 @@ public class Messaging {
     private User sender; // A variable that holds the User who sent the comment
     private User receiver; // A variable that holds the User who received the comment
     private String messageContent; // A variable that holds the message being sent/received as a String
-    private ArrayList<String> messages; 
-    private boolean restrictFriends;
+    private ArrayList<String> messages; // An arrayList of Strings holding the messages that have been sent
+    private boolean restrictFriends; // A boolean variable that checks whether or not messages are restricted to only friends
 
+    // The Messaging class constructor assigns the Users, Strings, and boolean given in the parameter 
+    // to the corresponding instance variables, it sets all the other values to our platform default settings 
     public Messaging(User sender, User receiver, String messageContent, boolean restrictFriends) {
         this.sender = sender;
         this.receiver = receiver;
@@ -28,7 +30,7 @@ public class Messaging {
 
     }
 
-    //Setting to restrictive friends
+    // Setting to restrictive friends
     public boolean isRestrictFriends() {
         return restrictFriends;
     }
