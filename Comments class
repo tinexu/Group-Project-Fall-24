@@ -28,13 +28,13 @@ public class Comments {
     public int getDownVotes() {
         return downVotes;
     }
-
-    public User getCommented() {
-        return this.commented;
-    }
-
+    
     public String getComment() {
         return this.comment;
+    }
+    
+    public User getCommented() {
+        return this.commented;
     }
 
 }
