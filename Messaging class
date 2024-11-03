@@ -1,64 +1,41 @@
 import java.lang.reflect.Array;
 import java.util.*;
 import java.util.ArrayList;
+
 /**
  * Group Project -- Messaging
  * <p>
- * This class creates Messaging objects for our platform
+ * This class creates Messaging objects for our platform 
  * so that users are able to send and receive messages
  *
  * @author L30-Team 1, CS180
  * @version Nov 3, 2024
  */
+
 public class Messaging {
     private User sender; // A variable that holds the User who sent the comment
     private User receiver; // A variable that holds the User who received the comment
     private String messageContent; // A variable that holds the message being sent/received as a String
-    private ArrayList<String> messages; // An arrayList of Strings holding the messages that have been sent
-    private boolean restrictFriends; // A boolean variable that checks whether or not messages are restricted to only friends
+    private ArrayList<String> messages;
 
-
-
-    // The Messaging class constructor assigns the Users, Strings, and boolean given in the parameter
-    // to the corresponding instance variables, it sets all the other values to our platform default settings
-    public Messaging(User sender, User receiver, String messageContent, boolean restrictFriends) {
+    public Messaging(User sender, User receiver, String messageContent) {
         this.sender = sender;
         this.receiver = receiver;
         this.messageContent = messageContent;
         this.messages = new ArrayList<>();
-        this.restrictFriends = restrictFriends;
-
     }
 
-    // An accessor method that returns a boolean of whether or not messages are restricted to friends only  
-    public boolean isRestrictFriends() {
-        return restrictFriends;
-    }
+    //Setting to restrictive friends
 
-    // A void mutator method that sets restrictFriends to what is passed in the parameter
-    public void setRestrictFriends(boolean restrictFriends) {
-        this.restrictFriends = restrictFriends;
-    }
-
+    //Sending a message and checking if target user is either blocked or not a friend
     public void sendMessage() throws InvalidException {
         if (sender.getBlocked().contains(receiver)) {
             throw new InvalidException("Cannot send message, user is blocked");
-        } else if (!sender.getFriends().contains(receiver) && restrictFriends == true) {
-            throw new InvalidException("Cannot send message, user is not a friend");
+        } else if (!sender.getFriends().contains(receiver) && receiver.isPriv()) {
+            throw new InvalidException("Cannot send message, user is private");
         }
         messages.add(messageContent);
         System.out.println("Message sent: " + messageContent);
-    }
-
-    // bringing up old conversation
-    public static ArrayList<String> findConversation(ArrayList<Messaging> messages, User sender, User receiver) {
-        ArrayList<String> conversation = new ArrayList<>();
-        for (Messaging msg : messages) {
-            if ((msg.sender.equals(sender) && msg.receiver.equals(receiver))) {
-                conversation.add(msg.messageContent);
-            }
-        }
-        return conversation;
     }
 
     //Deleting a message
@@ -70,5 +47,22 @@ public class Messaging {
             throw new InvalidException("Message not found!");
         }
     }
+
+    public User getSender() {
+        return sender;
+    }
+
+    public User getReceiver() {
+        return receiver;
+    }
+
+    public String getMessageContent() {
+        return messageContent;
+    }
+
+    public ArrayList<String> getMessages() {
+        return messages;
+    }
+    
 
 }
