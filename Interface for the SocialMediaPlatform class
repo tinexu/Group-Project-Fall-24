@@ -1,0 +1,22 @@
+import java.util.*;
+
+/**
+ * Group Project -- SocialMediaPlatformInterface
+ *
+ * This class is the interface that our SocialMediaPlatform class will implement
+ *
+ * @author L30-Team 1, CS180
+ *
+ * @version Nov 2, 2024
+ *
+ */
+
+public interface SocialMediaPlatformInterface {
+    void addUser(User user); // adds a new User to the list of all Users in the database
+    ArrayList<User> getUsers(); // gets the list of Users
+    ArrayList<Posts> getImages(); // gets the list of images
+    ArrayList<String> readUsers(String filename); // (for Phase 1) reads the input from the testing input file
+    void editUsername(User user); // edits the username of a User to include the '@' symbol
+    void displayUsers(); // displays the Users list to the screen
+    boolean writeUser(User user); // (for Phase 1) writes each new User to the testing output file
+}
