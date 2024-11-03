@@ -2,10 +2,10 @@ import java.lang.reflect.Array;
 import java.util.*;
 import java.util.ArrayList;
 
- /**
+/**
  * Group Project -- Messaging
  * <p>
- * This class creates Messaging objects for our platform 
+ * This class creates Messaging objects for our platform
  * so that users are able to send and receive messages
  *
  * @author L30-Team 1, CS180
@@ -16,7 +16,6 @@ public class Messaging implements MessagingInterface {
     private User sender; // A variable that holds the User who sent the comment
     private User receiver; // A variable that holds the User who received the comment
     private String messageContent; // A variable that holds the message being sent/received as a String
-    private ArrayList<String> messages; // An arrayList of Strings 
 
     // The Messaging class constructor assigns the Users, String, and boolean given in the parameter
     // to the corresponding instance variables, it sets all the other values to our platform default settings
@@ -24,10 +23,10 @@ public class Messaging implements MessagingInterface {
         this.sender = sender;
         this.receiver = receiver;
         this.messageContent = messageContent;
-        this.messages = new ArrayList<>();
+
     }
 
-    // A void method that sends a Message from one User to another, it throws an Exception if 
+    // A void method that sends a Message from one User to another, it throws an Exception if
     // the User is trying to send a message to a User who blocked them or if the receiver can
     // only receive messages from friends, and the User sending a message is not a friend
     public void sendMessage() throws InvalidException {
@@ -36,14 +35,14 @@ public class Messaging implements MessagingInterface {
         } else if (!sender.getFriends().contains(receiver) && receiver.isPriv()) {
             throw new InvalidException("Cannot send message, user is private");
         }
-        messages.add(messageContent);
+        User.getMessages.add(messageContent);
         System.out.println("Message sent: " + messageContent);
     }
 
-    // A void method that deletes a message 
+    // A void method that deletes a message
     public void deleteMessage(String targetMessage) throws InvalidException{
-        if (messages.contains(targetMessage)) {
-            messages.remove(targetMessage);
+        if (User.getMessages.contains(targetMessage)) {
+            User.getMessages.remove(targetMessage);
             System.out.println("Removed: " + targetMessage);
         } else {
             throw new InvalidException("Message not found!");
@@ -60,10 +59,6 @@ public class Messaging implements MessagingInterface {
 
     public String getMessageContent() {
         return messageContent;
-    }
-
-    public ArrayList<String> getMessages() {
-        return messages;
     }
     
 
