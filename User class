@@ -16,16 +16,11 @@ public class User implements UserInterface {
     private String password; // the password of a User's account
     private ArrayList<User> friends; // the list of friends for a User
     private ArrayList<User> blocked; // the list of blocked people/friends for a User
-    private ArrayList<Post> posts;
-    private boolean priv;// the posts associated with a User
+    private ArrayList<Post> posts; // An arrayList of the User's Posts
+    private boolean priv; // A boolean variable that determines whether or not messages are restricted to friends only
+    private ArrayList<String> messages; // An arrayList of messages holding all the messages the User sent
 
     public static final Object lock = new Object(); // the shared Object, lock, between all Threads using this platform
-
-    // ** // Constructor for a User with a String parameter, username
-    // Used in conjunction with the Post class to specify who posted a post and who commented on that post
-    public User(String username) {
-        this.username = username;
-    }
 
     // Constructor for the creation of a new User
     // User can specify their username and password, but all other instance variables are set to their default values
@@ -37,6 +32,16 @@ public class User implements UserInterface {
         blocked = new ArrayList<>();
         posts = new ArrayList<>();
         priv = false;
+    }
+
+    // A void method that adds the String message to the messages list
+    public void addMessage(String message) {
+        messages.add(message);
+    }
+
+    // An accessor method that returns the arrayList of the messages sent as Strings
+    public ArrayList<String> getMessages() {
+        return this.messages;
     }
 
     // Accessor method for the username
