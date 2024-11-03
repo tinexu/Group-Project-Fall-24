@@ -2,6 +2,16 @@ import java.lang.reflect.Array;
 import java.util.*;
 import java.util.ArrayList;
 
+/**
+ * Group Project -- Messaging
+ * <p>
+ * This class creates Messaging objects for our platform 
+ * so that users are able to send and receive messages
+ *
+ * @author L30-Team 1, CS180
+ * @version Nov 2, 2024
+ */
+
 public class Messaging {
     private User sender;
     private User receiver;
