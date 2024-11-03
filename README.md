@@ -8,6 +8,17 @@ For Phase 1, compiling our project will involve using the command line "javac cl
 For Brightspace: <br />
 For Vocareum: <br />
 
+**Existing Interfaces:**
+- UserInterface.java: The interface that the User class will implement. <br />
+- SocialMediaPlatformInterface.java: The interface that the SocialMediaPlatform class will implement. <br />
+- PostInterface.java: The interface that the Post class will implement. <br />
+- MessagingInterface.java: The interface that the Messaging class will implement. <br />
+- FeedInterface.java: The interface that the Feed class will implement. <br />
+
+**Non-Existing Interfaces (the classes that do not require interfaces, but still exist as classes):** <br />
+- InvalidExceptionInterface does not exist because: The inheritance from the Exception superclass allows the Custom Exception that we created to be provided with all the necessary functionality. Custom Exceptions are generally also only used for a specific purpose, and therefore do not employ the true purpose of an interface, which is set defining behaviors that can be implemented across multiple classes. <br />
+- VisualPlatformInterface does not exist because: The implementation of a GUI is highly specific so an interface would not necessarily be needed, or even add much to the implementation of the class. The structure and behavior of GUI's function similar to inheritance, and therefore do not require interfaces to be implemented. However, the future creation of an interface may prove useful, and therefore may be written later on. <br />
+
 - **User.java:** <br />
 This class stores all the functionalities of the User objects of our platform, beginning with how a new User of the platform is created (via username and password). The class also includes functionalities over how the User will add, block, or remove friends. Furthermore, the class includes processing methods, such as a .equals() method for when searching through lists, and a toString() method for displaying the User's information to a file, first, and eventually the GUI interface. The tests that were performed on this class were written either in tests for other classes, or just simply to make sure the accessor, mutator, and functional methods were working. For instance, the method, setUsername() was used in conjunction with a test for the SocialMediaPlatform.java class when testing to make sure the input that the user would eventually type in from a input dialog in our GUI could be modified to represent an acutal username present on existing social media platforms. In another example, the methods that edit the blocked and friends ArrayList fields were simply tested to make sure that our program could create a list of people (for different reasons) for each User that is created for our platform. This class is essentially the information storage center for all the Users created on our platform. It will interact with our messaging class to monitor what friends a User can message via the blocked and friends ArrayLists; it will interact with our Post and Feed class to monitor whose posts will show up on a specific User's feed; it will also interact with our overarching SocialMediaPlatform class to provide the methods necessary in reading and writing Users to our database, as well as maintaining the data stored in it (e.g. the SocialMediaPlatform class will contain an ArrayList of Users for displaying and processing).
 - **SocialMediaPlatform.java:** <br />
