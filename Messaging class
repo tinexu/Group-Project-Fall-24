@@ -14,6 +14,7 @@ public class Messaging implements MessagingInterface {
     private User sender; // A variable that holds the User who sent the comment
     private User receiver; // A variable that holds the User who received the comment
     private String messageContent; // A variable that holds the message being sent/received as a String
+    private String imageMessagePath; // to be more implemented; the String that represents the image's path that wants to be sent
 
     // The Messaging class constructor assigns the Users, String, and boolean given in the parameter
     // to the corresponding instance variables, it sets all the other values to our platform default settings
