@@ -1,1 +1,37 @@
 
+import java.lang.reflect.Array;
+import java.util.*;
+import java.util.ArrayList;
+
+public class Messaging {
+    private User sender;
+    private User receiver;
+    private String messageContent;
+    private ArrayList<String> messages;
+
+    public Messaging(User sender, User receiver, String messageContent) {
+        this.sender = sender;
+        this.receiver = receiver;
+        this.messageContent = messageContent;
+        this.messages = new ArrayList<>();
+    }
+
+    //Sending a message and checking if target user is either blocked or not a friend
+    public void sendMessage() throws InvalidException {
+        if (sender.getBlocked().contains(receiver)) {
+            throw new InvalidException("Cannot send message, user is blocked");
+        } else if (!sender.getFriends().contains(receiver)) {
+            throw new InvalidException("Cannot send message, user is not a friend");
+        }
+        messages.add(messageContent);
+        System.out.println("Message sent: " + messageContent);
+    }
+
+    //Restricting to either all users or friends only
+    public void restrictedMessages(User user) {
+
+    }
+
+
+
+}
