@@ -12,11 +12,11 @@ import java.util.ArrayList;
  * @version Nov 3, 2024
  */
 
-public class Messaging {
-    private User sender;
-    private User receiver;
-    private String messageContent;
-    private ArrayList<String> messages;
+public class Messaging { 
+    private User sender; // A variable that holds the User who sent the comment
+    private User receiver; // A variable that holds the User who received the comment
+    private String messageContent; // A variable that holds the message being sent/received as a String
+    private ArrayList<String> messages; 
     private boolean restrictFriends;
 
     public Messaging(User sender, User receiver, String messageContent, boolean restrictFriends) {
