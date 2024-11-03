@@ -26,6 +26,12 @@ public class Messaging implements MessagingInterface {
 
     }
 
+    // A void mutator method that changes the messageContent instance variable to what is passed 
+    // in the parameter (Used for testing purposes only)
+    public void setMessages(String messageContent) {
+        this.messageContent = messageContent;
+    }
+
     // A void method that sends a Message from one User to another, it throws an Exception if
     // the User is trying to send a message to a User who blocked them or if the receiver can
     // only receive messages from friends, and the User sending a message is not a friend
@@ -39,7 +45,7 @@ public class Messaging implements MessagingInterface {
         System.out.println("Message sent: " + messageContent);
     }
 
-    // A void method that deletes a message
+    // 
     public void deleteMessage(String targetMessage) throws InvalidException{
         if (User.getMessages.contains(targetMessage)) {
             User.getMessages.remove(targetMessage);
