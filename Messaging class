@@ -1,26 +1,26 @@
 import java.lang.reflect.Array;
 import java.util.*;
 import java.util.ArrayList;
-
 /**
  * Group Project -- Messaging
  * <p>
- * This class creates Messaging objects for our platform 
+ * This class creates Messaging objects for our platform
  * so that users are able to send and receive messages
  *
  * @author L30-Team 1, CS180
  * @version Nov 3, 2024
  */
-
-public class Messaging { 
+public class Messaging{
     private User sender; // A variable that holds the User who sent the comment
     private User receiver; // A variable that holds the User who received the comment
     private String messageContent; // A variable that holds the message being sent/received as a String
     private ArrayList<String> messages; // An arrayList of Strings holding the messages that have been sent
     private boolean restrictFriends; // A boolean variable that checks whether or not messages are restricted to only friends
 
-    // The Messaging class constructor assigns the Users, Strings, and boolean given in the parameter 
-    // to the corresponding instance variables, it sets all the other values to our platform default settings 
+
+
+    // The Messaging class constructor assigns the Users, Strings, and boolean given in the parameter
+    // to the corresponding instance variables, it sets all the other values to our platform default settings
     public Messaging(User sender, User receiver, String messageContent, boolean restrictFriends) {
         this.sender = sender;
         this.receiver = receiver;
@@ -30,7 +30,7 @@ public class Messaging {
 
     }
 
-    // Setting to restrictive friends
+    //Setting to restrictive friends
     public boolean isRestrictFriends() {
         return restrictFriends;
     }
@@ -50,6 +50,17 @@ public class Messaging {
         System.out.println("Message sent: " + messageContent);
     }
 
+    //brining up old conversation
+    public static ArrayList<String> findConversation(ArrayList<Messaging> messages, User sender, User receiver) {
+        ArrayList<String> conversation = new ArrayList<>();
+        for (Messaging msg : messages) {
+            if ((msg.sender.equals(sender) && msg.receiver.equals(receiver))) {
+                conversation.add(msg.messageContent);
+            }
+        }
+        return conversation;
+    }
+
     //Deleting a message
     public void deleteMessage(String targetMessage) throws InvalidException{
         if (messages.contains(targetMessage)) {
@@ -58,7 +69,6 @@ public class Messaging {
         } else {
             throw new InvalidException("Message not found!");
         }
-
     }
 
 }
