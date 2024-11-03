@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Post {
+public class Post implements PostInterface {
     private int likes; // An integer holding the number of likes the post received
     private int dislikes; // An integer holding the number of dislikes the post received
     private ArrayList<String> commentsList; // An arrayList of Strings holding the comments the post received
