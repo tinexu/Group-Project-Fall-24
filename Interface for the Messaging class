@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 /**
  * Group Project -- MessagingInterface
  *
@@ -8,7 +9,11 @@
  * @version Nov 2, 2024
  *
  */
-
 public interface MessagingInterface {
-  /* */
+    boolean isRestrictedFriends();
+    void setRestrictedFriends(boolean restrictedFriends);
+    void sendMessage() throws InvalidException;
+    void deleteMessage(String targetMessage) throws InvalidException;
+    void findConversation(ArrayList<Messaging> messages, User sender, User receiver);
+
 }
