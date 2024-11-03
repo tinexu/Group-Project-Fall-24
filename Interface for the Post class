@@ -1,0 +1,21 @@
+/**
+ * Group Project -- PostInterface
+ *
+ * This class is the interface that our Post class will implement
+ *
+ * @author L30-Team 1, CS180
+ *
+ * @version Nov 2, 2024
+ *
+ */
+
+public interface PostInterface {
+    void setCommentStatus(boolean commentStatus);
+    boolean getCommentStatus();
+    void addComment(String comment, User commented);
+    void removeComment(String comment, User com);
+    void upvoteComment();
+    void downvoteComment();
+    void hidePost(User wantHidden);
+    void unHidepost(User wantUnhidden);
+}
