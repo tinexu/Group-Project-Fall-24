@@ -12,27 +12,42 @@ import java.util.*;
 public class Post {
     private int likes; // An integer holding the number of likes the post received
     private int dislikes; // An integer holding the number of dislikes the post received
-    private ArrayList<String> commentsList; // An arrayList of Strings holding the comments the post received
     private int comments; // An integer holding the number of comments the post received
     private boolean canComment; // A boolean that determines if a post can receive comments
     private User posted; // An object User that holds the User who made the post
     private ArrayList<User> postFriends; // A list of Users that a User wants to hide from their feed
-    private ArrayList<User> commentedList; // A list of Users who commented on the post
-    private int upVoteCount; // An integer that holds the number of upVotes a comment received
-    private int downVoteCount; // An integer that holds the number of downVotes a comment received
+    private ArrayList<Comments> commentList; // A list of Comment objects holding the comments on the post
 
     // The Post class constructor assigns the User given in the parameter to the instance variable
     // It sets all the other values to our platform default settings
     public Post(User posted) {
         this.likes = 0;
         this.dislikes = 0;
-        this.commentsList = null;
         this.comments = 0;
         this.posted = posted;
         this.canComment = true;
-        this.upVoteCount = 0;
-        this.downVoteCount = 0;
         this.postFriends = posted.getFriends();
+        this.commentList = null;
+    }
+
+    // A void method that increments the likes on a post if the method is called
+    public void likePost() {
+        likes++;
+    }
+
+    // A void method that increments the dislikes on a post if the method is called
+    public void dislikePost() {
+        dislikes++;
+    }
+
+    // An integer accessor method that returns the number of likes
+    public int getLikes() {
+        return likes;
+    }
+
+    // An integer accessor method that returns the number of dislikes
+    public int getDislikes() {
+        return dislikes;
     }
 
     // A void mutator method that sets the comment status based on what the user passed to the parameter
@@ -45,32 +60,15 @@ public class Post {
         return canComment;
     }
 
-    // A void method that adds the comment posted to the commentsList and adds the user who commented to the
-    // commentedList
-    public void addComment(String comment, User commented) {
-        commentsList.add(comment);
-        commentedList.add(commented);
+
+    public void addComment(Comments comment) {
+        commentList.add(comment);
     }
 
-    // A void method that checks if the comment trying to be removed is being requested by the user who posted it
-    // or the user who commented it, if so it will remove the comment from commentsList and the user who commented it
-    // from the commentedList
-    public void removeComment(String comment, User com) {
-        if ((commentedList.contains(com) && (commentedList.indexOf(com) == commentsList.indexOf(comment)))
-                || (com.equals(posted))) {
-            commentsList.remove(comment);
-            commentedList.remove(com);
+    public void removeComment(Comments comment, User com) {
+        if (comment.getCommented().equals(com) || comment.getCommented().equals(posted)) {
+            commentList.remove(comment);
         }
-    }
-
-    // A void method that increments the upVoteCount if the method is called
-    public void upVoteComment() {
-        this.upVoteCount++;
-    }
-
-    // A void method that increments the downVoteCount if the method is called
-    public void downVoteComment() {
-        this.downVoteCount++;
     }
 
     // A void method that adds the User that the main User wants Hidden to the postFriends list
