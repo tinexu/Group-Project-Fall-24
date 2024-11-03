@@ -1,3 +1,4 @@
+// All the necessary imports
 import org.junit.Test;
 import org.junit.After;
 import java.lang.reflect.Field;
@@ -19,6 +20,7 @@ import java.util.UUID;
 
 public class RunLocalTests {
 
+    // Main method that will run the equality tests for our platform
     public static void main(String[] args) {
         Result result = JUnitCore.runClasses(RunLocalTests.class);
         for (Failure failure : result.getFailures()) {
@@ -27,6 +29,7 @@ public class RunLocalTests {
         System.out.println(result.wasSuccessful() ? "All tests passed." : "Some tests failed.");
     }
 
+    // Tests if the .equals() method present in the User class returns the correct boolean variable
     @Test
     public void testUserEquals() {
         User user = new User("User1", "1234");
@@ -37,6 +40,7 @@ public class RunLocalTests {
                 user.equals(new User("User2", "1234")));
     }
 
+    // Tests to make sure that the main User constructor initializes its instance variables correctly
     @Test
     public void testUserConstructor() {
         User user = new User("user1", "1234");
@@ -46,6 +50,7 @@ public class RunLocalTests {
         Assert.assertTrue(user.getPosts().isEmpty());
     }
 
+    // Tests to make sure that adding and removing friends (following and unfollowing) update their respective instance variables as expected
     @Test
     public void testAddAndRemoveFriend() {
         User user = new User("user1", "1234");
@@ -56,6 +61,7 @@ public class RunLocalTests {
         Assert.assertFalse(user.getFriends().contains(user2));
     }
 
+    // 
     @Test
     public void testAddAndRemoveBlocked() {
         User user = new User("user1", "1234");
