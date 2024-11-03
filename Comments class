@@ -1,1 +1,32 @@
+import java.util.*;
 
+public class Comments {
+    private String comment;
+    private User commented;
+    private int upVotes;
+    private int downVotes;
+
+    public Comments(String comment, User commented) {
+        this.comment = comment;
+        this.commented = commented;
+        this.upVotes = 0;
+        this.downVotes = 0;
+    }
+    
+    public void upVoteComment() {
+        this.upVotes++;
+    }
+
+    public void downVoteComment() {
+        this.downVotes++;
+    }
+
+    public int getUpVotes() {
+        return this.upVotes;
+    }
+
+    public int getDownVotes() {
+        return downVotes;
+    }
+
+}
