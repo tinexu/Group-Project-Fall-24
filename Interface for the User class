@@ -13,6 +13,7 @@ import java.util.*;
 
 public interface UserInterface {
     String getUsername(); // method that returns the username of a User
+    String getPassword(); // method that returns the password of a User
     void setUsername(String username); // method that sets/changes the username for a User
     void addFriend(User friend); // adds a friend to a User's list of friends
     void removeFriend(User friend); // removes a friend from a User's list of friends
