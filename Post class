@@ -50,6 +50,14 @@ public class Post {
         return dislikes;
     }
 
+    public ArrayList<Comments> getCommentList() {
+        return commentList;
+    }
+
+    public Comments getComment(int index) {
+        return commentList.get(index);
+    }
+
     // A void mutator method that sets the comment status based on what the user passed to the parameter
     public void setCommentStatus(boolean commentStatus) {
         this.canComment = commentStatus;
