@@ -40,20 +40,22 @@ public class Post {
         dislikes++;
     }
 
-    // An integer accessor method that returns the number of likes
+    // An accessor method that returns the number of likes as an Integer
     public int getLikes() {
         return likes;
     }
 
-    // An integer accessor method that returns the number of dislikes
+    // An accessor method that returns the number of dislikes as an Integer
     public int getDislikes() {
         return dislikes;
     }
 
+    // An accessor method that returns the array list of comments
     public ArrayList<Comments> getCommentList() {
         return commentList;
     }
 
+    // An accessor method that returns a comment from the comment list at the specified index
     public Comments getComment(int index) {
         return commentList.get(index);
     }
@@ -69,10 +71,13 @@ public class Post {
     }
 
 
+    // A void method that adds the comment passed in the parameter to the comment list
     public void addComment(Comments comment) {
         commentList.add(comment);
     }
 
+    // A void method that checks if the User passed in the parameter posted the comment passed in the parameter
+    // or was the User who made the post, if so it will remove the comment from the comment list
     public void removeComment(Comments comment, User com) {
         if (comment.getCommented().equals(com) || comment.getCommented().equals(posted)) {
             commentList.remove(comment);
