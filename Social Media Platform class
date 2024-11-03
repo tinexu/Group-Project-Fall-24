@@ -16,7 +16,7 @@ import java.lang.*;
 public class SocialMediaPlatform extends Thread implements SocialMediaPlatformInterface {
     private static ArrayList<User> users; // list of all the users stored in the database
     private static ArrayList<SocialMediaPlatform> platformUsers; // list of each SocialMediaPlatform object (assists in Threading)
-    private static ArrayList<Posts> images; // list of all the images that have been posted (the ones that currently exist on the platform)
+    private static ArrayList<Post> images; // list of all the images that have been posted (the ones that currently exist on the platform)
 
     private static final Object lock = new Object(); // the shared Object, lock, between all Threads using this platform
     private static ArrayList<Boolean> locks; // list of boolean values that set a process to either used or not by a Thread
@@ -51,8 +51,8 @@ public class SocialMediaPlatform extends Thread implements SocialMediaPlatformIn
     }
 
     // Accessor method for the list of images
-    // returns ArrayList<Posts> of all the images that exist and are stored in the database
-    public ArrayList<Posts> getImages() {
+    // returns ArrayList<Post> of all the images that exist and are stored in the database
+    public ArrayList<Post> getImages() {
         return images;
     }
 
