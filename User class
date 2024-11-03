@@ -43,16 +43,46 @@ public class User implements UserInterface {
         return username;
     }
 
+    // Mutator method for the username (in case a User wants to change their username)
+    // void return; changes an instance variable
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     // Accessor method for the password
     // returns a String password
     public String getPassword() {
         return password;
     }
 
-    // Mutator method for the username (in case a User wants to change their username)
+    // Mutator method for the password
     // void return; changes an instance variable
-    public void setUsername(String username) {
-        this.username = username;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    // Accessor method for the friends list of a User
+    // returns ArrayList<User> of friends
+    public ArrayList<User> getFriends() {
+        return friends;
+    }
+
+    // Accessor method for the blocked list of a User
+    // returns ArrayList<User> of blocked people/friends
+    public ArrayList<User> getBlocked() {
+        return blocked;
+    }
+
+    // Accessor method for the posts of a User
+    // returns ArrayList<Posts> of posts
+    public ArrayList<Posts> getPosts() {
+        return posts;
+    }
+
+    // Mutator method for the list posts
+    // void return; changes an instance variable
+    public void addPost(Posts post) {
+        posts.add(post);
     }
 
     // Method to add a User friend (follow someone) to a User's list of friends
@@ -99,24 +129,6 @@ public class User implements UserInterface {
         }
 
         return false;
-    }
-
-    // Accessor method for the friends list of a User
-    // returns ArrayList<User> of friends
-    public ArrayList<User> getFriends() {
-        return friends;
-    }
-
-    // Accessor method for the blocked list of a User
-    // returns ArrayList<User> of blocked people/friends
-    public ArrayList<User> getBlocked() {
-        return blocked;
-    }
-
-    // Accessor method for the posts of a User
-    // returns ArrayList<Posts> of posts
-    public ArrayList<Posts> getPosts() {
-        return posts;
     }
 
     // Method that returns the String value of a user, displaying all of their necessary information (eventually used for profile viewing/displaying purposes
