@@ -1,3 +1,4 @@
+// All necessary imports
 import org.junit.Test;
 import org.junit.After;
 import java.lang.reflect.Field;
@@ -19,6 +20,7 @@ import java.util.UUID;
 
 public class RunLocalTests {
 
+    // Main method that runs all of our test cases
     public static void main(String[] args) {
         Result result = JUnitCore.runClasses(RunLocalTests.class);
         for (Failure failure : result.getFailures()) {
@@ -27,6 +29,7 @@ public class RunLocalTests {
         System.out.println(result.wasSuccessful() ? "All tests passed." : "Some tests failed.");
     }
 
+    // Tests that the equals method in the User class returns the correct boolean value (true if the usernames are equal and false otherwise)
     @Test
     public void testUserEquals() {
         User user = new User("User1", "1234");
@@ -37,15 +40,17 @@ public class RunLocalTests {
                 user.equals(new User("User2", "1234")));
     }
 
+    // Tests that the constructor in the User class initializes the right values for the instance variables
     @Test
     public void testUserConstructor() {
         User user = new User("user1", "1234");
         Assert.assertEquals("user1", user.getUsername());
         Assert.assertTrue(user.getFriends().isEmpty());
         Assert.assertTrue(user.getBlocked().isEmpty());
-        Assert.assertTrue(user.getPosts(). isEmpty());
+        Assert.assertTrue(user.getPosts().isEmpty());
     }
 
+    // Tests that the add and remove friend methods update the instance variable correctly
     @Test
     public void testAddAndRemoveFriend() {
         User user = new User("user1", "1234");
@@ -56,6 +61,7 @@ public class RunLocalTests {
         Assert.assertFalse(user.getFriends().contains(user2));
     }
 
+    // Tests that the block and unblock methods update the instance variable correctly 
     @Test
     public void testAddAndRemoveBlocked() {
         User user = new User("user1", "1234");
@@ -66,6 +72,7 @@ public class RunLocalTests {
         Assert.assertFalse(user.getBlocked().contains(user2));
     }
 
+    // Tests that the add and remove comment methods update the instance variable correctly
     @Test
     public void testAddAndRemoveComment() {
         User user = new User("user1", "1234");
@@ -77,13 +84,14 @@ public class RunLocalTests {
         Assert.assertFalse(post.getCommentList().contains(comment));
     }
 
+    // Tests that the toString() overridden method of the User class returns the correct information values
     @Test
     public void testUserToString() {
         User user = new User("user1", "1234");
         Assert.assertEquals("Username: user1, Password: 1234, Followers: 0, Following: 0", user.toString());
     }
 
-    //Tests if the hidePost() and unhidePost() methods work as expected
+    // Tests if the hidePost() and unhidePost() methods work as expected
     @Test
     public void testHideAndUnhidePost() {
         User user1 = new User("user1", "1234");
@@ -107,6 +115,7 @@ public class RunLocalTests {
 
     }
 
+    // Tests that the constructor in the Comments class initializes the values correctly
     @Test
     public void testCommentsConstructor() {
         User user = new User("user1", "1234");
@@ -115,6 +124,7 @@ public class RunLocalTests {
         Assert.assertTrue(user.equals(comment.getCommented()));
     }
 
+    // Tests that the upvote and downvote methods work as expected
     @Test
     public void testCommentUpvoteandDownvote() {
         User user = new User("user1", "1234");
@@ -129,6 +139,7 @@ public class RunLocalTests {
         Assert.assertTrue(comment.getDownVotes() == 5);
     }
 
+    // Tests that the constructor for the SocialMediaPlatform class intializes the instance variables correctly
     @Test
     public void testSocialMediaPlatformConstructor() {
         SocialMediaPlatform socialMediaPlatform = new SocialMediaPlatform();
@@ -138,6 +149,7 @@ public class RunLocalTests {
         Assert.assertTrue(socialMediaPlatform.getImages().isEmpty());
     }
 
+    // Tests that the constructor for the Messaging class initializes the instance variables correctly
     @Test
     public void testMessagingConstructor() {
         User user1 = new User("user1", "1234");
@@ -149,6 +161,7 @@ public class RunLocalTests {
         Assert.assertTrue(user1.getMessages().isEmpty());
     }
 
+    // Tests that the method that sends messages for the platform works as expected
     @Test
     public void testSendMessageSuccess() throws InvalidException {
         // Setup: Add receiver to sender's friends
@@ -163,6 +176,7 @@ public class RunLocalTests {
         Assert.assertEquals("Hello, receiver!", sender.getMessages().get(0));
     }
 
+    // Tests that the method that sends messages for the platform throws an exception and prints an error string when trying to send a message to a blocked user
     @Test
     public void testSendMessageToBlockedUser() {
         User sender = new User("sender", "password1");
@@ -177,6 +191,7 @@ public class RunLocalTests {
         Assert.assertTrue(sender.getMessages().isEmpty());
     }
 
+    // Tests that the method that sends messages throws an exception and prints an error message when trying to send a message to a private account
     @Test
     public void testSendMessageToPrivateNonFriend() {
         User sender = new User("sender", "password1");
@@ -191,6 +206,7 @@ public class RunLocalTests {
         Assert.assertTrue(sender.getMessages().isEmpty());
     }
 
+    // Tests that the method that sends messages to friends with private accounts work as expected
     @Test
     public void testSendMessageToPrivateFriend() throws InvalidException {
         User sender = new User("sender", "password1");
@@ -205,6 +221,7 @@ public class RunLocalTests {
         Assert.assertEquals("Hello, receiver!", sender.getMessages().get(0));
     }
 
+    // Tests that the method that deletes messages updates the instance variable correctly
     @Test
     public void testDeleteExistingMessage() throws InvalidException {
         User user1 = new User("user1", "1234");
@@ -216,6 +233,7 @@ public class RunLocalTests {
         Assert.assertFalse(user1.getMessages().contains("Hello, World!"));
     }
 
+    // Tests the fact that a User cannot delete a message that does not yet exist and throws an exception and prints the respective error message
     @Test
     public void testDeleteNonExistingMessage() {
         User user1 = new User("user1", "1234");
@@ -229,6 +247,7 @@ public class RunLocalTests {
         Assert.assertEquals("Message not found!", exception.getMessage());
     }
 
+    // Tests that the method that deletes messages works as expected
     @Test
     public void testMessagesListAfterDeletion() throws InvalidException {
         User user1 = new User("user1", "1234");
@@ -242,6 +261,7 @@ public class RunLocalTests {
         Assert.assertEquals(initialSize - 1, user1.getMessages().size());
     }
 
+    // Tests that the method that deletes messages works as expected even for multiple deletions
     @Test
     public void testDeleteMultipleMessages() throws InvalidException {
         User user1 = new User("user1", "1234");
