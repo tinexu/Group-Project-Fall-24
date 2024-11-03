@@ -11,7 +11,7 @@ import java.util.*;
  *
  */
 
-public class User {
+public class User implements UserInterface {
     private String username; // the username of a User
     private String password; // the password of a User's account
     private ArrayList<User> friends; // the list of friends for a User
