@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * so that users are able to send and receive messages
  *
  * @author L30-Team 1, CS180
- * @version Nov 2, 2024
+ * @version Nov 3, 2024
  */
 
 public class Messaging {
