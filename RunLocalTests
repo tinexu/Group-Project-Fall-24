@@ -1,4 +1,3 @@
-// All the necessary imports
 import org.junit.Test;
 import org.junit.After;
 import java.lang.reflect.Field;
@@ -20,7 +19,6 @@ import java.util.UUID;
 
 public class RunLocalTests {
 
-    // Main method that will run the equality tests for our platform
     public static void main(String[] args) {
         Result result = JUnitCore.runClasses(RunLocalTests.class);
         for (Failure failure : result.getFailures()) {
@@ -29,7 +27,6 @@ public class RunLocalTests {
         System.out.println(result.wasSuccessful() ? "All tests passed." : "Some tests failed.");
     }
 
-    // Tests if the .equals() method present in the User class returns the correct boolean variable
     @Test
     public void testUserEquals() {
         User user = new User("User1", "1234");
@@ -40,17 +37,15 @@ public class RunLocalTests {
                 user.equals(new User("User2", "1234")));
     }
 
-    // Tests to make sure that the main User constructor initializes its instance variables correctly
     @Test
     public void testUserConstructor() {
         User user = new User("user1", "1234");
         Assert.assertEquals("user1", user.getUsername());
         Assert.assertTrue(user.getFriends().isEmpty());
         Assert.assertTrue(user.getBlocked().isEmpty());
-        Assert.assertTrue(user.getPosts().isEmpty());
+        Assert.assertTrue(user.getPosts(). isEmpty());
     }
 
-    // Tests to make sure that adding and removing friends (following and unfollowing) update their respective instance variables as expected
     @Test
     public void testAddAndRemoveFriend() {
         User user = new User("user1", "1234");
@@ -61,7 +56,6 @@ public class RunLocalTests {
         Assert.assertFalse(user.getFriends().contains(user2));
     }
 
-    // 
     @Test
     public void testAddAndRemoveBlocked() {
         User user = new User("user1", "1234");
@@ -92,13 +86,25 @@ public class RunLocalTests {
     //Tests if the hidePost() and unhidePost() methods work as expected
     @Test
     public void testHideAndUnhidePost() {
-        User user = new User("user1", "1234");
-        Post post = new Post(user);
-        Comments comment = new Comments("Hello", user);
-        post.addComment(comment);
-        Assert.assertTrue(post.getCommentList().contains(comment));
-        post.removeComment(comment, user);
-        Assert.assertFalse(post.getCommentList().contains(comment));
+        User user1 = new User("user1", "1234");
+        User user2 = new User("user2", "1234");
+        Post post = new Post(new User("poster", "password"));
+        post.hidePost(user1);
+        post.hidePost(user2);
+
+        // Test unhiding a post from a user in postFriends
+        post.unHidePost(user1);
+        Assert.assertFalse(post.getPostFriends().contains(user1));
+        Assert.assertEquals(1, post.getPostFriends().size());
+
+        // Test unhiding a post from a user not in postFriends
+        post.unHidePost(user1);
+        Assert.assertEquals(1, post.getPostFriends().size());
+
+        // Test unhiding the last user
+        post.unHidePost(user2);
+        Assert.assertTrue(post.getPostFriends().isEmpty());
+
     }
 
     @Test
@@ -130,6 +136,128 @@ public class RunLocalTests {
         Assert.assertTrue(socialMediaPlatform.getUsers().isEmpty());
         Assert.assertTrue(socialMediaPlatform.getPlatformUsers().isEmpty());
         Assert.assertTrue(socialMediaPlatform.getImages().isEmpty());
+    }
+
+    @Test
+    public void testMessagingConstructor() {
+        User user1 = new User("user1", "1234");
+        User user2 = new User("user2", "1234");
+        Messaging messaging = new Messaging(user1, user2, "Hello");
+        Assert.assertEquals(user1, messaging.getSender());
+        Assert.assertEquals(user2, messaging.getReceiver());
+        Assert.assertEquals("Hello", messaging.getMessageContent());
+        Assert.assertTrue(messaging.getMessages().isEmpty());
+    }
+
+    @Test
+    public void testSendMessageSuccess() throws InvalidException {
+        // Setup: Add receiver to sender's friends
+        User sender = new User("sender", "password1");
+        User receiver = new User("receiver", "password2");
+        Messaging message = new Messaging(sender, receiver, "Hello, receiver!");
+        sender.addFriend(receiver);
+
+        message.sendMessage();
+
+        Assert.assertEquals(1, message.getMessages().size());
+        Assert.assertEquals("Hello, receiver!", message.getMessages().get(0));
+    }
+
+    @Test
+    public void testSendMessageToBlockedUser() {
+        User sender = new User("sender", "password1");
+        User receiver = new User("receiver", "password2");
+        Messaging message = new Messaging(sender, receiver, "Hello, receiver!");
+        // Setup: Sender blocks receiver
+        sender.blockUser(receiver);
+
+        InvalidException exception = Assert.assertThrows(InvalidException.class, message::sendMessage);
+
+        Assert.assertEquals("Cannot send message, user is blocked", exception.getMessage());
+        Assert.assertTrue(message.getMessages().isEmpty());
+    }
+
+    @Test
+    public void testSendMessageToPrivateNonFriend() {
+        User sender = new User("sender", "password1");
+        User receiver = new User("receiver", "password2");
+        Messaging message = new Messaging(sender, receiver, "Hello, receiver!");
+        // Setup: Make receiver private
+        receiver.setPriv(true);
+
+        InvalidException exception = Assert.assertThrows(InvalidException.class, message::sendMessage);
+
+        Assert.assertEquals("Cannot send message, user is private", exception.getMessage());
+        Assert.assertTrue(message.getMessages().isEmpty());
+    }
+
+    @Test
+    public void testSendMessageToPrivateFriend() throws InvalidException {
+        User sender = new User("sender", "password1");
+        User receiver = new User("receiver", "password2");
+        Messaging message = new Messaging(sender, receiver, "Hello, receiver!");
+        receiver.setPriv(true);
+        sender.addFriend(receiver);
+
+        message.sendMessage();
+
+        Assert.assertEquals(1, message.getMessages().size());
+        Assert.assertEquals("Hello, receiver!", message.getMessages().get(0));
+    }
+
+    @Test
+    public void testDeleteExistingMessage() throws InvalidException {
+        User user1 = new User("user1", "1234");
+        User user2 = new User("user2", "1234");
+        Messaging message = new Messaging(user1, user2, "");
+        ArrayList<String> newMessages = message.getMessages();
+        newMessages.add("Hello, World!");
+        message.setMessages(newMessages);
+        Assert.assertFalse(message.getMessages().contains("Hello, World!"));
+    }
+
+    @Test
+    public void testDeleteNonExistingMessage() {
+        User user1 = new User("user1", "1234");
+        User user2 = new User("user2", "1234");
+        Messaging message = new Messaging(user1, user2, "");
+        ArrayList<String> newMessages = message.getMessages();
+        newMessages.add("Hello, World!");
+        message.setMessages(newMessages);
+        InvalidException exception = Assert.assertThrows(InvalidException.class,
+                () -> message.deleteMessage("This message doesn't exist"));
+        Assert.assertEquals("Message not found!", exception.getMessage());
+    }
+
+    @Test
+    public void testMessagesListAfterDeletion() throws InvalidException {
+        User user1 = new User("user1", "1234");
+        User user2 = new User("user2", "1234");
+        Messaging message = new Messaging(user1, user2, "");
+        ArrayList<String> newMessages = message.getMessages();
+        newMessages.add("Hello, World!");
+        message.setMessages(newMessages);
+        int initialSize = message.getMessages().size();
+        message.deleteMessage("Hello, World!");
+        Assert.assertEquals(initialSize - 1, message.getMessages().size());
+    }
+
+    @Test
+    public void testDeleteMultipleMessages() throws InvalidException {
+        User user1 = new User("user1", "1234");
+        User user2 = new User("user2", "1234");
+        Messaging message = new Messaging(user1, user2, "");
+        ArrayList<String> newMessages = message.getMessages();
+        newMessages.add("Hello, World!");
+        message.setMessages(newMessages);
+        String secondMessage = "Second message";
+        newMessages.add(secondMessage);
+        message.setMessages(newMessages);
+
+        message.deleteMessage("Hello, World!");
+        message.deleteMessage(secondMessage);
+
+        Assert.assertTrue(message.getMessages().isEmpty());
     }
 
 }
