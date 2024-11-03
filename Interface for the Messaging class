@@ -12,6 +12,5 @@ import java.util.ArrayList;
 public interface MessagingInterface {
     void sendMessage() throws InvalidException;
     void deleteMessage(String targetMessage) throws InvalidException;
-    void findConversation(ArrayList<Messaging> messages, User sender, User receiver);
 
 }
