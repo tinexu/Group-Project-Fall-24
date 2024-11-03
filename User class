@@ -45,11 +45,13 @@ public class User implements UserInterface {
         return username;
     }
 
+    // A boolean accessor method that returns whether or not messages are restricted to friends
     public boolean isPriv() {
         return priv;
     }
 
-    public void setPriv(boolean priv) {
+    // A void mutator method that sets the priv variable to what is passed in the parameter
+    public void setPriv (boolean priv) {
         this.priv = priv;
     }
 
