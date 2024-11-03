@@ -12,7 +12,7 @@ import java.util.*;
  */
 
 // This class is still in progress and will be more detailed in implementation when we are completely focused on creating a functional GUI
-public class Feed {
+public class Feed implements FeedInterface {
     private User user; // the user that this feed is associated with
     private ArrayList<String> imagePaths; // list of image paths that are associated with a User's feed
     private ArrayList<String> threads; // list of threads that are associated with a User's feed
