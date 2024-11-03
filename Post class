@@ -56,8 +56,9 @@ public class Post {
     // or the user who commented it, if so it will remove the comment from commentsList and the user who commented it
     // from the commentedList
     public void removeComment(String comment, User com) {
-        if (commentedList.contains(com) || (com.equals(posted))) {
-            commentsList.remove(commentsList.indexOf(comment));
+        if ((commentedList.contains(com) && (commentedList.indexOf(com) == commentsList.indexOf(comment)))
+                || (com.equals(posted))) {
+            commentsList.remove(comment);
             commentedList.remove(com);
         }
     }
