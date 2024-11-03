@@ -16,7 +16,7 @@ public class User implements UserInterface {
     private String password; // the password of a User's account
     private ArrayList<User> friends; // the list of friends for a User
     private ArrayList<User> blocked; // the list of blocked people/friends for a User
-    private ArrayList<Posts> posts; // the posts associated with a User
+    private ArrayList<Post> posts; // the posts associated with a User
 
     public static final Object lock = new Object(); // the shared Object, lock, between all Threads using this platform
 
@@ -74,14 +74,14 @@ public class User implements UserInterface {
     }
 
     // Accessor method for the posts of a User
-    // returns ArrayList<Posts> of posts
-    public ArrayList<Posts> getPosts() {
+    // returns ArrayList<Post> of posts
+    public ArrayList<Post> getPosts() {
         return posts;
     }
 
     // Mutator method for the list posts
     // void return; changes an instance variable
-    public void addPost(Posts post) {
+    public void addPost(Post post) {
         posts.add(post);
     }
 
