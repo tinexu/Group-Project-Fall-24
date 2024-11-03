@@ -30,12 +30,12 @@ public class Post {
         this.commentList = null;
     }
 
-    // A void method that increments the likes on a post if the method is called
+    // A void method that increments the likes on a post by 1
     public void likePost() {
         likes++;
     }
 
-    // A void method that increments the dislikes on a post if the method is called
+    // A void method that increments the dislikes on a post by 1 
     public void dislikePost() {
         dislikes++;
     }
