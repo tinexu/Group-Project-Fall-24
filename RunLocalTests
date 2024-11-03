@@ -146,7 +146,7 @@ public class RunLocalTests {
         Assert.assertEquals(user1, messaging.getSender());
         Assert.assertEquals(user2, messaging.getReceiver());
         Assert.assertEquals("Hello", messaging.getMessageContent());
-        Assert.assertTrue(messaging.getMessages().isEmpty());
+        Assert.assertTrue(user1.getMessages().isEmpty());
     }
 
     @Test
@@ -159,8 +159,8 @@ public class RunLocalTests {
 
         message.sendMessage();
 
-        Assert.assertEquals(1, message.getMessages().size());
-        Assert.assertEquals("Hello, receiver!", message.getMessages().get(0));
+        Assert.assertEquals(1, sender.getMessages().size());
+        Assert.assertEquals("Hello, receiver!", sender.getMessages().get(0));
     }
 
     @Test
@@ -174,7 +174,7 @@ public class RunLocalTests {
         InvalidException exception = Assert.assertThrows(InvalidException.class, message::sendMessage);
 
         Assert.assertEquals("Cannot send message, user is blocked", exception.getMessage());
-        Assert.assertTrue(message.getMessages().isEmpty());
+        Assert.assertTrue(sender.getMessages().isEmpty());
     }
 
     @Test
@@ -188,7 +188,7 @@ public class RunLocalTests {
         InvalidException exception = Assert.assertThrows(InvalidException.class, message::sendMessage);
 
         Assert.assertEquals("Cannot send message, user is private", exception.getMessage());
-        Assert.assertTrue(message.getMessages().isEmpty());
+        Assert.assertTrue(sender.getMessages().isEmpty());
     }
 
     @Test
@@ -201,8 +201,8 @@ public class RunLocalTests {
 
         message.sendMessage();
 
-        Assert.assertEquals(1, message.getMessages().size());
-        Assert.assertEquals("Hello, receiver!", message.getMessages().get(0));
+        Assert.assertEquals(1, sender.getMessages().size());
+        Assert.assertEquals("Hello, receiver!", sender.getMessages().get(0));
     }
 
     @Test
@@ -210,10 +210,10 @@ public class RunLocalTests {
         User user1 = new User("user1", "1234");
         User user2 = new User("user2", "1234");
         Messaging message = new Messaging(user1, user2, "");
-        ArrayList<String> newMessages = message.getMessages();
+        ArrayList<String> newMessages = user1.getMessages();
         newMessages.add("Hello, World!");
-        message.setMessages(newMessages);
-        Assert.assertFalse(message.getMessages().contains("Hello, World!"));
+        user1.setMessages(newMessages);
+        Assert.assertFalse(user1.getMessages().contains("Hello, World!"));
     }
 
     @Test
@@ -221,9 +221,9 @@ public class RunLocalTests {
         User user1 = new User("user1", "1234");
         User user2 = new User("user2", "1234");
         Messaging message = new Messaging(user1, user2, "");
-        ArrayList<String> newMessages = message.getMessages();
+        ArrayList<String> newMessages = user1.getMessages();
         newMessages.add("Hello, World!");
-        message.setMessages(newMessages);
+        user1.setMessages(newMessages);
         InvalidException exception = Assert.assertThrows(InvalidException.class,
                 () -> message.deleteMessage("This message doesn't exist"));
         Assert.assertEquals("Message not found!", exception.getMessage());
@@ -234,12 +234,12 @@ public class RunLocalTests {
         User user1 = new User("user1", "1234");
         User user2 = new User("user2", "1234");
         Messaging message = new Messaging(user1, user2, "");
-        ArrayList<String> newMessages = message.getMessages();
+        ArrayList<String> newMessages = user1.getMessages();
         newMessages.add("Hello, World!");
-        message.setMessages(newMessages);
-        int initialSize = message.getMessages().size();
+        user1.setMessages(newMessages);
+        int initialSize = user1.getMessages().size();
         message.deleteMessage("Hello, World!");
-        Assert.assertEquals(initialSize - 1, message.getMessages().size());
+        Assert.assertEquals(initialSize - 1, user1.getMessages().size());
     }
 
     @Test
@@ -247,17 +247,17 @@ public class RunLocalTests {
         User user1 = new User("user1", "1234");
         User user2 = new User("user2", "1234");
         Messaging message = new Messaging(user1, user2, "");
-        ArrayList<String> newMessages = message.getMessages();
+        ArrayList<String> newMessages = user1.getMessages();
         newMessages.add("Hello, World!");
-        message.setMessages(newMessages);
+        user1.setMessages(newMessages);
         String secondMessage = "Second message";
         newMessages.add(secondMessage);
-        message.setMessages(newMessages);
+        user1.setMessages(newMessages);
 
         message.deleteMessage("Hello, World!");
         message.deleteMessage(secondMessage);
 
-        Assert.assertTrue(message.getMessages().isEmpty());
+        Assert.assertTrue(user1.getMessages().isEmpty());
     }
 
 }
