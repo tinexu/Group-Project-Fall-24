@@ -1,0 +1,14 @@
+/**
+ * Group Project -- MessagingInterface
+ *
+ * This class is the interface that our Messaging class will implement
+ *
+ * @author L30-Team 1, CS180
+ *
+ * @version Nov 2, 2024
+ *
+ */
+
+public interface MessagingInterface {
+  /* */
+}
