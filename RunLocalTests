@@ -1,0 +1,129 @@
+import org.junit.Test;
+import org.junit.After;
+import java.lang.reflect.Field;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.rules.Timeout;
+
+import org.junit.runner.JUnitCore;
+import org.junit.runner.Result;
+import org.junit.runner.notification.Failure;
+
+import javax.swing.*;
+import java.io.*;
+import java.lang.reflect.*;
+import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
+import java.lang.reflect.InvocationTargetException;
+import java.util.UUID;
+
+public class RunLocalTests {
+
+    public static void main(String[] args) {
+        Result result = JUnitCore.runClasses(RunLocalTests.class);
+        for (Failure failure : result.getFailures()) {
+            System.out.println(failure.toString());
+        }
+        System.out.println(result.wasSuccessful() ? "All tests passed." : "Some tests failed.");
+    }
+
+    @Test
+    public void testUserEquals() {
+        User user = new User("User1", "1234");
+        Assert.assertTrue("The result should have been true but it was false",
+                user.equals(new User("User1", "1234")));
+
+        Assert.assertFalse("The result should have been false but it was true",
+                user.equals(new User("User2", "1234")));
+    }
+
+    @Test
+    public void testUserConstructor() {
+        User user = new User("user1", "1234");
+        Assert.assertEquals("user1", user.getUsername());
+        Assert.assertTrue(user.getFriends().isEmpty());
+        Assert.assertTrue(user.getBlocked().isEmpty());
+        Assert.assertTrue(user.getPosts(). isEmpty());
+    }
+
+    @Test
+    public void testAddAndRemoveFriend() {
+        User user = new User("user1", "1234");
+        User user2 = new User("user2", "1234");
+        user.addFriend(user2);
+        Assert.assertTrue(user.getFriends().contains(user2));
+        user.removeFriend(user2);
+        Assert.assertFalse(user.getFriends().contains(user2));
+    }
+
+    @Test
+    public void testAddAndRemoveBlocked() {
+        User user = new User("user1", "1234");
+        User user2 = new User("user2", "1234");
+        user.blockUser(user2);
+        Assert.assertTrue(user.getBlocked().contains(user2));
+        user.unblockUser(user2);
+        Assert.assertFalse(user.getBlocked().contains(user2));
+    }
+
+    @Test
+    public void testAddAndRemoveComment() {
+        User user = new User("user1", "1234");
+        Post post = new Post(user);
+        Comments comment = new Comments("Hello", user);
+        post.addComment(comment);
+        Assert.assertTrue(post.getCommentList().contains(comment));
+        post.removeComment(comment, user);
+        Assert.assertFalse(post.getCommentList().contains(comment));
+    }
+
+    @Test
+    public void testUserToString() {
+        User user = new User("user1", "1234");
+        Assert.assertEquals("Username: user1, Password: 1234, Followers: 0, Following: 0", user.toString());
+    }
+
+    //Tests if the hidePost() and unhidePost() methods work as expected
+    @Test
+    public void testHideAndUnhidePost() {
+        User user = new User("user1", "1234");
+        Post post = new Post(user);
+        Comments comment = new Comments("Hello", user);
+        post.addComment(comment);
+        Assert.assertTrue(post.getCommentList().contains(comment));
+        post.removeComment(comment, user);
+        Assert.assertFalse(post.getCommentList().contains(comment));
+    }
+
+    @Test
+    public void testCommentsConstructor() {
+        User user = new User("user1", "1234");
+        Comments comment = new Comments("Hello", user);
+        Assert.assertEquals("Hello", comment.getComment());
+        Assert.assertTrue(user.equals(comment.getCommented()));
+    }
+
+    @Test
+    public void testCommentUpvoteandDownvote() {
+        User user = new User("user1", "1234");
+        Comments comment = new Comments("Hello", user);
+        for (int i = 0; i < 10; i++) {
+            comment.upVoteComment();
+        }
+        Assert.assertTrue(comment.getUpVotes() == 10);
+        for (int i = 0; i < 5; i++) {
+            comment.downVoteComment();
+        }
+        Assert.assertTrue(comment.getDownVotes() == 5);
+    }
+
+    @Test
+    public void testSocialMediaPlatformConstructor() {
+        SocialMediaPlatform socialMediaPlatform = new SocialMediaPlatform();
+        Assert.assertTrue(socialMediaPlatform.getImages().isEmpty());
+        Assert.assertTrue(socialMediaPlatform.getUsers().isEmpty());
+        Assert.assertTrue(socialMediaPlatform.getPlatformUsers().isEmpty());
+        Assert.assertTrue(socialMediaPlatform.getImages().isEmpty());
+    }
+
+}
