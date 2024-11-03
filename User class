@@ -43,6 +43,12 @@ public class User implements UserInterface {
         return username;
     }
 
+    // Accessor method for the password
+    // returns a String password
+    public String getPassword() {
+        return password;
+    }
+
     // Mutator method for the username (in case a User wants to change their username)
     // void return; changes an instance variable
     public void setUsername(String username) {
