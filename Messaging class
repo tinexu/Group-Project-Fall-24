@@ -33,15 +33,19 @@ public class Messaging implements MessagingInterface {
         } else if (!sender.getFriends().contains(receiver) && receiver.isPriv()) {
             throw new InvalidException("Cannot send message, user is private");
         }
-        User.getMessages.add(messageContent);
+        ArrayList<String> msg = sender.getMessages();
+        msg.add(messageContent);
+        sender.setMessages(msg);
         System.out.println("Message sent: " + messageContent);
     }
 
     // A void method that deletes the message thrown in the parameter from the messages list and
     // throws an exception if the message passed in the parameter does not exist in the list
     public void deleteMessage(String targetMessage) throws InvalidException{
-        if (User.getMessages.contains(targetMessage)) {
-            User.getMessages.remove(targetMessage);
+        if (sender.getMessages().contains(targetMessage)) {
+            ArrayList<String> msg2 = sender.getMessages();
+            msg2.remove(targetMessage);
+            sender.setMessages(msg2);
             System.out.println("Removed: " + targetMessage);
         } else {
             throw new InvalidException("Message not found!");
@@ -58,23 +62,20 @@ public class Messaging implements MessagingInterface {
         return receiver;
     }
 
-    // An accessor method that returns the String message 
+    // An accessor method that returns the String message
     public String getMessageContent() {
         return messageContent;
     }
 
-
-    
+    // bringing up old conversation
     public ArrayList<String> findConversation(ArrayList<Messaging> messages, User sender, User receiver) {
         ArrayList<String> conversation = new ArrayList<>();
-        for (Messaging msg : User.getMessages) {
-            if ((msg.sender.equals(sender) && msg.receiver.equals(receiver))) {
-                conversation.add(msg.messageContent);
+        for (String msg : sender.getMessages()) {
+            if ((sender.equals(sender) && receiver.equals(receiver))) {
+                conversation.add(msg);
             }
         }
         return conversation;
     }
-
-
 
 }
