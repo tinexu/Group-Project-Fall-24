@@ -1,0 +1,26 @@
+import java.util.*;
+
+/**
+ * Group Project -- UserInterface
+ *
+ * This class is the interface that our User class will implement
+ *
+ * @author L30-Team 1, CS180
+ *
+ * @version Nov 2, 2024
+ *
+ */
+
+public interface UserInterface {
+    String getUsername(); // method that returns the username of a User
+    void setUsername(String username); // method that sets/changes the username for a User
+    void addFriend(User friend); // adds a friend to a User's list of friends
+    void removeFriend(User friend); // removes a friend from a User's list of friends
+    void blockUser(User user); // blocks a user (regardless of friend status)
+    void unblockUser(User user); // unblocks a user (regardless of friend status)
+    boolean equals(Object o); // checks if two Users are equal by username
+    ArrayList<User> getFriends(); // gets a User's friends list
+    ArrayList<User> getBlocked(); // get a User's blocked list
+    ArrayList<Posts> getPosts(); // gets a User's list of existing posts
+    String toString(); // stores all of a User's information in a String implementation
+}
