@@ -10,8 +10,6 @@ import java.util.ArrayList;
  *
  */
 public interface MessagingInterface {
-    boolean isRestrictedFriends();
-    void setRestrictedFriends(boolean restrictedFriends);
     void sendMessage() throws InvalidException;
     void deleteMessage(String targetMessage) throws InvalidException;
     void findConversation(ArrayList<Messaging> messages, User sender, User receiver);
