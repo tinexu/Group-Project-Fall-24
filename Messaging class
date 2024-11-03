@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @version Nov 3, 2024
  */
 
-public class Messaging {
+public class Messaging implements MessagingInterface {
     private User sender; // A variable that holds the User who sent the comment
     private User receiver; // A variable that holds the User who received the comment
     private String messageContent; // A variable that holds the message being sent/received as a String
