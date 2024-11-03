@@ -37,7 +37,8 @@ public class Messaging implements MessagingInterface {
         System.out.println("Message sent: " + messageContent);
     }
 
-    // A void method that deletes a message
+    // A void method that deletes the message thrown in the parameter from the messages list and
+    // throws an exception if the message passed in the parameter does not exist in the list
     public void deleteMessage(String targetMessage) throws InvalidException{
         if (User.getMessages.contains(targetMessage)) {
             User.getMessages.remove(targetMessage);
@@ -47,20 +48,23 @@ public class Messaging implements MessagingInterface {
         }
     }
 
+    // An accessor method that returns the User who is sending the message
     public User getSender() {
         return sender;
     }
 
+    // An accessor method that returns the User who is receiving the message
     public User getReceiver() {
         return receiver;
     }
 
+    // An accessor method that returns the String message 
     public String getMessageContent() {
         return messageContent;
     }
 
 
-    // bringing up old conversation
+    
     public ArrayList<String> findConversation(ArrayList<Messaging> messages, User sender, User receiver) {
         ArrayList<String> conversation = new ArrayList<>();
         for (Messaging msg : User.getMessages) {
