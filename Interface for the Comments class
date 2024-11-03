@@ -1,4 +1,4 @@
-public interface CommentInterface {
+public interface CommentsInterface {
   void upVoteComment(); // updates the upvote instance variable
   void downVoteComment(); // updates the downvote instance variable
   int getUpVotes(); // returns the variable associated with the upvote count
