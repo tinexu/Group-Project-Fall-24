@@ -67,15 +67,4 @@ public class Messaging implements MessagingInterface {
         return messageContent;
     }
 
-    // bringing up old conversation
-    public ArrayList<String> findConversation(ArrayList<Messaging> messages, User sender, User receiver) {
-        ArrayList<String> conversation = new ArrayList<>();
-        for (String msg : sender.getMessages()) {
-            if ((sender.equals(sender) && receiver.equals(receiver))) {
-                conversation.add(msg);
-            }
-        }
-        return conversation;
-    }
-
 }
