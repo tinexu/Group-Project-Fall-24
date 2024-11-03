@@ -13,7 +13,7 @@ import java.lang.*;
  *
  */
 
-public class SocialMediaPlatform extends Thread {
+public class SocialMediaPlatform extends Thread implements SocialMediaPlatformInterface {
     private static ArrayList<User> users; // list of all the users stored in the database
     private static ArrayList<Posts> images; // list of all the images that have been posted (the ones that currently exist on the platform)
 
