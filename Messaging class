@@ -2,7 +2,7 @@ import java.lang.reflect.Array;
 import java.util.*;
 import java.util.ArrayList;
 
-/**
+ /**
  * Group Project -- Messaging
  * <p>
  * This class creates Messaging objects for our platform 
@@ -16,8 +16,10 @@ public class Messaging implements MessagingInterface {
     private User sender; // A variable that holds the User who sent the comment
     private User receiver; // A variable that holds the User who received the comment
     private String messageContent; // A variable that holds the message being sent/received as a String
-    private ArrayList<String> messages;
+    private ArrayList<String> messages; // An arrayList of Strings 
 
+    // The Messaging class constructor assigns the Users, String, and boolean given in the parameter
+    // to the corresponding instance variables, it sets all the other values to our platform default settings
     public Messaging(User sender, User receiver, String messageContent) {
         this.sender = sender;
         this.receiver = receiver;
@@ -25,9 +27,9 @@ public class Messaging implements MessagingInterface {
         this.messages = new ArrayList<>();
     }
 
-    //Setting to restrictive friends
-
-    //Sending a message and checking if target user is either blocked or not a friend
+    // A void method that sends a Message from one User to another, it throws an Exception if 
+    // the User is trying to send a message to a User who blocked them or if the receiver can
+    // only receive messages from friends, and the User sending a message is not a friend
     public void sendMessage() throws InvalidException {
         if (sender.getBlocked().contains(receiver)) {
             throw new InvalidException("Cannot send message, user is blocked");
@@ -38,7 +40,7 @@ public class Messaging implements MessagingInterface {
         System.out.println("Message sent: " + messageContent);
     }
 
-    //Deleting a message
+    // A void method that deletes a message 
     public void deleteMessage(String targetMessage) throws InvalidException{
         if (messages.contains(targetMessage)) {
             messages.remove(targetMessage);
