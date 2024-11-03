@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * @author L30-Team 1, CS180
  * @version Nov 3, 2024
  */
-public class Messaging{
+public class Messaging {
     private User sender; // A variable that holds the User who sent the comment
     private User receiver; // A variable that holds the User who received the comment
     private String messageContent; // A variable that holds the message being sent/received as a String
@@ -30,16 +30,16 @@ public class Messaging{
 
     }
 
-    //Setting to restrictive friends
+    // An accessor method that returns a boolean of whether or not messages are restricted to friends only  
     public boolean isRestrictFriends() {
         return restrictFriends;
     }
 
+    // A void mutator method that sets restrictFriends to what is passed in the parameter
     public void setRestrictFriends(boolean restrictFriends) {
         this.restrictFriends = restrictFriends;
     }
 
-    //Sending a message and checking if target user is either blocked or not a friend
     public void sendMessage() throws InvalidException {
         if (sender.getBlocked().contains(receiver)) {
             throw new InvalidException("Cannot send message, user is blocked");
@@ -50,7 +50,7 @@ public class Messaging{
         System.out.println("Message sent: " + messageContent);
     }
 
-    //brining up old conversation
+    // bringing up old conversation
     public static ArrayList<String> findConversation(ArrayList<Messaging> messages, User sender, User receiver) {
         ArrayList<String> conversation = new ArrayList<>();
         for (Messaging msg : messages) {
