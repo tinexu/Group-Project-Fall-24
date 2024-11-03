@@ -26,4 +26,10 @@ public interface UserInterface {
     ArrayList<Posts> getPosts(); // gets a User's list of existing posts
     void addPost(Posts post); // adds to individual post lists each time a User posts
     String toString(); // stores all of a User's information in a String implementation
+    void addMessage(String message); // Adds the message passed in the parameter to the messages list
+    ArrayList<String> getMessages(); // Returns the ArrayList of messages sent
+    boolean isPriv(); // Returns the boolean variable determining if the user can only receive messages from friends
+    void setPriv(boolean priv); // Sets the boolean variable determining the User's message restrictions 
+                                // to what is passed in the parameter
+    
 }
