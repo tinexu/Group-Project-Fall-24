@@ -13,7 +13,7 @@ import java.awt.*;
  */
 
 // Coding of class is still in progress...
-public class VisualPlatform {
+public class VisualPlatform implements VisualPlatformInterface {
     public VisualPlatform() {
         JFrame frame = new JFrame(); // creates a new JFrame object
         JPanel panel = new JPanel(); // creates a new JPanel object
