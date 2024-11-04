@@ -9,7 +9,7 @@
  *
  */
 
-public class InvalidException extends Exception {
+public class InvalidException extends Exception implements InvalidExceptionInterface {
     // Constructor for the InvalidException class that creates a new InvalidException object with a String parameter, message
     // This constructor then calls the superclass constructor of Exception
     public InvalidException(String message) {
