@@ -15,7 +15,7 @@ For Vocareum: Christine Xu<br />
 - MessagingInterface.java: The interface that the Messaging class will implement. <br />
 - FeedInterface.java: The interface that the Feed class will implement. <br />
 
-**Non-Existing Interfaces (the classes that do not require interfaces, but still exist as classes):** <br />
+**Non-Existing Interfaces (the classes that should not require interfaces, but still have interface files that exist):** <br />
 - InvalidExceptionInterface does not exist because: The inheritance from the Exception superclass allows the Custom Exception that we created to be provided with all the necessary functionality. Custom Exceptions are generally also only used for a specific purpose, and therefore do not employ the true purpose of an interface, which is set defining behaviors that can be implemented across multiple classes. <br />
 - VisualPlatformInterface does not exist because: The implementation of a GUI is highly specific so an interface would not necessarily be needed, or even add much to the implementation of the class. The structure and behavior of GUI's function similar to inheritance, and therefore do not require interfaces to be implemented. However, the future creation of an interface may prove useful, and therefore may be written later on. <br />
 
