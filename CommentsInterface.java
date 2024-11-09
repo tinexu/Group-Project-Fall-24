@@ -1,3 +1,12 @@
+/**
+ * Group Project -- CommentsInterface
+ * <p>
+ * This class is the interface for the Comments class
+ *
+ * @author L30-Team 1, CS180
+ * @version Nov 3, 2024
+ */
+
 public interface CommentsInterface {
   void upVoteComment(); // updates the upvote instance variable
   void downVoteComment(); // updates the downvote instance variable
