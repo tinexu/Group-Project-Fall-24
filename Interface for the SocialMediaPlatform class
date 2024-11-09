@@ -14,7 +14,7 @@ import java.util.*;
 public interface SocialMediaPlatformInterface {
     void addUser(User user); // adds a new User to the list of all Users in the database
     ArrayList<User> getUsers(); // gets the list of Users
-    ArrayList<Posts> getImages(); // gets the list of images
+    ArrayList<Post> getImages(); // gets the list of images
     void editUsername(User user); // edits the username of a User to include the '@' symbol
     void displayUsers(); // displays the Users list to the screen
     void run(); // the run method that will employ synchronized threads to concurrently run our program
