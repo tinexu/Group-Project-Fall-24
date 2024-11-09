@@ -4,7 +4,7 @@ import java.io.*;
 import java.net.*;
 
 /**
- * Group Project -- VisualPlatform
+ * Group Project -- Client
  *
  * This class is currently a separate class for the initial design of our GUI
  *
