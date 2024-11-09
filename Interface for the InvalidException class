@@ -1,4 +1,0 @@
-// Interface that our Custom Exception, InvalidException will implement
-public interface InvalidExceptionInterface {
-
-}
