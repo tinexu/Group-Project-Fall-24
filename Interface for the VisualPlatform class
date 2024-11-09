@@ -1,4 +1,0 @@
-// Interface that our VisualPlatform class will implement
-public interface VisualPlatformInterface {
-
-}
