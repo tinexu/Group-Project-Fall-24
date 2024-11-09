@@ -23,8 +23,8 @@ public interface UserInterface {
     boolean equals(Object o); // checks if two Users are equal by username
     ArrayList<User> getFriends(); // gets a User's friends list
     ArrayList<User> getBlocked(); // get a User's blocked list
-    ArrayList<Posts> getPosts(); // gets a User's list of existing posts
-    void addPost(Posts post); // adds to individual post lists each time a User posts
+    ArrayList<Post> getPosts(); // gets a User's list of existing posts
+    void addPost(Post post); // adds to individual post lists each time a User posts
     String toString(); // stores all of a User's information in a String implementation
     void addMessage(String message); // Adds the message passed in the parameter to the messages list
     ArrayList<String> getMessages(); // Returns the ArrayList of messages sent
