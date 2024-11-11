@@ -179,7 +179,12 @@ public class SocialMediaPlatform extends Thread implements SocialMediaPlatformIn
     public void run() {
         SocialMediaPlatform platform = new SocialMediaPlatform();
 
-        platform.writeDatabaseFile("HelloWorld", "Hello1234");
+        try (PrintWriter pw = new PrintWriter(new FileOutputStream("output.txt"))) {
+            pw.println("Username: HelloWorld,Password: Hello1234");
+        } catch (IOException e) {
+            return;
+        }
+
 
         ArrayList<String> people = platform.readFile("/Users/christinexu/IdeaProjects/groupproject/output.txt");
         Scanner scanner = new Scanner(System.in);
