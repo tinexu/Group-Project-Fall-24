@@ -28,7 +28,7 @@ public class Post {
         this.posted = posted;
         this.canComment = true;
         this.postFriends = posted.getFriends();
-        this.commentList = null;
+        this.commentList = new ArrayList<>();
     }
 
     // A void method that increments the likes on a post by 1
