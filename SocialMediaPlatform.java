@@ -1,14 +1,17 @@
+import java.io.*;
 import java.util.*;
 // import java.io.*;
 import java.lang.*;
 
 /**
  * Group Project -- SocialMediaPlatform
- * <p>
+ *
  * This class is a runner class for our program and extends the Thread class for "multiple-client" implementation purposes
  *
  * @author L30-Team 1, CS180
+ *
  * @version Nov 2, 2024
+ *
  */
 
 public class SocialMediaPlatform extends Thread implements SocialMediaPlatformInterface {
@@ -25,6 +28,29 @@ public class SocialMediaPlatform extends Thread implements SocialMediaPlatformIn
         platformUsers = new ArrayList<>();
         images = new ArrayList<>();
         locks = new ArrayList<>();
+    }
+
+    public ArrayList<String> readFile(String filename) {
+        ArrayList<String> lines = new ArrayList<>();
+        try (BufferedReader bfr = new BufferedReader(new FileReader(filename))) {
+            String line = bfr.readLine();
+            while (line != null) {
+                lines.add(line);
+                line = bfr.readLine();
+            }
+        } catch (IOException e) {
+            return new ArrayList<>();
+        }
+        return lines;
+    }
+
+    public void writeDatabaseFile(String username, String password) {
+        try (PrintWriter pw = new PrintWriter(new FileOutputStream("output.txt", true))) {
+            pw.print("Username: " + username + ",");
+            pw.println("Password: " + password);
+        } catch (IOException e) {
+            return;
+        }
     }
 
     // Method that adds a User to the list of all the users in the database immediately after successful creation
@@ -127,26 +153,52 @@ public class SocialMediaPlatform extends Thread implements SocialMediaPlatformIn
          */
     }
 
+    // ** Accessor method that returns the list of Platform Users (used for testing)
+    public ArrayList<SocialMediaPlatform> getPlatformUsers() {
+        return platformUsers;
+    }
+
+    public User viewUser(String username) {
+        ArrayList<String> people = readFile("/Users/christinexu/IdeaProjects/groupproject/output.txt");
+        for (String s : people) {
+            users.add(new User(s.substring(10, s.indexOf(",")), s.substring(s.indexOf(",") + 11)));
+        }
+
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getUsername().equals(username)) {
+                return users.get(i);
+            }
+        }
+        System.out.println("That user does not exist.");
+        return null;
+    }
+
     // Method run() that overrides the run method in the Thread class that contains the code that each existing Thread will run
     // returns void; called when a thread starts
     @Override
     public void run() {
         SocialMediaPlatform platform = new SocialMediaPlatform();
+
+        platform.writeDatabaseFile("HelloWorld", "Hello1234");
+
+        ArrayList<String> people = platform.readFile("/Users/christinexu/IdeaProjects/groupproject/output.txt");
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Hello!");
 
-        outer:
-        do {
+        outer: do {
             System.out.println("Login or Create an Account"); // will eventually be a button when we're designing our GUI
             String choice = scanner.nextLine().toUpperCase();
-            if (platform.getUsers().isEmpty()) {
-                choice = "LOGIN";
+            if (people.isEmpty()) {
+                choice = "CREATE";
             }
+            for (String s : people) {
+                users.add(new User(s.substring(10, s.indexOf(",")), s.substring(s.indexOf(",") + 11)));
+            }
+            //System.out.println(users);
             String username = "";
             if (choice.contains("LOGIN")) {
-                inner1:
-                do {
+                inner1: do {
                     System.out.println("Enter your username");
                     username = scanner.nextLine();
                     boolean checkUsername = platform.checkForUsername(username);
@@ -163,8 +215,7 @@ public class SocialMediaPlatform extends Thread implements SocialMediaPlatformIn
                     }
                 } while (true);
 
-                inner2:
-                do {
+                inner2: do {
                     System.out.println("Enter your password");
                     String password = scanner.nextLine();
                     boolean checkPassword = platform.checkForPassword(username, password);
@@ -184,8 +235,7 @@ public class SocialMediaPlatform extends Thread implements SocialMediaPlatformIn
 
             } else if (choice.contains("CREATE")) {
                 String usernameCreate = "";
-                inner3:
-                do {
+                inner3: do {
                     System.out.println("Enter a username");
                     usernameCreate = scanner.nextLine();
                     if (platform.checkUsername(usernameCreate)) {
@@ -197,26 +247,26 @@ public class SocialMediaPlatform extends Thread implements SocialMediaPlatformIn
                     }
                 } while (true);
 
-                inner4:
-                do {
-                    System.out.println("Please enter a strong password");
+                inner4: do {
+                    System.out.println("Please enter a strong password (8 characters, an uppercase, a lowercase, digits)");
                     String password = scanner.nextLine();
                     if (platform.checkPassword(password)) {
                         User newUser = new User(usernameCreate, password);
                         synchronized (lock) {
                             platform.addUser(newUser);
+                            platform.writeDatabaseFile(usernameCreate, password);
                             System.out.println(newUser.toString());
                             System.out.println("Account successfully created.");
-                            break;
+                            break outer;
                         }
                     } else {
                         // password criteria to be displayed with a JPanel
-                        System.out.println("Weak password. Try again.");
+                         System.out.println("Weak password. Try again.");
                         continue inner4;
                     }
                 } while (true);
             }
-            continue outer;
+            //continue outer;
         } while (true);
 
         System.out.println("Welcome!");
@@ -235,11 +285,6 @@ public class SocialMediaPlatform extends Thread implements SocialMediaPlatformIn
         } catch (Exception ex) {
             return;
         }
-    }
-    
-    // ** Accessor method that returns the list of Platform Users (used for testing)
-    public ArrayList<SocialMediaPlatform> getPlatformUsers() {
-        return platformUsers;
     }
 
 }
