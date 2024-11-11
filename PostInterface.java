@@ -37,4 +37,6 @@ public interface PostInterface {
 
     void unHidePost(User wantUnHidden); // A void method that removes the User passed in the 
     // parameter from the postFriends list
+
+    ArrayList<User> getPostFriends(); // An Accessor method that returns the list of PostFriends (used for testing)
 }
