@@ -97,4 +97,9 @@ public class Post {
         postFriends.remove(wantUnHidden);
     }
 
+     // An Accessor method that returns the list of PostFriends (used for testing)
+    public ArrayList<User> getPostFriends() {
+        return postFriends;
+    }
+
 }
