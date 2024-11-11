@@ -236,7 +236,8 @@ public class SocialMediaPlatform extends Thread implements SocialMediaPlatformIn
             return;
         }
     }
-
+    
+    // ** Accessor method that returns the list of Platform Users (used for testing)
     public ArrayList<SocialMediaPlatform> getPlatformUsers() {
         return platformUsers;
     }
