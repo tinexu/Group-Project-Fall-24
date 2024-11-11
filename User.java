@@ -30,6 +30,7 @@ public class User implements UserInterface {
         blocked = new ArrayList<>();
         posts = new ArrayList<>();
         priv = false;
+        messages = new ArrayList<>();
     }
 
     // A void method that adds the String message to the messages list
