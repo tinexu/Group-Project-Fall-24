@@ -31,4 +31,6 @@ public interface SocialMediaPlatformInterface {
     boolean checkPassword(String password); // checks that a created password adheres to our criteria
 
     ArrayList<SocialMediaPlatform> getPlatformUsers(); //An accessor method that returns the platform user (used for testing)
+
+    User viewUser(); // method that returns the user that the User wants to search for
 }
