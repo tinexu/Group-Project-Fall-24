@@ -1,4 +1,6 @@
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 // import java.io.*;
 import java.lang.*;
@@ -158,6 +160,8 @@ public class SocialMediaPlatform extends Thread implements SocialMediaPlatformIn
         return platformUsers;
     }
 
+    // Method that allows a User to view another user through searching
+    // Returns User
     public User viewUser(String username) {
         ArrayList<String> people = readFile("/Users/christinexu/IdeaProjects/groupproject/output.txt");
         for (String s : people) {
@@ -179,12 +183,15 @@ public class SocialMediaPlatform extends Thread implements SocialMediaPlatformIn
     public void run() {
         SocialMediaPlatform platform = new SocialMediaPlatform();
 
-        try (PrintWriter pw = new PrintWriter(new FileOutputStream("output.txt"))) {
-            pw.println("Username: HelloWorld,Password: Hello1234");
+        try {
+            File file = new File("/Users/christinexu/IdeaProjects/groupproject/output.txt");
+            if (Files.size(Paths.get("/Users/christinexu/IdeaProjects/groupproject/output.txt")) == 0) {
+                PrintWriter printWriter = new PrintWriter(file);
+                printWriter.println("Username: HelloWorld,Password: Hello1234");
+            }
         } catch (IOException e) {
             return;
         }
-
 
         ArrayList<String> people = platform.readFile("/Users/christinexu/IdeaProjects/groupproject/output.txt");
         Scanner scanner = new Scanner(System.in);
