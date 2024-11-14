@@ -152,7 +152,7 @@ public class User implements UserInterface {
     // returns a String of a User's username, password, follower count, and following count
     @Override
     public String toString() {
-        return String.format("Username: %s, Password: %s, Followers: %d, Following: %d", username, password, friends.size(), friends.size());
+        return String.format("Username: %s, Password: %s, Friends: %s", username, password, friends.size());
     }
 
     // Sets the arrayList of messages passed in the parameter to the instance variable
