@@ -7,13 +7,11 @@ import java.lang.*;
 
 /**
  * Group Project -- SocialMediaPlatform
- *
+ * <p>
  * This class is a runner class for our program and extends the Thread class for "multiple-client" implementation purposes
  *
  * @author L30-Team 1, CS180
- *
  * @version Nov 2, 2024
- *
  */
 
 public class SocialMediaPlatform extends Thread implements SocialMediaPlatformInterface {
@@ -163,7 +161,7 @@ public class SocialMediaPlatform extends Thread implements SocialMediaPlatformIn
     // Method that allows a User to view another user through searching
     // Returns User
     public User viewUser(String username) {
-        ArrayList<String> people = readFile("/Users/christinexu/IdeaProjects/groupproject/output.txt");
+        ArrayList<String> people = readFile("/Users/srinidhisarav/IdeaProjects/group/output.txt");
         for (String s : people) {
             users.add(new User(s.substring(10, s.indexOf(",")), s.substring(s.indexOf(",") + 11)));
         }
@@ -173,7 +171,7 @@ public class SocialMediaPlatform extends Thread implements SocialMediaPlatformIn
                 return users.get(i);
             }
         }
-        System.out.println("That user does not exist.");
+        System.out.print("That user does not exist.");
         return null;
     }
 
@@ -184,22 +182,22 @@ public class SocialMediaPlatform extends Thread implements SocialMediaPlatformIn
         SocialMediaPlatform platform = new SocialMediaPlatform();
 
         try {
-            File file = new File("/Users/christinexu/IdeaProjects/groupproject/output.txt");
-            if (Files.size(Paths.get("/Users/christinexu/IdeaProjects/groupproject/output.txt")) == 0) {
-                try(PrintWriter printWriter = new PrintWriter(file)) {
-                    printWriter.println("Username: HelloWorld,Password: Hello1234");
-                }
+            File file = new File("/Users/srinidhisarav/IdeaProjects/group/output.txt");
+            if (Files.size(Paths.get("/Users/srinidhisarav/IdeaProjects/group/output.txt")) == 0) {
+                PrintWriter printWriter = new PrintWriter(file);
+                printWriter.println("Username: HelloWorld,Password: Hello1234");
             }
         } catch (IOException e) {
             return;
         }
 
-        ArrayList<String> people = platform.readFile("/Users/christinexu/IdeaProjects/groupproject/output.txt");
+        ArrayList<String> people = platform.readFile("/Users/srinidhisarav/IdeaProjects/group/output.txt");
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Hello!");
 
-        outer: do {
+        outer:
+        do {
             System.out.println("Login or Create an Account"); // will eventually be a button when we're designing our GUI
             String choice = scanner.nextLine().toUpperCase();
             if (people.isEmpty()) {
@@ -211,7 +209,8 @@ public class SocialMediaPlatform extends Thread implements SocialMediaPlatformIn
             //System.out.println(users);
             String username = "";
             if (choice.contains("LOGIN")) {
-                inner1: do {
+                inner1:
+                do {
                     System.out.println("Enter your username");
                     username = scanner.nextLine();
                     boolean checkUsername = platform.checkForUsername(username);
@@ -228,13 +227,13 @@ public class SocialMediaPlatform extends Thread implements SocialMediaPlatformIn
                     }
                 } while (true);
 
-                inner2: do {
+                inner2:
+                do {
                     System.out.println("Enter your password");
                     String password = scanner.nextLine();
                     boolean checkPassword = platform.checkForPassword(username, password);
                     if (checkPassword) {
                         System.out.println("Login successful.");
-                        //System.out.println(String.format("Username: %s, Friends: %s", username, friends.size()));
                         break outer;
                     } else {
                         System.out.println("Wrong password. Return to homepage or try again?");
@@ -249,7 +248,8 @@ public class SocialMediaPlatform extends Thread implements SocialMediaPlatformIn
 
             } else if (choice.contains("CREATE")) {
                 String usernameCreate = "";
-                inner3: do {
+                inner3:
+                do {
                     System.out.println("Enter a username");
                     usernameCreate = scanner.nextLine();
                     if (platform.checkUsername(usernameCreate)) {
@@ -261,7 +261,8 @@ public class SocialMediaPlatform extends Thread implements SocialMediaPlatformIn
                     }
                 } while (true);
 
-                inner4: do {
+                inner4:
+                do {
                     System.out.println("Please enter a strong password (8 characters, an uppercase, a lowercase, digits)");
                     String password = scanner.nextLine();
                     if (platform.checkPassword(password)) {
@@ -282,8 +283,29 @@ public class SocialMediaPlatform extends Thread implements SocialMediaPlatformIn
             }
             //continue outer;
         } while (true);
-
         System.out.println("Welcome!");
+        outer2: do {
+            System.out.println("Do you want to search for a User or make a Post? (Search/Post) ");
+            String response = scanner.nextLine();
+            inside1: do {
+                if (response.equals("Search")) {
+                    System.out.println("Type in the username of the User you are looking for.");
+                    String response2 = scanner.nextLine();
+                    User userFound = platform.viewUser(response2);
+                    if (userFound == null) {
+                        System.out.println(" Do you want to try again or go back to the home page? (Try/Back)");
+                        String response3 = scanner.nextLine();
+                        if (response3.equals("Try")) {
+                            continue inside1;
+                        } else
+                            continue outer2;
+                    } else {
+                       System.out.println(userFound.toString());
+                       break outer2;
+                    }
+                }
+            } while (true);
+        } while (true);
     }
 
     // Main method of this class
