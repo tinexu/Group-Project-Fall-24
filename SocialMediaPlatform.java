@@ -186,8 +186,9 @@ public class SocialMediaPlatform extends Thread implements SocialMediaPlatformIn
         try {
             File file = new File("/Users/christinexu/IdeaProjects/groupproject/output.txt");
             if (Files.size(Paths.get("/Users/christinexu/IdeaProjects/groupproject/output.txt")) == 0) {
-                PrintWriter printWriter = new PrintWriter(file);
-                printWriter.println("Username: HelloWorld,Password: Hello1234");
+                try(PrintWriter printWriter = new PrintWriter(file)) {
+                    printWriter.println("Username: HelloWorld,Password: Hello1234");
+                }
             }
         } catch (IOException e) {
             return;
@@ -233,6 +234,7 @@ public class SocialMediaPlatform extends Thread implements SocialMediaPlatformIn
                     boolean checkPassword = platform.checkForPassword(username, password);
                     if (checkPassword) {
                         System.out.println("Login successful.");
+                        //System.out.println(String.format("Username: %s, Friends: %s", username, friends.size()));
                         break outer;
                     } else {
                         System.out.println("Wrong password. Return to homepage or try again?");
@@ -273,7 +275,7 @@ public class SocialMediaPlatform extends Thread implements SocialMediaPlatformIn
                         }
                     } else {
                         // password criteria to be displayed with a JPanel
-                         System.out.println("Weak password. Try again.");
+                        System.out.println("Weak password. Try again.");
                         continue inner4;
                     }
                 } while (true);
