@@ -2,9 +2,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.net.*;
+import java.nio.file.*;
+import java.util.*;
 
 /**
- * Group Project -- Client
+ * Group Project -- VisualPlatform
  *
  * This class is currently a separate class for the initial design of our GUI
  *
@@ -13,54 +15,122 @@ import java.net.*;
  * @version Nov 2, 2024
  *
  */
-// Coding of class is still in progress...
 public class Client {
+    public static void defaultCommandsForWriter(PrintWriter w, String input) {
+        w.write(input);
+        w.println();
+        w.flush();
+    }
+
     public static void main(String[] args) throws IOException {
+        Scanner scanner = new Scanner(System.in);
+
         Socket socket = new Socket("localhost", 123);
 
-        JFrame frame = new JFrame(); // creates a new JFrame object
-        JPanel panel = new JPanel(); // creates a new JPanel object
+        BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        PrintWriter writer = new PrintWriter(socket.getOutputStream());
 
-        // This block of code sets the icon of the following input dialogs to be a custom social media icon
-        ImageIcon customIcon = new ImageIcon("/Users/christinexu/Downloads/social-media.png");
-        Image holdImage = customIcon.getImage();
-        Image newImage = holdImage.getScaledInstance(120, 120, java.awt.Image.SCALE_SMOOTH);
-        customIcon = new ImageIcon(newImage);
+        SocialMediaPlatform platform = new SocialMediaPlatform();
 
-        // This block of code gets a User's username and password during account creation or login using input dialogs
-        String username = (String) JOptionPane.showInputDialog(null, "Enter your username: ", "Login", JOptionPane.INFORMATION_MESSAGE, customIcon, null, "");
-        //if ()
+        ArrayList<User> users = platform.getUsers();
 
-        //String password = (String) JOptionPane.showInputDialog(null, "Enter your password: ", "Login", JOptionPane.INFORMATION_MESSAGE, customIcon, null, "");
+        System.out.println("Hello!");
 
-        // Prints the username and password just created for testing purposes
-//        System.out.println(username);
-//        System.out.println(password);
+        outer: do {
+            System.out.println("Login or Create an Account");
+            String choice = scanner.nextLine().toUpperCase();
+            defaultCommandsForWriter(writer, choice);
 
-        // This block of code sets the frame of the platform after the User creates the account or logs in
-        frame.setSize(800, 500);
-        frame.setTitle("Our Platform");
-        frame.setResizable(true);
+            if (choice.contains("LOGIN")) {
+                inner1: do {
+                    String loginChoiceUsername = reader.readLine();
+                    System.out.println(loginChoiceUsername);
+                    String username = scanner.nextLine();
+                    defaultCommandsForWriter(writer, username);
 
-        // This block of code sets a label to the main frame and displays our default text
-        JLabel label = new JLabel("Test");
-        label.setText("Hello");
-        panel.add(label);
-        frame.add(panel);
+                    String checkUsername = reader.readLine();
+                    if (!Boolean.parseBoolean(checkUsername)) {
+                        String usernameMessage = reader.readLine();
+                        System.out.println(usernameMessage);
+                        String errorUsernameChoice = scanner.nextLine().toUpperCase();
+                        defaultCommandsForWriter(writer, errorUsernameChoice);
 
-        // This block of code sets the font of the frame
-        Font font = new Font("Serif", Font.BOLD, 20);
-        frame.setFont(font);
+                        boolean usernameBool = Boolean.parseBoolean(reader.readLine());
+                        if (usernameBool) {
+                            continue outer;
+                        } else {
+                            continue inner1;
+                        }
+                    }
 
-        // Sets the frame to be visible to the computer screen
-        frame.setVisible(true);
+                    inner2: do {
+                        String loginChoicePassword = reader.readLine();
+
+                        System.out.println(loginChoicePassword);
+                        String password = scanner.nextLine();
+                        defaultCommandsForWriter(writer, password);
+
+                        String checkPassword = reader.readLine();
+                        if (!Boolean.parseBoolean(checkPassword)) {
+                            String passwordMessage = reader.readLine();
+
+                            System.out.println(passwordMessage);
+                            String errorPasswordChoice = scanner.nextLine().toUpperCase();
+                            defaultCommandsForWriter(writer, errorPasswordChoice);
+
+                            boolean passwordBool = Boolean.parseBoolean(reader.readLine());
+                            if (passwordBool) {
+                                continue outer;
+                            } else {
+                                continue inner2;
+                            }
+                        }
+                        break outer;
+                    } while (true);
+                } while (true);
+            } else if (choice.contains("CREATE")) {
+                inner3: do {
+                    String createChoiceUsername = reader.readLine();
+                    System.out.println(createChoiceUsername);
+                    String username = scanner.nextLine();
+                    defaultCommandsForWriter(writer, username);
+
+                    String checkUsernameBool = reader.readLine();
+                    if (Boolean.parseBoolean(checkUsernameBool)) {
+                        String okayUsername = reader.readLine();
+                        System.out.println(okayUsername);
+                        break inner3;
+                    } else {
+                        String notOkayUsername = reader.readLine();
+                        System.out.println(notOkayUsername);
+                        continue inner3;
+                    }
+                } while (true);
+
+                inner4: do {
+                    String createChoicePassword = reader.readLine();
+                    System.out.println(createChoicePassword);
+                    String password = scanner.nextLine();
+                    defaultCommandsForWriter(writer, password);
+
+                    String checkPasswordBool = reader.readLine();
+                    if (Boolean.parseBoolean(checkPasswordBool)) {
+                        String okayPassword = reader.readLine();
+                        System.out.println(okayPassword);
+                        break outer;
+                    } else {
+                        String notOkayPassword = reader.readLine();
+                        System.out.println(notOkayPassword);
+                        continue inner4;
+                    }
+                } while (true);
+            }
+        } while (true);
+
+        String welcomeMessage = reader.readLine();
+        System.out.println(welcomeMessage);
+
+
+
     }
-
-    // Current main method that runs the GUI (for visualization while testing)
-    // Will change the running method to be more reliable in a later phase
-
-
-// SwingUtilities.invokeLater(Runnable method)
-
-    }
-
+}
