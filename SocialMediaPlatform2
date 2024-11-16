@@ -291,7 +291,7 @@ public class SocialMediaPlatform extends Thread implements SocialMediaPlatformIn
         System.out.println("Welcome!");
         outer2:
         do {
-            System.out.println("Do you want to search for a User, make a Post, or log out? (Search/Post/Log Out) ");
+            System.out.println("Do you want to search for a User, make a Post, or log out? (Search/Post/Add Friend/Log Out) ");
             String response = scanner.nextLine();
             if (response.equals("Search")) {
                 inside1:
@@ -331,6 +331,59 @@ public class SocialMediaPlatform extends Thread implements SocialMediaPlatformIn
                         continue inside2;
                     } else {
                         continue outer2;
+                    }
+                } while (true);
+            } else if (response.equals("Add Friend")) {
+                inside3:
+                do {
+                    System.out.println("Who would you like to add as your friend?");
+                    String response2 = scanner.nextLine();
+                    User userFound = platform.viewUser(response2);
+                    if (userFound == null) {
+                        System.out.println(" Would you like to add someone else or return to the home page? (Add/Home)");
+                        String response3 = scanner.nextLine();
+                        if (response3.equals("Add")) {
+                            continue inside3;
+                        } else {
+                            continue outer2;
+                        }
+                    }
+                    boolean checkFriend = false;
+                    for (int i = 0; i < user.getFriends().size(); i++) {
+                        if (user.getFriends().get(i).equals(userFound)) {
+                            System.out.println("This User is already your friend!");
+                            System.out.println("Would you like to add someone else or return to the home page? (Add/Home)");
+                            checkFriend = true;
+                            String response4 = scanner.nextLine();
+                            if (response4.equals("Add")) {
+                                continue inside3;
+                            } else {
+                                continue outer2;
+                            }
+                        } else if(user.getBlocked().get(i).equals(userFound) || userFound.getBlocked().get(i).equals(user)) {
+                            System.out.println("You have blocked this user or they have blocked you! They cannot be your friend.");
+                            System.out.println("Would you like to add someone else or return to the home page? (Add/Home)");
+                            checkFriend = true;
+                            String response4 = scanner.nextLine();
+                            if (response4.equals("Add")) {
+                                continue inside3;
+                            } else {
+                                continue outer2;
+                            }
+                        }
+                    }
+
+                    if (!checkFriend) {
+                        user.addFriend(userFound);
+                        userFound.addFriend(user);
+                        System.out.println("You and " + userFound.getUsername() + " are now friends!");
+                        System.out.println("Would you like to add someone else or return to the home page? (Add/Home)");
+                        String response5 = scanner.nextLine();
+                        if (response5.equals("Add")) {
+                            continue inside3;
+                        } else {
+                            continue outer2;
+                        }
                     }
                 } while (true);
             } else {
