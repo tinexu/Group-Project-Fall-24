@@ -16,7 +16,7 @@ import java.lang.*;
  *
  */
 
-public class SocialMediaPlatform extends Thread implements SocialMediaPlatformInterface {
+public class SocialMediaPlatform extends Thread {
     private static ArrayList<User> users; // list of all the users stored in the database
     private static ArrayList<SocialMediaPlatform> platformUsers; // list of each SocialMediaPlatform object (assists in Threading)
     private static ArrayList<Post> images; // list of all the images that have been posted (the ones that currently exist on the platform)
@@ -46,8 +46,8 @@ public class SocialMediaPlatform extends Thread implements SocialMediaPlatformIn
         return lines;
     }
 
-    public synchronized void writeDatabaseFile(String username, String password) {
-        try (PrintWriter pw = new PrintWriter(new FileOutputStream("output.txt", true))) {
+    public synchronized void writeDatabaseFile(String username, String password, String outputFile) {
+        try (PrintWriter pw = new PrintWriter(new FileOutputStream(outputFile, true))) {
             pw.print("Username: " + username + ",");
             pw.println("Password: " + password);
         } catch (IOException e) {
@@ -60,8 +60,8 @@ public class SocialMediaPlatform extends Thread implements SocialMediaPlatformIn
     // involves concurrent programming to avoid race conditions: everytime a new User is added, a thread begins login execution
     public synchronized void addUser(User user) {
         //synchronized (lock) {
-            users.add(user);
-            platformUsers.add(new SocialMediaPlatform());
+        users.add(user);
+        platformUsers.add(new SocialMediaPlatform());
         //}
     }
 //    public synchronized void addUser(User user) {
@@ -284,7 +284,7 @@ public class SocialMediaPlatform extends Thread implements SocialMediaPlatformIn
                                 if (platform.checkPassword(password)) {
                                     User newUser = new User(usernameCreate, password);
                                     platform.addUser(newUser);
-                                    platform.writeDatabaseFile(usernameCreate, password);
+                                    platform.writeDatabaseFile(usernameCreate, password, "output.txt");
                                     for (String u : usernames) {
                                         if (u.equals(usernameCreate)) {
                                             System.out.println("Username already exists.");
