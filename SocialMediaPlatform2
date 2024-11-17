@@ -291,7 +291,7 @@ public class SocialMediaPlatform extends Thread implements SocialMediaPlatformIn
         System.out.println("Welcome!");
         outer2:
         do {
-            System.out.println("Do you want to search for a User, make a Post, or log out? (Search/Post/Add Friend/Block/Log Out) ");
+            System.out.println("Do you want to search for a User, make a Post, or log out? (Search/Post/Add Friend/Block/Remove Friend/Log Out) ");
             String response = scanner.nextLine();
             if (response.equals("Search")) {
                 inside1:
@@ -453,6 +453,44 @@ public class SocialMediaPlatform extends Thread implements SocialMediaPlatformIn
                     String response4 = scanner.nextLine();
                     if (response4.equals("Block")) {
                         continue inside4;
+                    } else {
+                        continue outer2;
+                    }
+                } while (true);
+            } else if (response.equals("Remove Friend")) {
+                inside5:
+                do {
+                    System.out.println("Type in the username of the friend you would like to remove.");
+                    String response2 = scanner.nextLine();
+                    User userFound = platform.viewUser(response2);
+                    if (userFound == null) {
+                        System.out.println(" Would you like to remove someone else or return to the home page? (Remove/Home)");
+                        String response3 = scanner.nextLine();
+                        if (response3.equals("Remove")) {
+                            continue inside5;
+                        } else {
+                            continue outer2;
+                        }
+                    }
+                    for (int i = 0; i < user.getFriends().size(); i++) {
+                        if (user.getFriends().get(i).equals(userFound)) {
+                            user.removeFriend(userFound);
+                            userFound.removeFriend(user);
+                            System.out.println(userFound.getUsername() + " was successfully removed from your friends list.");
+                            System.out.println("Would you like to remove someone else or return to the home page? (Remove/Home)");
+                            String response3 = scanner.nextLine();
+                            if (response3.equals("Remove")) {
+                                continue inside5;
+                            } else {
+                                continue outer2;
+                            }
+                        }
+                    }
+                    System.out.println(user.getUsername() + " is not your friend, so you cannot remove them!");
+                    System.out.println("Would you like to remove someone else or return to the home page? (Remove/Home)");
+                    String response3 = scanner.nextLine();
+                    if (response3.equals("Remove")) {
+                        continue inside5;
                     } else {
                         continue outer2;
                     }
