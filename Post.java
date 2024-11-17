@@ -77,12 +77,14 @@ public class Post {
         commentList.add(comment);
     }
 
-    // A void method that checks if the User passed in the parameter posted the comment passed in the parameter
+    // A method that returns a boolean and checks if the User passed in the parameter posted the comment passed in the parameter
     // or was the User who made the post, if so it will remove the comment from the comment list
-    public void removeComment(Comments comment, User com) {
+    public boolean removeComment(Comments comment, User com) {
         if (comment.getCommented().equals(com) || comment.getCommented().equals(posted)) {
             commentList.remove(comment);
+            return true;
         }
+        return false;
     }
 
     // A void method that adds the User that the main User wants Hidden to the postFriends list
