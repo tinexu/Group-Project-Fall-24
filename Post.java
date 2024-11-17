@@ -101,12 +101,15 @@ public class Post {
     public ArrayList<User> getPostFriends() {
         return postFriends;
     }
-
+    
+    // A void method that creates a comment object using the String comment
+    // and the user who commented it, it then adds the object to the comment list
     public void justCommented(String comment, User commented) {
         Comments comments = new Comments(comment, commented);
         commentList.add(comments);
     }
 
+    // A toString method that returns the number of likes and dislikes, the String comments, and the text of the post
     public String toString() {
         String allComments = "";
         for (int i = 0; i < commentList.size(); i++) {
