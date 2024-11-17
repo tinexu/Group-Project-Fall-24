@@ -39,4 +39,10 @@ public interface PostInterface {
     // parameter from the postFriends list
 
     ArrayList<User> getPostFriends(); // An Accessor method that returns the list of PostFriends (used for testing)
+
+    void justCommented(String comment, User commented);       // A void method creating a comment object using the String comment 
+    // and the user who commented it, it then adds the object to the comment list
+
+    String toString(); // A toString method that returns the number of likes and dislikes, the String comments, and the text of the post
+
 }
