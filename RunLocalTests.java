@@ -4,10 +4,11 @@ import org.junit.Assert;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
+
+import javax.xml.stream.events.Comment;
 import java.util.ArrayList;
 
 public class RunLocalTests {
-    
     //Main method that runs all of the test cases
     public static void main(String[] args) {
         Result result = JUnitCore.runClasses(RunLocalTests.class);
@@ -16,7 +17,7 @@ public class RunLocalTests {
         }
         System.out.println(result.wasSuccessful() ? "All tests passed." : "Some tests failed.");
     }
-    
+
     //Tests that the equals method in the User class returns the correct boolean value
     @Test
     public void testUserEquals() {
@@ -27,7 +28,7 @@ public class RunLocalTests {
         Assert.assertFalse("The result should have been false but it was true",
                 user.equals(new User("User2", "1234")));
     }
-    
+
     //Tests that the constructor in the User class intitializes the right values for the instance variables
     @Test
     public void testUserConstructor() {
@@ -37,7 +38,7 @@ public class RunLocalTests {
         Assert.assertTrue(user.getBlocked().isEmpty());
         Assert.assertTrue(user.getPosts(). isEmpty());
     }
-    
+
     //Tests that the add and remove friend methods update the instance variable correctly
     @Test
     public void testAddAndRemoveFriend() {
@@ -48,7 +49,7 @@ public class RunLocalTests {
         user.removeFriend(user2);
         Assert.assertFalse(user.getFriends().contains(user2));
     }
-    
+
     //Tests that the add and remove friend methods update the instance variable correctly
     @Test
     public void testAddAndRemoveBlocked() {
@@ -64,7 +65,7 @@ public class RunLocalTests {
     @Test
     public void testAddAndRemoveComment() {
         User user = new User("user1", "1234");
-        Post post = new Post(user);
+        Post post = new Post(user, "");
         Comments comment = new Comments("Hello", user);
         post.addComment(comment);
         Assert.assertTrue(post.getCommentList().contains(comment));
@@ -84,7 +85,7 @@ public class RunLocalTests {
     public void testHideAndUnhidePost() {
         User user1 = new User("user1", "1234");
         User user2 = new User("user2", "1234");
-        Post post = new Post(new User("poster", "password"));
+        Post post = new Post(new User("poster", "password"), "");
         post.hidePost(user1);
         post.hidePost(user2);
 
@@ -137,135 +138,82 @@ public class RunLocalTests {
         Assert.assertTrue(socialMediaPlatform.getImages().isEmpty());
     }
 
-    //Tests that the constructor for the Messaging class initializes the instance variables correctly
+    //Tests the like and dislike methods for Post
     @Test
-    public void testMessagingConstructor() {
-        User user1 = new User("user1", "1234");
+    public void testLikeAndDislikePost() {
+        User user = new User("user1", "1234");
+        Post post = new Post(user, "");
+        post.dislikePost();
+        post.dislikePost();
+        Assert.assertEquals(2, post.getDislikes());
+        post.likePost();
+        post.likePost();
+        post.likePost();
+        Assert.assertEquals(3, post.getLikes());
+    }
+
+    //Tests the Post toString method
+    @Test
+    public void testPostToString() {
+        User user = new User("user1", "1234");
+        Post post = new Post(user, "Hello");
+        Assert.assertEquals("Hello Likes: 0 Dislikes: 0 Comments: ", post.toString());
+    }
+
+    //Tests the justCommented method in Post
+    @Test
+    public void testJustCommented() {
+        User user = new User("user1", "1234");
+        Post post = new Post(user, "Hello");
         User user2 = new User("user2", "1234");
-        Messaging messaging = new Messaging(user1, user2, "Hello");
-        Assert.assertEquals(user1, messaging.getSender());
-        Assert.assertEquals(user2, messaging.getReceiver());
-        Assert.assertEquals("Hello", messaging.getMessageContent());
-        Assert.assertTrue(user1.getMessages().isEmpty());
+        post.justCommented("Hello", user2);
+        var comments = new ArrayList<Comments>();
+        comments.add(new Comments("Hello", user2));
+        Assert.assertEquals(comments, post.getCommentList());
     }
 
-    //Tests that the method that sends messages for the platform works as expected
+    //Tests the getUsernameOfFriends method in SocialMediaPlatform
     @Test
-    public void testSendMessageSuccess() throws InvalidException {
-        // Setup: Add receiver to sender's friends
-        User sender = new User("sender", "password1");
-        User receiver = new User("receiver", "password2");
-        Messaging message = new Messaging(sender, receiver, "Hello, receiver!");
-        sender.addFriend(receiver);
-
-        message.sendMessage();
-
-        Assert.assertEquals(1, sender.getMessages().size());
-        Assert.assertEquals("Hello, receiver!", sender.getMessages().get(0));
-    }
-
-    //Tests that the method that sends messages for the platform throws an exception and prints an error string when trying to send a message to a blocked user
-    @Test
-    public void testSendMessageToBlockedUser() {
-        User sender = new User("sender", "password1");
-        User receiver = new User("receiver", "password2");
-        Messaging message = new Messaging(sender, receiver, "Hello, receiver!");
-        // Setup: Sender blocks receiver
-        sender.blockUser(receiver);
-
-        InvalidException exception = Assert.assertThrows(InvalidException.class, message::sendMessage);
-
-        Assert.assertEquals("Cannot send message, user is blocked", exception.getMessage());
-        Assert.assertTrue(sender.getMessages().isEmpty());
-    }
-
-    //Tests that the method that sends messages throws an exception and prints an error message when trying to send a message to a private account
-    @Test
-    public void testSendMessageToPrivateNonFriend() {
-        User sender = new User("sender", "password1");
-        User receiver = new User("receiver", "password2");
-        Messaging message = new Messaging(sender, receiver, "Hello, receiver!");
-        // Setup: Make receiver private
-        receiver.setPriv(true);
-
-        InvalidException exception = Assert.assertThrows(InvalidException.class, message::sendMessage);
-
-        Assert.assertEquals("Cannot send message, user is private", exception.getMessage());
-        Assert.assertTrue(sender.getMessages().isEmpty());
-    }
-
-    //Tests that hte method that sends messages throws an exception and prints an error message when trying to send a message to a private account
-    @Test
-    public void testSendMessageToPrivateFriend() throws InvalidException {
-        User sender = new User("sender", "password1");
-        User receiver = new User("receiver", "password2");
-        Messaging message = new Messaging(sender, receiver, "Hello, receiver!");
-        receiver.setPriv(true);
-        sender.addFriend(receiver);
-
-        message.sendMessage();
-
-        Assert.assertEquals(1, sender.getMessages().size());
-        Assert.assertEquals("Hello, receiver!", sender.getMessages().get(0));
-    }
-
-    //Tests that the method that deletes messages updates the instance variable correctly
-    @Test
-    public void testDeleteExistingMessage() throws InvalidException {
-        User user1 = new User("user1", "1234");
+    public void testGetUsernameOfFriends() {
+        User user = new User("user1", "1234");
         User user2 = new User("user2", "1234");
-        Messaging message = new Messaging(user1, user2, "");
-        ArrayList<String> newMessages = user1.getMessages();
-        newMessages.add("Hello, World!");
-        user1.setMessages(newMessages);
-        Assert.assertFalse(user1.getMessages().contains("Hello, World!"));
+        User user3 = new User("user3", "1234");
+        SocialMediaPlatform smp = new SocialMediaPlatform();
+        user.addFriend(user2);
+        user.addFriend(user3);
+        var userFriends = new ArrayList<String>();
+        userFriends.add("user2");
+        userFriends.add("user3");
+        var friendsData = new ArrayList<String>();
+        for (int i = 2; i < 10; i++) {
+            String friend = "User" + i + ":";
+            for (int j = 0; j < 5; j++) {
+                friend = friend + ",user" + j + ",";
+            }
+            friendsData.add(friend);
+        }
+        friendsData.add("user: user2,user3");
+        friendsData.add("User100: user102,user230");
+        Assert.assertEquals(userFriends, smp.getUsernamesOfFriends("user", friendsData));
     }
 
-    //Tests the fact that a User cannot delete a message that does not yet exist and throws an exception and prints the respective error message
+    //Tests the getPostsOfUser method in SocialMediaPlatform
     @Test
-    public void testDeleteNonExistingMessage() {
-        User user1 = new User("user1", "1234");
-        User user2 = new User("user2", "1234");
-        Messaging message = new Messaging(user1, user2, "");
-        ArrayList<String> newMessages = user1.getMessages();
-        newMessages.add("Hello, World!");
-        user1.setMessages(newMessages);
-        InvalidException exception = Assert.assertThrows(InvalidException.class,
-                () -> message.deleteMessage("This message doesn't exist"));
-        Assert.assertEquals("Message not found!", exception.getMessage());
+    public void testGetPostsOfUser() {
+        SocialMediaPlatform smp = new SocialMediaPlatform();
+        var userPosts = new ArrayList<String>();
+        userPosts.add("Hello");
+        userPosts.add("Bye");
+        var postData = new ArrayList<String>();
+        for (int i = 0; i < 10; i++) {
+            String postLine = "user" + i + ":";
+            for (int j = 0; j < 4; j++) {
+                postLine += "blah blah,";
+            }
+            postLine += "blah blah";
+            postData.add(postLine);
+        }
+        postData.add("user: Hello,Bye");
+        Assert.assertEquals(userPosts, smp.getPostsOfUser("user", postData));
     }
-
-    //Tests that the method that deletes messages works as expected
-    @Test
-    public void testMessagesListAfterDeletion() throws InvalidException {
-        User user1 = new User("user1", "1234");
-        User user2 = new User("user2", "1234");
-        Messaging message = new Messaging(user1, user2, "");
-        ArrayList<String> newMessages = user1.getMessages();
-        newMessages.add("Hello, World!");
-        user1.setMessages(newMessages);
-        int initialSize = user1.getMessages().size();
-        message.deleteMessage("Hello, World!");
-        Assert.assertEquals(initialSize - 1, user1.getMessages().size());
-    }
-
-    //Tests that the method that deletes messages works as expected even for multiple deletions
-    @Test
-    public void testDeleteMultipleMessages() throws InvalidException {
-        User user1 = new User("user1", "1234");
-        User user2 = new User("user2", "1234");
-        Messaging message = new Messaging(user1, user2, "");
-        ArrayList<String> newMessages = user1.getMessages();
-        newMessages.add("Hello, World!");
-        user1.setMessages(newMessages);
-        String secondMessage = "Second message";
-        newMessages.add(secondMessage);
-        user1.setMessages(newMessages);
-
-        message.deleteMessage("Hello, World!");
-        message.deleteMessage(secondMessage);
-
-        Assert.assertTrue(user1.getMessages().isEmpty());
-    }
-
 }
