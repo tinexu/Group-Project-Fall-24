@@ -16,8 +16,8 @@ import java.lang.*;
 
 public class SocialMediaPlatform extends Thread {
     private static ArrayList<User> users; // list of all the users stored in the database
-    private static ArrayList<String> friends;
-    private static ArrayList<String> posts;
+    private static ArrayList<String> friends; // A String arrayList consisting of the lines in the friends file
+    private static ArrayList<String> posts; // A String arrayList consisting of the lines in the posts file
     private static ArrayList<SocialMediaPlatform> platformUsers; // list of each SocialMediaPlatform object (assists in Threading)
     private static ArrayList<Post> images; // list of all the images that have been posted (the ones that currently exist on the platform)
 
@@ -34,6 +34,7 @@ public class SocialMediaPlatform extends Thread {
         locks = new ArrayList<>();
     }
 
+    // This method reads the file given in the parameter and returns an ArrayList of the file where each index is a line in the file
     public synchronized ArrayList<String> readFile(String filename) {
         ArrayList<String> lines = new ArrayList<>();
         try (BufferedReader bfr = new BufferedReader(new FileReader(filename))) {
@@ -48,6 +49,7 @@ public class SocialMediaPlatform extends Thread {
         return lines;
     }
 
+    // This method writes the User's username and passsword (given in the parameter) to the output file (given in the parameter)
     public synchronized void writeDatabaseFile(String username, String password, String outputFile) {
         try (PrintWriter pw = new PrintWriter(new FileOutputStream(outputFile, true))) {
             pw.print("Username: " + username + ",");
@@ -57,6 +59,7 @@ public class SocialMediaPlatform extends Thread {
         }
     }
 
+    // This methods writes the User and the user's username (given in the parameter) into the output file (given in the parameter)
     public synchronized void writeDatabaseFriendsFile(User user, String otherUsername, String outputFile) {
         ArrayList<String> contents = new ArrayList<>();
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(outputFile))) {
@@ -99,6 +102,7 @@ public class SocialMediaPlatform extends Thread {
         }
     }
 
+    // This method returns an ArrayList of Strings consisting of the User's friend's usernames
     public ArrayList<String> getUsernamesOfFriends(String username, ArrayList<String> friends) {
         ArrayList<String> listOfUsernames = new ArrayList<>();
 
@@ -117,6 +121,7 @@ public class SocialMediaPlatform extends Thread {
         return listOfUsernames;
     }
 
+    // This method returns an ArrayList of Strings that consists of the User's (given in the parameter) posts
     public ArrayList<String> getPostsOfUser(String username, ArrayList<String> posts) {
         ArrayList<String> listOfPosts = new ArrayList<>();
 
@@ -135,7 +140,8 @@ public class SocialMediaPlatform extends Thread {
 
         return listOfPosts;
     }
-
+    
+    // A void method that writes the User's user and post (given in the parameter) to the output file (given in the parameter)
     public synchronized void writeDatabasePostFile(User user, Post post, String outputFile) {
         ArrayList<String> contents = new ArrayList<>();
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(outputFile))) {
@@ -206,10 +212,14 @@ public class SocialMediaPlatform extends Thread {
         return users;
     }
 
+    // Accessor method for the list of friends
+    // Returns ArrayList<String> of all the friends stored in the database
     public ArrayList<String> getFriends() {
         return friends;
     }
 
+    // Accessor method for the list of posts
+    // Returns ArrayList<String> of all the posts stored in the database
     public ArrayList<String> getPosts() {
         return posts;
     }
