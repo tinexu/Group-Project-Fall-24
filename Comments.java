@@ -54,6 +54,8 @@ public class Comments implements CommentsInterface {
         return this.comment;
     }
 
+    // A toString method that returns the String consisting of the number of 
+    // upvotes and downvotes, as well as the number of comments
     public String toString() {
         return "Upvotes: " + upVotes + "Downvotes: " + downVotes + "Comment: " + comment;
     }
