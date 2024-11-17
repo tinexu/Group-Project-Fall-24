@@ -1,21 +1,23 @@
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 // import java.io.*;
 import java.lang.*;
 
 /**
  * Group Project -- SocialMediaPlatform
- * <p>
+ *
  * This class is a runner class for our program and extends the Thread class for "multiple-client" implementation purposes
  *
  * @author L30-Team 1, CS180
+ *
  * @version Nov 2, 2024
+ *
  */
 
-public class SocialMediaPlatform extends Thread implements SocialMediaPlatformInterface {
+public class SocialMediaPlatform extends Thread {
     private static ArrayList<User> users; // list of all the users stored in the database
+    private static ArrayList<String> friends;
+    private static ArrayList<String> posts;
     private static ArrayList<SocialMediaPlatform> platformUsers; // list of each SocialMediaPlatform object (assists in Threading)
     private static ArrayList<Post> images; // list of all the images that have been posted (the ones that currently exist on the platform)
 
@@ -25,12 +27,14 @@ public class SocialMediaPlatform extends Thread implements SocialMediaPlatformIn
     // Constructor for the SocialMediaPlatform class that sets all instance variables to their default values and filename (for now) to the designated output filename
     public SocialMediaPlatform() {
         users = new ArrayList<>();
+        friends = new ArrayList<>();
+        posts = new ArrayList<>();
         platformUsers = new ArrayList<>();
         images = new ArrayList<>();
         locks = new ArrayList<>();
     }
 
-    public ArrayList<String> readFile(String filename) {
+    public synchronized ArrayList<String> readFile(String filename) {
         ArrayList<String> lines = new ArrayList<>();
         try (BufferedReader bfr = new BufferedReader(new FileReader(filename))) {
             String line = bfr.readLine();
@@ -44,10 +48,131 @@ public class SocialMediaPlatform extends Thread implements SocialMediaPlatformIn
         return lines;
     }
 
-    public void writeDatabaseFile(String username, String password) {
-        try (PrintWriter pw = new PrintWriter(new FileOutputStream("output.txt", true))) {
+    public synchronized void writeDatabaseFile(String username, String password, String outputFile) {
+        try (PrintWriter pw = new PrintWriter(new FileOutputStream(outputFile, true))) {
             pw.print("Username: " + username + ",");
             pw.println("Password: " + password);
+        } catch (IOException e) {
+            return;
+        }
+    }
+
+    public synchronized void writeDatabaseFriendsFile(User user, String otherUsername, String outputFile) {
+        ArrayList<String> contents = new ArrayList<>();
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(outputFile))) {
+            String line = bufferedReader.readLine();
+            while (line != null) {
+                contents.add(line);
+                line = bufferedReader.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ArrayList<String> friends = getUsernamesOfFriends(user.getUsername(), readFile(outputFile));
+        String usersFriends = "Username: " + user.getUsername() + ",Friends: ";
+        for (int f = 0; f < friends.size(); f++) {
+            usersFriends += friends.get(f) + ",";
+        }
+
+        usersFriends += otherUsername + ",";
+
+        boolean contains = false;
+        for (int i = 0; i < contents.size(); i++) {
+            if (contents.get(i).contains(user.getUsername())) {
+                contents.set(i, usersFriends);
+                contains = true;
+                break;
+            }
+        }
+
+        if (!contains) {
+            contents.add(usersFriends);
+        }
+
+        try (PrintWriter printWriter = new PrintWriter(new FileOutputStream(outputFile))) {
+            for (int i = 0; i < contents.size(); i++) {
+                printWriter.println(contents.get(i));
+            }
+        } catch (IOException e) {
+            return;
+        }
+    }
+
+    public ArrayList<String> getUsernamesOfFriends(String username, ArrayList<String> friends) {
+        ArrayList<String> listOfUsernames = new ArrayList<>();
+
+        for (int i = 0; i < friends.size(); i++) {
+            if (friends.get(i).contains(username)) {
+                int begIndex = friends.get(i).indexOf(",") + 10;
+                int endIndex = friends.get(i).indexOf(",", begIndex + 1);
+                while (endIndex != -1) {
+                    listOfUsernames.add(friends.get(i).substring(begIndex, endIndex));
+
+                    begIndex = endIndex + 1;
+                    endIndex = friends.get(i).indexOf(",", begIndex + 1);
+                }
+            }
+        }
+        return listOfUsernames;
+    }
+
+    public ArrayList<String> getPostsOfUser(String username, ArrayList<String> posts) {
+        ArrayList<String> listOfPosts = new ArrayList<>();
+
+        for (int i = 0; i < posts.size(); i++) {
+            if (posts.get(i).contains(username)) {
+                int begIndex = posts.get(i).indexOf(",") + 10;
+                int endIndex = posts.get(i).indexOf(",", begIndex + 1);
+                while (endIndex != -1) {
+                    listOfPosts.add(posts.get(i).substring(begIndex, endIndex));
+
+                    begIndex = endIndex + 1;
+                    endIndex = posts.get(i).indexOf(",", begIndex + 1);
+                }
+            }
+        }
+
+        return listOfPosts;
+    }
+
+    public synchronized void writeDatabasePostFile(User user, Post post, String outputFile) {
+        ArrayList<String> contents = new ArrayList<>();
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(outputFile))) {
+            String line = bufferedReader.readLine();
+            while (line != null) {
+                contents.add(line);
+                line = bufferedReader.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ArrayList<String> posts = getPostsOfUser(user.getUsername(), readFile(outputFile));
+        String usersPosts = "Username: " + user.getUsername() + ",Posts: ";
+        for (int f = 0; f < posts.size(); f++) {
+            usersPosts += posts.get(f) + ",";
+        }
+
+        usersPosts += post + " ";
+
+        boolean contains = false;
+        for (int i = 0; i < contents.size(); i++) {
+            if (contents.get(i).contains(user.getUsername())) {
+                contents.set(i, usersPosts);
+                contains = true;
+                break;
+            }
+        }
+
+        if (!contains) {
+            contents.add(usersPosts);
+        }
+
+        try (PrintWriter printWriter = new PrintWriter(new FileOutputStream(outputFile))) {
+            for (int i = 0; i < contents.size(); i++) {
+                printWriter.println(contents.get(i));
+            }
         } catch (IOException e) {
             return;
         }
@@ -56,22 +181,37 @@ public class SocialMediaPlatform extends Thread implements SocialMediaPlatformIn
     // Method that adds a User to the list of all the users in the database immediately after successful creation
     // returns void; changes an instance variable
     // involves concurrent programming to avoid race conditions: everytime a new User is added, a thread begins login execution
-    public void addUser(User user) {
-        SocialMediaPlatform newUserThread;
-        synchronized (lock) {
-            users.add(user);
-            locks.add(false);
-
-            newUserThread = new SocialMediaPlatform();
-            platformUsers.add(newUserThread);
-        }
-        newUserThread.start();
+    public synchronized void addUser(User user) {
+        //synchronized (lock) {
+        users.add(user);
+        platformUsers.add(new SocialMediaPlatform());
+        //}
     }
+//    public synchronized void addUser(User user) {
+//        users.add(user);
+//        //SocialMediaPlatform newUserThread = new SocialMediaPlatform();
+//        //newUserThread.start();
+////        synchronized (lock) {
+////            users.add(user);
+////            locks.add(false);
+////
+////            platformUsers.add(newUserThread);
+////        }
+////        newUserThread.start();
+//    }
 
     // Accessor method for the list of users
     // returns ArrayList<User> of all the users stored in the database
     public ArrayList<User> getUsers() {
         return users;
+    }
+
+    public ArrayList<String> getFriends() {
+        return friends;
+    }
+
+    public ArrayList<String> getPosts() {
+        return posts;
     }
 
     // Accessor method for the list of images
@@ -113,6 +253,7 @@ public class SocialMediaPlatform extends Thread implements SocialMediaPlatformIn
     // Method that follows the same logic as checkForUsername, but automatically handles if a User cannot use a certain username
     // returns a boolean true (the User can use that username) or false (the User cannot employ that username)
     public boolean checkUsername(String username) {
+        System.out.println(users.size());
         if (users.isEmpty()) {
             return true;
         }
@@ -161,7 +302,7 @@ public class SocialMediaPlatform extends Thread implements SocialMediaPlatformIn
     // Method that allows a User to view another user through searching
     // Returns User
     public User viewUser(String username) {
-        ArrayList<String> people = readFile("/Users/srinidhisarav/IdeaProjects/group/output.txt");
+        ArrayList<String> people = readFile("/Users/christinexu/IdeaProjects/groupproject/src/output.txt");
         for (String s : people) {
             users.add(new User(s.substring(10, s.indexOf(",")), s.substring(s.indexOf(",") + 11)));
         }
@@ -171,7 +312,6 @@ public class SocialMediaPlatform extends Thread implements SocialMediaPlatformIn
                 return users.get(i);
             }
         }
-        System.out.print("That user does not exist.");
         return null;
     }
 
@@ -180,147 +320,170 @@ public class SocialMediaPlatform extends Thread implements SocialMediaPlatformIn
     @Override
     public void run() {
         SocialMediaPlatform platform = new SocialMediaPlatform();
+        ArrayList<String> usernames = new ArrayList<>();
+        User user = new User("hi", "dshfod456");
+        ArrayList<String> friends = new ArrayList<>();
+        friends.add("Username: hi, Friends: Helloo, Hello, hel");
 
-        try {
-            File file = new File("/Users/srinidhisarav/IdeaProjects/group/output.txt");
-            if (Files.size(Paths.get("/Users/srinidhisarav/IdeaProjects/group/output.txt")) == 0) {
-                PrintWriter printWriter = new PrintWriter(file);
-                printWriter.println("Username: HelloWorld,Password: Hello1234");
-            }
-        } catch (IOException e) {
-            return;
-        }
+        usernames = platform.getUsernamesOfFriends(user.getUsername(), friends);
+        System.out.println(usernames);
 
-        ArrayList<String> people = platform.readFile("/Users/srinidhisarav/IdeaProjects/group/output.txt");
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Hello!");
-
-        outer:
-        do {
-            System.out.println("Login or Create an Account"); // will eventually be a button when we're designing our GUI
-            String choice = scanner.nextLine().toUpperCase();
-            if (people.isEmpty()) {
-                choice = "CREATE";
-            }
-            for (String s : people) {
-                users.add(new User(s.substring(10, s.indexOf(",")), s.substring(s.indexOf(",") + 11)));
-            }
-            //System.out.println(users);
-            String username = "";
-            if (choice.contains("LOGIN")) {
-                inner1:
-                do {
-                    System.out.println("Enter your username");
-                    username = scanner.nextLine();
-                    boolean checkUsername = platform.checkForUsername(username);
-                    if (!checkUsername) {
-                        System.out.println("That username does not exist. Return to homepage or try again?");
-                        String loginChoice = scanner.nextLine().toUpperCase();
-                        if (loginChoice.contains("RETURN")) {
-                            continue outer;
-                        } else if (loginChoice.contains("AGAIN")) {
-                            continue inner1;
-                        }
-                    } else {
-                        break;
-                    }
-                } while (true);
-
-                inner2:
-                do {
-                    System.out.println("Enter your password");
-                    String password = scanner.nextLine();
-                    boolean checkPassword = platform.checkForPassword(username, password);
-                    if (checkPassword) {
-                        System.out.println("Login successful.");
-                        break outer;
-                    } else {
-                        System.out.println("Wrong password. Return to homepage or try again?");
-                        String loginChoice = scanner.nextLine().toUpperCase();
-                        if (loginChoice.contains("RETURN")) {
-                            continue outer;
-                        } else if (loginChoice.contains("AGAIN")) {
-                            continue inner2;
-                        }
-                    }
-                } while (true);
-
-            } else if (choice.contains("CREATE")) {
-                String usernameCreate = "";
-                inner3:
-                do {
-                    System.out.println("Enter a username");
-                    usernameCreate = scanner.nextLine();
-                    if (platform.checkUsername(usernameCreate)) {
-                        System.out.println("Username created.");
-                        break;
-                    } else {
-                        System.out.println("Username already exists.");
-                        continue inner3;
-                    }
-                } while (true);
-
-                inner4:
-                do {
-                    System.out.println("Please enter a strong password (8 characters, an uppercase, a lowercase, digits)");
-                    String password = scanner.nextLine();
-                    if (platform.checkPassword(password)) {
-                        User newUser = new User(usernameCreate, password);
-                        synchronized (lock) {
-                            platform.addUser(newUser);
-                            platform.writeDatabaseFile(usernameCreate, password);
-                            System.out.println(newUser.toString());
-                            System.out.println("Account successfully created.");
-                            break outer;
-                        }
-                    } else {
-                        // password criteria to be displayed with a JPanel
-                        System.out.println("Weak password. Try again.");
-                        continue inner4;
-                    }
-                } while (true);
-            }
-            //continue outer;
-        } while (true);
-        System.out.println("Welcome!");
-        outer2: do {
-            System.out.println("Do you want to search for a User or make a Post? (Search/Post) ");
-            String response = scanner.nextLine();
-            inside1: do {
-                if (response.equals("Search")) {
-                    System.out.println("Type in the username of the User you are looking for.");
-                    String response2 = scanner.nextLine();
-                    User userFound = platform.viewUser(response2);
-                    if (userFound == null) {
-                        System.out.println(" Do you want to try again or go back to the home page? (Try/Back)");
-                        String response3 = scanner.nextLine();
-                        if (response3.equals("Try")) {
-                            continue inside1;
-                        } else
-                            continue outer2;
-                    } else {
-                       System.out.println(userFound.toString());
-                       break outer2;
-                    }
+//        try {
+//            File file = new File("/Users/christinexu/IdeaProjects/groupproject/src/output.txt");
+//            if (Files.size(Paths.get("/Users/christinexu/IdeaProjects/groupproject/src/output.txt")) == 0) {
+//                try (PrintWriter printWriter = new PrintWriter(file)) {
+//                    printWriter.println("Username: HelloWorld,Password: Hello1234");
+//                }
+//            }
+//        } catch (IOException e) {
+//            return;
+//        }
+//
+//        ArrayList<String> people = platform.readFile("/Users/christinexu/IdeaProjects/groupproject/src/output.txt");
+//        //System.out.println(people);
+//        for (String s : people) {
+//            usernames.add(s.substring(10, s.indexOf(",")));
+//        }
+//        System.out.println(usernames);
+//        Scanner scanner = new Scanner(System.in);
+//
+//        System.out.println("Hello!");
+//
+//        outer:
+//        do {
+//            System.out.println("Login or Create an Account"); // will eventually be a button when we're designing our GUI
+//            String choice = scanner.nextLine().toUpperCase();
+//            if (people.isEmpty()) {
+//                choice = "CREATE";
+//            }
+//            for (String s : people) {
+//                users.add(new User(s.substring(10, s.indexOf(",")), s.substring(s.indexOf(",") + 11)));
+//            }
+//            //System.out.println(users);
+//            String username = "";
+//            if (choice.contains("LOGIN")) {
+//                inner1:
+//                do {
+//                    System.out.println("Enter your username");
+//                    username = scanner.nextLine();
+//                    boolean checkUsername = platform.checkForUsername(username);
+//                    if (!checkUsername) {
+//                        System.out.println("That username does not exist. Return to homepage or try again?");
+//                        String loginChoice = scanner.nextLine().toUpperCase();
+//                        if (loginChoice.contains("RETURN")) {
+//                            continue outer;
+//                        } else if (loginChoice.contains("AGAIN")) {
+//                            continue inner1;
+//                        }
+//                    } else {
+//                        break;
+//                    }
+//                } while (true);
+//
+//                inner2:
+//                do {
+//                    System.out.println("Enter your password");
+//                    String password = scanner.nextLine();
+//                    boolean checkPassword = platform.checkForPassword(username, password);
+//                    if (checkPassword) {
+//                        System.out.println("Login successful.");
+//                        //System.out.println(String.format("Username: %s, Friends: %s", username, friends.size()));
+//                        break outer;
+//                    } else {
+//                        System.out.println("Wrong password. Return to homepage or try again?");
+//                        String loginChoice = scanner.nextLine().toUpperCase();
+//                        if (loginChoice.contains("RETURN")) {
+//                            continue outer;
+//                        } else if (loginChoice.contains("AGAIN")) {
+//                            continue inner2;
+//                        }
+//                    }
+//                } while (true);
+//
+//            } else if (choice.contains("CREATE")) {
+//                synchronized (lock) {
+//                    String usernameCreate = "";
+//                    inner3: do {
+//                        System.out.println("Enter a username");
+//                        usernameCreate = scanner.nextLine();
+//
+//                        if (platform.checkUsername(usernameCreate)) {
+//                            System.out.println("Username created.");
+//                        } else {
+//                            System.out.println("Username already exists.");
+//                            continue inner3;
+//                        }
+//
+//                        inner4: do {
+//                            synchronized (lock) {
+//                                System.out.println("Please enter a strong password (8 characters, an uppercase, a lowercase, digits)");
+//                                String password = scanner.nextLine();
+//                                if (platform.checkPassword(password)) {
+//                                    User newUser = new User(usernameCreate, password);
+//                                    platform.addUser(newUser);
+//                                    platform.writeDatabaseFile(usernameCreate, password, "output.txt");
+//                                    for (String u : usernames) {
+//                                        if (u.equals(usernameCreate)) {
+//                                            System.out.println("Username already exists.");
+//                                            break inner4;
+//                                        } else {
+//                                            usernames.add(usernameCreate);
+//                                            System.out.println(usernames);
+//                                            System.out.println("Account successfully created.");
+//                                            break outer;
+//                                        }
+//                                    }
+//
+//                                } else {
+//                                    // password criteria to be displayed with a JPanel
+//                                    System.out.println("Weak password. Try again.");
+//                                    continue inner4;
+//                                }
+//                            }
+//                        } while (true);
+//                    } while (true);
+//                }
+//                //continue outer;
+//            }
+//        } while (true) ;
+//
+//        System.out.println("Welcome!");
+//
+//    }
+    }
+//
+//    // Main method of this class
+//    // For testing, program/debug running, and GUI
+    public static void main(String[] args){
+            SocialMediaPlatform newPlatformThread = new SocialMediaPlatform();
+            platformUsers.add(newPlatformThread);
+            //System.out.println(platformUsers.size());
+            try {
+                for (int i = 0; i < platformUsers.size(); i++) {
+                    platformUsers.get(i).start();
                 }
-            } while (true);
-        } while (true);
-    }
-
-    // Main method of this class
-    // For testing, program/debug running, and GUI
-    public static void main(String[] args) {
-        SocialMediaPlatform platform = new SocialMediaPlatform();
-        platform.addUser(new User("Hello World", "beginning123"));
-
-        try {
-            for (SocialMediaPlatform newUserThread : platformUsers) {
-                newUserThread.join();
+                for (int i = 0; i < platformUsers.size(); i++) {
+                    platformUsers.get(i).join();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception ex) {
-            return;
         }
-    }
-
+////        SocialMediaPlatform platform = new SocialMediaPlatform();
+////        //platform.addUser(new User("Hello World", "beginning123"));
+////        //System.out.println(platform.checkUsername("Hello World"));
+////        for (SocialMediaPlatform newThread : platformUsers) {
+////            newThread = new SocialMediaPlatform();
+////            newThread.start();
+////        }
+////
+////        try {
+////            for (SocialMediaPlatform newUserThread : platformUsers) {
+////                newUserThread.join();
+////            }
+////        } catch (Exception ex) {
+////            return;
+////        }
+//    }
+//
 }
