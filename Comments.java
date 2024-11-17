@@ -54,4 +54,8 @@ public class Comments implements CommentsInterface {
         return this.comment;
     }
 
+    public String toString() {
+        return "Upvotes: " + upVotes + "Downvotes: " + downVotes + "Comment: " + comment;
+    }
+
 }
