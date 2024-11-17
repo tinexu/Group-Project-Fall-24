@@ -495,6 +495,38 @@ public class SocialMediaPlatform extends Thread implements SocialMediaPlatformIn
                         continue outer2;
                     }
                 } while (true);
+            } else if (response.equals("Delete Comment")) {
+                inside6:
+                do {
+                    boolean check = false;
+                    System.out.println("Which comment would you like to delete? (type in the index)");
+                    int response2 = scanner.nextInt();
+                    Post post = user.getPosts().get(0); // just an example, user trying to delete someone elses comment
+                    for (int i = 0; i < post.getCommentList().size(); i++) {
+                        if (response2 == i) {
+                            check = post.removeComment(post.getCommentList().get(i), user);
+                        }
+                        if (check) {
+                            System.out.println("The comment was successfully removed!");
+                            System.out.println("Would you like to delete another comment or go back to the home page? (Delete/Home)");
+                            String response3 = scanner.nextLine();
+                            if (response3.equals("Delete")) {
+                                continue inside6;
+                            } else {
+                                continue outer2;
+                            }
+                        } else {
+                            System.out.println("You were not able to remove this comment!");
+                            System.out.println("Would you like to delete another comment or go back to the home page? (Delete/Home)");
+                            String response4 = scanner.nextLine();
+                            if (response4.equals("Delete")) {
+                                continue inside6;
+                            } else {
+                                continue outer2;
+                            }
+                        }
+                    }
+                } while (true);
             } else {
                 System.out.println("Are you sure you would like to log out? (Yes/No)");
                 String response7 = scanner.nextLine();
