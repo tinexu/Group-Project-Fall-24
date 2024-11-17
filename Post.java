@@ -102,4 +102,19 @@ public class Post {
         return postFriends;
     }
 
+    public void justCommented(String comment, User commented) {
+        Comments comments = new Comments(comment, commented);
+        commentList.add(comments);
+    }
+
+    public String toString() {
+        String allComments = "";
+        for (int i = 0; i < commentList.size(); i++) {
+            allComments += commentList.get(i).toString() + " ";
+        }
+
+        String result = postText + " Likes: " + likes + " Dislikes: " + dislikes + " Comments: " + allComments;
+        return result;
+    }
+
 }
