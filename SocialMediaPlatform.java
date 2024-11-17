@@ -16,8 +16,8 @@ import java.lang.*;
 
 public class SocialMediaPlatform extends Thread {
     private static ArrayList<User> users; // list of all the users stored in the database
-    private static ArrayList<String> friends; // A String arrayList consisting of the lines in the friends file
-    private static ArrayList<String> posts; // A String arrayList consisting of the lines in the posts file
+    private static ArrayList<String> friends;
+    private static ArrayList<String> posts;
     private static ArrayList<SocialMediaPlatform> platformUsers; // list of each SocialMediaPlatform object (assists in Threading)
     private static ArrayList<Post> images; // list of all the images that have been posted (the ones that currently exist on the platform)
 
@@ -34,7 +34,6 @@ public class SocialMediaPlatform extends Thread {
         locks = new ArrayList<>();
     }
 
-    // This method reads the file given in the parameter and returns an ArrayList of the file where each index is a line in the file
     public synchronized ArrayList<String> readFile(String filename) {
         ArrayList<String> lines = new ArrayList<>();
         try (BufferedReader bfr = new BufferedReader(new FileReader(filename))) {
@@ -49,7 +48,6 @@ public class SocialMediaPlatform extends Thread {
         return lines;
     }
 
-    // This method writes the User's username and passsword (given in the parameter) to the output file (given in the parameter)
     public synchronized void writeDatabaseFile(String username, String password, String outputFile) {
         try (PrintWriter pw = new PrintWriter(new FileOutputStream(outputFile, true))) {
             pw.print("Username: " + username + ",");
@@ -59,7 +57,6 @@ public class SocialMediaPlatform extends Thread {
         }
     }
 
-    // This methods writes the User and the user's username (given in the parameter) into the output file (given in the parameter)
     public synchronized void writeDatabaseFriendsFile(User user, String otherUsername, String outputFile) {
         ArrayList<String> contents = new ArrayList<>();
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(outputFile))) {
@@ -102,7 +99,66 @@ public class SocialMediaPlatform extends Thread {
         }
     }
 
-    // This method returns an ArrayList of Strings consisting of the User's friend's usernames
+    public synchronized void writeDatabaseBlockedFile(User user, String otherUsername, String outputFile) {
+        ArrayList<String> contents = new ArrayList<>();
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(outputFile))) {
+            String line = bufferedReader.readLine();
+            while (line != null) {
+                contents.add(line);
+                line = bufferedReader.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ArrayList<String> blocked = getUsernamesOfBlocked(user.getUsername(), readFile(outputFile));
+        String usersBlocked = "Username: " + user.getUsername() + ",Blocked: ";
+        for (int f = 0; f < blocked.size(); f++) {
+            usersBlocked += blocked.get(f) + ",";
+        }
+
+        usersBlocked += otherUsername + ",";
+
+        boolean contains = false;
+        for (int i = 0; i < contents.size(); i++) {
+            if (contents.get(i).contains(user.getUsername())) {
+                contents.set(i, usersBlocked);
+                contains = true;
+                break;
+            }
+        }
+
+        if (!contains) {
+            contents.add(usersBlocked);
+        }
+
+        try (PrintWriter printWriter = new PrintWriter(new FileOutputStream(outputFile))) {
+            for (int i = 0; i < contents.size(); i++) {
+                printWriter.println(contents.get(i));
+            }
+        } catch (IOException e) {
+            return;
+        }
+    }
+
+    public ArrayList<String> getUsernamesOfBlocked(String username, ArrayList<String> blocked) {
+        ArrayList<String> listOfUsernames = new ArrayList<>();
+
+        for (int i = 0; i < blocked.size(); i++) {
+            if (blocked.get(i).contains(username)) {
+                int begIndex = blocked.get(i).indexOf(",") + 10;
+                int endIndex = blocked.get(i).indexOf(",", begIndex + 1);
+                while (endIndex != -1) {
+                    listOfUsernames.add(blocked.get(i).substring(begIndex, endIndex));
+
+                    begIndex = endIndex + 1;
+                    endIndex = blocked.get(i).indexOf(",", begIndex + 1);
+                }
+            }
+        }
+        return listOfUsernames;
+    }
+
     public ArrayList<String> getUsernamesOfFriends(String username, ArrayList<String> friends) {
         ArrayList<String> listOfUsernames = new ArrayList<>();
 
@@ -121,13 +177,78 @@ public class SocialMediaPlatform extends Thread {
         return listOfUsernames;
     }
 
-    // This method returns an ArrayList of Strings that consists of the User's (given in the parameter) posts
+    public void removeFriendUsername(String username, String friendUsername, ArrayList<String> friends, String outputFile) {
+        ArrayList<String> listOfUsernames = new ArrayList<>();
+
+        for (int i = 0; i < friends.size(); i++) {
+            if (friends.get(i).contains(username)) {
+                int begIndex = friends.get(i).indexOf(",") + 10;
+                int endIndex = friends.get(i).indexOf(",", begIndex + 1);
+                while (endIndex != -1) {
+                    listOfUsernames.add(friends.get(i).substring(begIndex, endIndex));
+
+                    begIndex = endIndex + 1;
+                    endIndex = friends.get(i).indexOf(",", begIndex + 1);
+                }
+            }
+        }
+
+        for (int i = 0; i < listOfUsernames.size(); i++) {
+            if (listOfUsernames.get(i).equals(friendUsername)) {
+                listOfUsernames.remove(i);
+                break;
+            }
+        }
+
+        ArrayList<String> updatedListOfUsernames = getUsernamesOfFriends(username, listOfUsernames);
+
+        ArrayList<String> contents = new ArrayList<>();
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(outputFile))) {
+            String line = bufferedReader.readLine();
+            while (line != null) {
+                contents.add(line);
+                line = bufferedReader.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ArrayList<String> friendss = updatedListOfUsernames;
+        String usersFriends = "Username: " + username + ",Friends: ";
+        for (int f = 0; f < friendss.size(); f++) {
+            usersFriends += friendss.get(f) + ",";
+        }
+
+        usersFriends += "" + ",";
+
+        boolean contains = false;
+        for (int i = 0; i < contents.size(); i++) {
+            if (contents.get(i).contains(username)) {
+                contents.set(i, usersFriends);
+                contains = true;
+                break;
+            }
+        }
+
+        if (!contains) {
+            contents.add(usersFriends);
+        }
+
+        try (PrintWriter printWriter = new PrintWriter(new FileOutputStream(outputFile))) {
+            for (int i = 0; i < contents.size(); i++) {
+                printWriter.println(contents.get(i));
+            }
+        } catch (IOException e) {
+            return;
+        }
+    }
+
     public ArrayList<String> getPostsOfUser(String username, ArrayList<String> posts) {
         ArrayList<String> listOfPosts = new ArrayList<>();
 
         for (int i = 0; i < posts.size(); i++) {
             if (posts.get(i).contains(username)) {
-                int begIndex = posts.get(i).indexOf(",") + 10;
+                int begIndex = posts.get(i).indexOf(",") + 8;
                 int endIndex = posts.get(i).indexOf(",", begIndex + 1);
                 while (endIndex != -1) {
                     listOfPosts.add(posts.get(i).substring(begIndex, endIndex));
@@ -140,8 +261,7 @@ public class SocialMediaPlatform extends Thread {
 
         return listOfPosts;
     }
-    
-    // A void method that writes the User's user and post (given in the parameter) to the output file (given in the parameter)
+
     public synchronized void writeDatabasePostFile(User user, Post post, String outputFile) {
         ArrayList<String> contents = new ArrayList<>();
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(outputFile))) {
@@ -160,11 +280,138 @@ public class SocialMediaPlatform extends Thread {
             usersPosts += posts.get(f) + ",";
         }
 
-        usersPosts += post + " ";
+        usersPosts += post + ",";
 
         boolean contains = false;
         for (int i = 0; i < contents.size(); i++) {
             if (contents.get(i).contains(user.getUsername())) {
+                contents.set(i, usersPosts);
+                contains = true;
+                break;
+            }
+        }
+
+        if (!contains) {
+            contents.add(usersPosts);
+        }
+
+        try (PrintWriter printWriter = new PrintWriter(new FileOutputStream(outputFile))) {
+            for (int i = 0; i < contents.size(); i++) {
+                printWriter.println(contents.get(i));
+            }
+        } catch (IOException e) {
+            return;
+        }
+    }
+
+    public ArrayList<String> getCommentsOfPost(String postText, ArrayList<String> comments) {
+        ArrayList<String> listOfCommentsOfPost = new ArrayList<>();
+
+        for (int i = 0; i < comments.size(); i++) {
+            if (comments.get(i).contains(postText)) {
+                int begIndex = comments.get(i).indexOf(":") + 2;
+                int endIndex = comments.get(i).indexOf(",", begIndex + 1);
+                while (endIndex != -1) {
+                    listOfCommentsOfPost.add(comments.get(i).substring(begIndex, endIndex));
+
+                    begIndex = endIndex + 1;
+                    endIndex = comments.get(i).indexOf(",", begIndex + 1);
+                }
+            }
+        }
+
+        return listOfCommentsOfPost;
+    }
+
+    public synchronized void writeDatabaseCommentsFile(String postText, String newComment, String outputFile) {
+        ArrayList<String> contents = new ArrayList<>();
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(outputFile))) {
+            String line = bufferedReader.readLine();
+            while (line != null) {
+                contents.add(line);
+                line = bufferedReader.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ArrayList<String> comments = getCommentsOfPost(postText, readFile(outputFile));
+        String usersPosts = postText + ",Comments: ";
+        for (int f = 0; f < comments.size(); f++) {
+            usersPosts += comments.get(f) + ",";
+        }
+
+        usersPosts += newComment + ",";
+
+        boolean contains = false;
+        for (int i = 0; i < contents.size(); i++) {
+            if (contents.get(i).contains(postText)) {
+                contents.set(i, usersPosts);
+                contains = true;
+                break;
+            }
+        }
+
+        if (!contains) {
+            contents.add(usersPosts);
+        }
+
+        try (PrintWriter printWriter = new PrintWriter(new FileOutputStream(outputFile))) {
+            for (int i = 0; i < contents.size(); i++) {
+                printWriter.println(contents.get(i));
+            }
+        } catch (IOException e) {
+            return;
+        }
+    }
+
+    public void removeCommentFromFile(String postText, String comment, ArrayList<String> comments, String outputFile) {
+        ArrayList<String> listOfCommentsOfPost = new ArrayList<>();
+
+        for (int i = 0; i < comments.size(); i++) {
+            if (comments.get(i).contains(postText)) {
+                int begIndex = comments.get(i).indexOf(":") + 2;
+                int endIndex = comments.get(i).indexOf(",", begIndex + 1);
+                while (endIndex != -1) {
+                    listOfCommentsOfPost.add(comments.get(i).substring(begIndex, endIndex));
+
+                    begIndex = endIndex + 1;
+                    endIndex = comments.get(i).indexOf(",", begIndex + 1);
+                }
+            }
+        }
+
+        for (int i = 0; i < listOfCommentsOfPost.size(); i++) {
+            if (listOfCommentsOfPost.get(i).equals(comment)) {
+                listOfCommentsOfPost.remove(i);
+                break;
+            }
+        }
+
+        ArrayList<String> updatedListOfComments = getCommentsOfPost(postText, listOfCommentsOfPost);
+
+        ArrayList<String> contents = new ArrayList<>();
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(outputFile))) {
+            String line = bufferedReader.readLine();
+            while (line != null) {
+                contents.add(line);
+                line = bufferedReader.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ArrayList<String> commentss = listOfCommentsOfPost;
+        String usersPosts = postText + " Comments: ";
+        for (int f = 0; f < commentss.size(); f++) {
+            usersPosts += commentss.get(f) + ",";
+        }
+
+        usersPosts += "" + ",";
+
+        boolean contains = false;
+        for (int i = 0; i < contents.size(); i++) {
+            if (contents.get(i).contains(postText)) {
                 contents.set(i, usersPosts);
                 contains = true;
                 break;
@@ -212,14 +459,10 @@ public class SocialMediaPlatform extends Thread {
         return users;
     }
 
-    // Accessor method for the list of friends
-    // Returns ArrayList<String> of all the friends stored in the database
     public ArrayList<String> getFriends() {
         return friends;
     }
 
-    // Accessor method for the list of posts
-    // Returns ArrayList<String> of all the posts stored in the database
     public ArrayList<String> getPosts() {
         return posts;
     }
@@ -312,7 +555,7 @@ public class SocialMediaPlatform extends Thread {
     // Method that allows a User to view another user through searching
     // Returns User
     public User viewUser(String username) {
-        ArrayList<String> people = readFile("/Users/christinexu/IdeaProjects/groupproject/src/output.txt");
+        ArrayList<String> people = readFile("/Users/christinexu/IdeaProjects/groupproject/output.txt");
         for (String s : people) {
             users.add(new User(s.substring(10, s.indexOf(",")), s.substring(s.indexOf(",") + 11)));
         }
