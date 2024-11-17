@@ -14,4 +14,5 @@ public interface CommentsInterface {
   int getDownVotes(); // returns the variable associated with the downvote count
   User getCommented(); // returns the User that commented the comment
   String getComment(); // returns the comment
+  String toString(); // returns number of upVotes, downVotes, and comments in String format
 }
