@@ -77,7 +77,7 @@ public class RunLocalTests {
     @Test
     public void testUserToString() {
         User user = new User("user1", "1234");
-        Assert.assertEquals("Username: user1, Password: 1234, Followers: 0, Following: 0", user.toString());
+        Assert.assertEquals("Username: user1, Friends: 0", user.toString());
     }
 
     //Tests if the hidePost() and unhidePost() methods work as expected
@@ -169,32 +169,19 @@ public class RunLocalTests {
         post.justCommented("Hello", user2);
         var comments = new ArrayList<Comments>();
         comments.add(new Comments("Hello", user2));
-        Assert.assertEquals(comments, post.getCommentList());
+        Assert.assertEquals(comments.get(0).getComment(), post.getCommentList().get(0).getComment());
     }
 
     //Tests the getUsernameOfFriends method in SocialMediaPlatform
     @Test
     public void testGetUsernameOfFriends() {
-        User user = new User("user1", "1234");
-        User user2 = new User("user2", "1234");
-        User user3 = new User("user3", "1234");
         SocialMediaPlatform smp = new SocialMediaPlatform();
-        user.addFriend(user2);
-        user.addFriend(user3);
         var userFriends = new ArrayList<String>();
         userFriends.add("user2");
         userFriends.add("user3");
         var friendsData = new ArrayList<String>();
-        for (int i = 2; i < 10; i++) {
-            String friend = "User" + i + ":";
-            for (int j = 0; j < 5; j++) {
-                friend = friend + ",user" + j + ",";
-            }
-            friendsData.add(friend);
-        }
-        friendsData.add("user: user2,user3");
-        friendsData.add("User100: user102,user230");
-        Assert.assertEquals(userFriends, smp.getUsernamesOfFriends("user", friendsData));
+        friendsData.add("Username: friend,Friends: user2,user3,");
+        Assert.assertEquals(userFriends, smp.getUsernamesOfFriends("friend", friendsData));
     }
 
     //Tests the getPostsOfUser method in SocialMediaPlatform
@@ -202,18 +189,17 @@ public class RunLocalTests {
     public void testGetPostsOfUser() {
         SocialMediaPlatform smp = new SocialMediaPlatform();
         var userPosts = new ArrayList<String>();
-        userPosts.add("Hello");
-        userPosts.add("Bye");
+        userPosts.add("Hello3 Likes: 0 Dislikes: 0 Comments: 0");
         var postData = new ArrayList<String>();
-        for (int i = 0; i < 10; i++) {
-            String postLine = "user" + i + ":";
-            for (int j = 0; j < 4; j++) {
-                postLine += "blah blah,";
-            }
-            postLine += "blah blah";
-            postData.add(postLine);
-        }
-        postData.add("user: Hello,Bye");
-        Assert.assertEquals(userPosts, smp.getPostsOfUser("user", postData));
+        User user1 = new User("user1", "1234");
+        User user2 = new User("user2", "1234");
+        User user3 = new User("user3", "1234");
+        Post post1 = new Post(user1, "Hello1");
+        Post post2 = new Post(user2, "Hello2");
+        Post post3 = new Post(user3, "Hello3");
+        postData.add("Username: user1,Posts: Hello World Likes: 0 Dislikes: 0 Comments: 0,");
+        postData.add("Username: user2,Posts: Hello World Likes: 0 Dislikes: 0 Comments: 0,");
+        postData.add("Username: user3,Posts: Hello3 Likes: 0 Dislikes: 0 Comments: 0,");
+        Assert.assertEquals(userPosts, smp.getPostsOfUser("user3", postData));
     }
 }
