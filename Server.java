@@ -22,12 +22,14 @@ public class Server extends Thread {
         this.socket = socket;
     }
 
+    // A method to just write the input and flush the writer automatically
     public static void defaultCommandsForWriter(PrintWriter w, String input) {
         w.write(input);
         w.println();
         w.flush();
     }
 
+    // The run method for the server's threading functionality
     public void run() {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
             PrintWriter writer = new PrintWriter(socket.getOutputStream());
@@ -1029,6 +1031,7 @@ public class Server extends Thread {
         }
     }
 
+    // main method for our server
     public static void main(String[] args) throws IOException {
         int port = 123;
 
