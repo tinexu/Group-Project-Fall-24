@@ -14,5 +14,7 @@ public interface CommentsInterface {
   int getDownVotes(); // returns the variable associated with the downvote count
   User getCommented(); // returns the User that commented the comment
   String getComment(); // returns the comment
+  void setUpVotes(int upVotes); // A mutator method that sets the upVotes to the amount passed in the parameter
+  void setDownVotes(int downVotes) // A mutator method that sets the downVotes to the amount passed in the parameter
   String toString(); // returns number of upVotes, downVotes, and comments in String format
 }
