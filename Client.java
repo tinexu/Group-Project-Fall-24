@@ -13,12 +13,14 @@ import java.util.*;
  *
  */
 public class Client {
+    // default commands for the writer to decrease duplications
     public static void defaultCommandsForWriter(PrintWriter w, String input) {
         w.write(input);
         w.println();
         w.flush();
     }
 
+    // main method for our client class
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
 
