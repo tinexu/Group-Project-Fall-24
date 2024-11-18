@@ -43,6 +43,10 @@ public interface PostInterface {
     void justCommented(String comment, User commented);       // A void method creating a comment object using the String comment 
     // and the user who commented it, it then adds the object to the comment list
 
+    void setLikes (int likes); // A mutator method that sets the likes to the amount passed in the parameter
+
+    void setDislikes(int dislikes) // A mutator method that sets the dislikes to the amount passed in the parameter
+
     String toString(); // A toString method that returns the number of likes and dislikes, the String comments, and the text of the post
 
 }
