@@ -111,6 +111,14 @@ public class Post {
         commentList.add(comments);
     }
 
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+
+    public void setDislikes(int dislikes) {
+        this.dislikes = dislikes;
+    }
+
     // A toString method that returns the number of likes and dislikes, the String comments, and the text of the post
     public String toString() {
         String allComments = "";
