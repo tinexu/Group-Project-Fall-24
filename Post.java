@@ -113,10 +113,12 @@ public class Post {
         commentList.add(comments);
     }
 
+    // A mutator method that sets the likes to the amount passed in the parameter
     public void setLikes(int likes) {
         this.likes = likes;
     }
 
+    // A mutator method that sets the dislikes to the amount passed in the parameter
     public void setDislikes(int dislikes) {
         this.dislikes = dislikes;
     }
