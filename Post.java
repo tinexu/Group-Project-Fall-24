@@ -17,17 +17,19 @@ public class Post {
     private User posted; // An object User that holds the User who made the post
     private ArrayList<User> postFriends; // A list of Users that a User wants to hide from their feed
     private ArrayList<Comments> commentList; // A list of Comment objects holding the comments on the post
+    private String postText; // The String that contains the "caption" of the Post
     private String imagePath; // to be more implemented with forward phases; the String of the image's path
 
     // The Post class constructor assigns the User given in the parameter to the instance variable
     // It sets all the other values to our platform default settings
-    public Post(User posted) {
+    public Post(User posted, String postText) {
         this.likes = 0;
         this.dislikes = 0;
         this.comments = 0;
         this.posted = posted;
         this.canComment = true;
         this.postFriends = posted.getFriends();
+        this.postText = postText;
         this.commentList = new ArrayList<>();
     }
 
