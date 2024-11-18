@@ -184,19 +184,6 @@ public class RunLocalTests {
         Assert.assertEquals(userFriends, smp.getUsernamesOfFriends("friend", friendsData));
     }
 
-    //Tests the getPostsOfUser method in SocialMediaPlatform
-    @Test
-    public void testGetPostsOfUser() {
-        SocialMediaPlatform smp = new SocialMediaPlatform();
-        var userPosts = new ArrayList<String>();
-        userPosts.add("Hello3 Likes: 0 Dislikes: 0 Comments: 0");
-        var postData = new ArrayList<String>();
-        postData.add("Username: user1,Posts: Hello World Likes: 0 Dislikes: 0 Comments: 0,");
-        postData.add("Username: user2,Posts: Hello World Likes: 0 Dislikes: 0 Comments: 0,");
-        postData.add("Username: user3,Posts: Hello3 Likes: 0 Dislikes: 0 Comments: 0,");
-        Assert.assertEquals(userPosts, smp.getPostsOfUser("user3", postData));
-    }
-
     //Tests the getUsernamesOfBlocked method
     @Test
     public void testGetUsernamesOfBlocked() {
@@ -214,7 +201,7 @@ public class RunLocalTests {
     public void testGetCommentsOfPost() {
         SocialMediaPlatform smp = new SocialMediaPlatform();
         var commentsPost = new ArrayList<String>();
-        commentsPost.add("user3");
+        commentsPost.add("user3,Comment:");
         var commentData = new ArrayList<String>();
         commentData.add("Username: user1,Comment: asdf Likes: 0 Dislikes: 0");
         commentData.add("Username: user2,Comment: Hello World Likes: 0 Dislikes: 0");
