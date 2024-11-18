@@ -54,10 +54,12 @@ public class Comments implements CommentsInterface {
         return this.comment;
     }
 
+    // A mutator method that sets the upVotes to the amount passed in the parameter
     public void setUpVotes(int upVotes) {
         this.upVotes = upVotes;
     }
-    
+
+    // A mutator method that sets the downVotes to the amount passed in the parameter
     public void setDownVotes(int downVotes) {
         this.downVotes = downVotes;
     }
