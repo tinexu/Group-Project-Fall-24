@@ -3,13 +3,13 @@ import java.net.*;
 import java.util.*;
 
 /**
- * Group Project -- VisualPlatform
+ * Group Project -- Client
  *
- * This class is currently a separate class for the initial design of our GUI
+ * This class runs the client aspect of our platform
  *
  * @author L30-Team 1, CS180
  *
- * @version Nov 2, 2024
+ * @version Nov 17, 2024
  *
  */
 public class Client {
@@ -166,7 +166,7 @@ public class Client {
                         } else {
                             String userFound = reader.readLine();
                             System.out.println(userFound);
-                            break;
+                            continue outer2;
                         }
                     } while (true);
                 case 2:
@@ -426,7 +426,33 @@ public class Client {
                     inner6: do {
                         String randomPostPath = reader.readLine();
                         System.out.println(randomPostPath);
-                        continue outer2;
+
+                        String interactWPost = reader.readLine();
+                        System.out.println(interactWPost);
+                        String interactWPostChoice = scanner.nextLine();
+                        defaultCommandsForWriter(writer, interactWPostChoice);
+
+                        String likeOrDislikeBool = reader.readLine();
+                        //boolean likeOrDislikeBoolBool = Boolean.parseBoolean(likeOrDislikeBool);
+                        if (likeOrDislikeBool.equals("like")) {
+                            String likePost = reader.readLine();
+                            System.out.println(likePost);
+                            continue outer2;
+                        } else if (likeOrDislikeBool.equals("dislike")) {
+                            String dislikePost = reader.readLine();
+                            System.out.println(dislikePost);
+                            continue outer2;
+                        } else if (likeOrDislikeBool.equals("add")) {
+                            String commentToAddMessage = reader.readLine();
+                            System.out.println(commentToAddMessage);
+                            String commentToAddChoice = scanner.nextLine();
+                            defaultCommandsForWriter(writer, commentToAddChoice);
+
+                            String addComment = reader.readLine();
+                            System.out.println(addComment);
+                            continue outer2;
+                        }
+
                     } while (true);
                 case 7:
                     inner7: do {
@@ -449,12 +475,14 @@ public class Client {
                             continue outer2;
                         } else {
                             String commentLineSize = reader.readLine();
+                            //System.out.println(commentLineSize);
                             int commentLineSizeInt = Integer.parseInt(commentLineSize);
+
                             String commentLine = "";
                             int j = 1;
                             while (j <= commentLineSizeInt) {
-                                line = reader.readLine();
-                                System.out.println(line);
+                                commentLine = reader.readLine();
+                                System.out.println(commentLine);
                                 j++;
                             }
 
@@ -463,10 +491,12 @@ public class Client {
                             String commentToDeleteChoice = scanner.nextLine();
                             defaultCommandsForWriter(writer, commentToDeleteChoice);
 
+                            String successMessage = reader.readLine();
+                            System.out.println(successMessage);
 
+                            continue outer2;
 
                         }
-                        continue outer2;
                     } while (true);
                 case 8:
                     String logoutPromptMessage = reader.readLine();
