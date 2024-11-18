@@ -191,15 +191,51 @@ public class RunLocalTests {
         var userPosts = new ArrayList<String>();
         userPosts.add("Hello3 Likes: 0 Dislikes: 0 Comments: 0");
         var postData = new ArrayList<String>();
-        User user1 = new User("user1", "1234");
-        User user2 = new User("user2", "1234");
-        User user3 = new User("user3", "1234");
-        Post post1 = new Post(user1, "Hello1");
-        Post post2 = new Post(user2, "Hello2");
-        Post post3 = new Post(user3, "Hello3");
         postData.add("Username: user1,Posts: Hello World Likes: 0 Dislikes: 0 Comments: 0,");
         postData.add("Username: user2,Posts: Hello World Likes: 0 Dislikes: 0 Comments: 0,");
         postData.add("Username: user3,Posts: Hello3 Likes: 0 Dislikes: 0 Comments: 0,");
         Assert.assertEquals(userPosts, smp.getPostsOfUser("user3", postData));
+    }
+
+    //Tests the getUsernamesOfBlocked method
+    @Test
+    public void testGetUsernamesOfBlocked() {
+        SocialMediaPlatform smp = new SocialMediaPlatform();
+        var userBlocked = new ArrayList<String>();
+        userBlocked.add("user2");
+        userBlocked.add("user3");
+        var blockedData = new ArrayList<String>();
+        blockedData.add("Username: friend,Blocked: user2,user3,");
+        Assert.assertEquals(userBlocked, smp.getUsernamesOfFriends("friend", blockedData));
+    }
+
+    //Tests the getCommentsOfPost method
+    @Test
+    public void testGetCommentsOfPost() {
+        SocialMediaPlatform smp = new SocialMediaPlatform();
+        var commentsPost = new ArrayList<String>();
+        commentsPost.add("user3");
+        var commentData = new ArrayList<String>();
+        commentData.add("Username: user1,Comment: asdf Likes: 0 Dislikes: 0");
+        commentData.add("Username: user2,Comment: Hello World Likes: 0 Dislikes: 0");
+        commentData.add("Username: user3,Comment: Hello3 Likes: 0 Dislikes: 0");
+        Assert.assertEquals(commentsPost, smp.getCommentsOfPost("Hello3", commentData));
+    }
+
+    //Tests the checkPassword method
+    @Test
+    public void testCheckPassword() {
+        SocialMediaPlatform smp = new SocialMediaPlatform();
+        Assert.assertFalse(smp.checkPassword("1234"));
+        Assert.assertTrue(smp.checkPassword("123456789"));
+    }
+
+    //Tests the editUsername method
+    @Test
+    public void testEditUsername() {
+        SocialMediaPlatform smp = new SocialMediaPlatform();
+        User user = new User("user1", "1234");
+        smp.editUsername(user);
+        Assert.assertEquals("@user1", user.getUsername());
     }
 }
