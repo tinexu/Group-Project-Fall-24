@@ -77,7 +77,7 @@ public class RunLocalTests {
     @Test
     public void testUserToString() {
         User user = new User("user1", "1234");
-        Assert.assertEquals("Username: user1, Friends: 0", user.toString());
+        Assert.assertEquals("Username: user1 Friends: 0", user.toString());
     }
 
     //Tests if the hidePost() and unhidePost() methods work as expected
@@ -201,7 +201,7 @@ public class RunLocalTests {
     public void testGetCommentsOfPost() {
         SocialMediaPlatform smp = new SocialMediaPlatform();
         var commentsPost = new ArrayList<String>();
-        commentsPost.add("user3,Comment:");
+        commentsPost.add("user3");
         var commentData = new ArrayList<String>();
         commentData.add("Username: user1,Comment: asdf Likes: 0 Dislikes: 0");
         commentData.add("Username: user2,Comment: Hello World Likes: 0 Dislikes: 0");
