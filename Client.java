@@ -477,7 +477,6 @@ public class Client {
                             continue outer2;
                         } else {
                             String commentLineSize = reader.readLine();
-                            //System.out.println(commentLineSize);
                             int commentLineSizeInt = Integer.parseInt(commentLineSize);
 
                             String commentLine = "";
