@@ -16,8 +16,9 @@ import java.util.Random;
  *
  */
 public class Server extends Thread {
-    private final Socket socket;
+    private final Socket socket; // instance variable Socket socket
 
+    // constructor for the Server class that initializes the inputted socket to the instance variable
     public Server(Socket socket) {
         this.socket = socket;
     }
@@ -155,8 +156,6 @@ public class Server extends Thread {
             ArrayList<String> posts = smp.readFile("/Users/christinexu/IdeaProjects/groupproject/posts.txt");
             ArrayList<String> comments = smp.readFile("/Users/christinexu/IdeaProjects/groupproject/comments.txt");
 
-            System.out.println(comments);
-
             ArrayList<User> users = smp.getUsers();
             ArrayList<String> friendsList = smp.getFriends();
             ArrayList<String> postsList = smp.getPosts();
@@ -164,11 +163,10 @@ public class Server extends Thread {
             for (String s : friends) {
                 friendsList.add(s);
             }
-            System.out.println(friendsList);
+
             for (String s : posts) {
                 postsList.add(s);
             }
-            System.out.println(postsList);
 
             User user;
             String username1;
@@ -459,7 +457,33 @@ public class Server extends Thread {
                             }
                             defaultCommandsForWriter(writer, checkFriend);
 
+                            ArrayList<String> usersBlocked = smp.getUsernamesOfBlocked(user.getUsername(), blocked);
+                            ArrayList<String> userFoundsBlocked = smp.getUsernamesOfBlocked(userFound.getUsername(), blocked);
+
                             String checkBlocked = "true";
+                            for (int j = 0; j < usersBlocked.size(); j++) {
+                                if (usersBlocked.get(j).equals(userFound.getUsername())) {
+                                    System.out.println("she blocked bro");
+                                    checkBlocked = "false";
+                                    defaultCommandsForWriter(writer, checkBlocked);
+                                    checkFriendBool = true;
+                                    String alreadyBlocked = "You have blocked this user! They cannot be your friend. Would you like to add someone else or return to the home page? (Add/Home)";
+                                    defaultCommandsForWriter(writer, alreadyBlocked);
+
+                                    String alreadyBlockedChoice = reader.readLine();
+                                    String alreadyBlockedBool = "";
+                                    if (alreadyBlockedChoice.equals("Add")) {
+                                        alreadyBlockedBool = "true";
+                                        defaultCommandsForWriter(writer, alreadyBlockedBool);
+                                        continue switchInner3;
+                                    } else {
+                                        alreadyBlockedBool = "false";
+                                        defaultCommandsForWriter(writer, alreadyBlockedBool);
+                                        continue outer2;
+                                    }
+                                }
+                            }
+
                             for (int j = 0; j < user.getBlocked().size(); j++) {
                                 if (user.getBlocked().get(j).equals(userFound)) {
                                     System.out.println("she blocked bro");
@@ -486,8 +510,31 @@ public class Server extends Thread {
 
 
                             String checkOtherBlocked = "true";
+                            for (int k = 0; k < userFoundsBlocked.size(); k++) {
+                                if (userFoundsBlocked.get(k).equals(user.getUsername())) {
+                                    System.out.println("she blocked u loser");
+                                    checkOtherBlocked = "false";
+                                    defaultCommandsForWriter(writer, checkOtherBlocked);
+                                    checkFriendBool = true;
+                                    String otherAlreadyBlocked = "This user has blocked you! They cannot be your friend. Would you like to add someone else or return to the home page? (Add/Home)";
+                                    defaultCommandsForWriter(writer, otherAlreadyBlocked);
+
+                                    String otherAlreadyBlockedChoice = reader.readLine();
+                                    String otherAlreadyBlockedBool = "";
+                                    if (otherAlreadyBlockedChoice.equals("Add")) {
+                                        otherAlreadyBlockedBool = "true";
+                                        defaultCommandsForWriter(writer, otherAlreadyBlockedBool);
+                                        continue switchInner3;
+                                    } else {
+                                        otherAlreadyBlockedBool = "false";
+                                        defaultCommandsForWriter(writer, otherAlreadyBlockedBool);
+                                        continue outer2;
+                                    }
+                                }
+                            }
+
                             for (int k = 0; k < userFound.getBlocked().size(); k++) {
-                                if (user.getBlocked().get(k).equals(user)) {
+                                if (userFound.getBlocked().get(k).equals(userFound.getUsername())) {
                                     System.out.println("she blocked u loser");
                                     checkOtherBlocked = "false";
                                     defaultCommandsForWriter(writer, checkOtherBlocked);
@@ -539,7 +586,6 @@ public class Server extends Thread {
                     case 4:
                         switchInner4:
                         do {
-                            listOfFriendUsernames = smp.getUsernamesOfFriends(user.getUsername(), friends);
                             String removePrompt = "Type in the username of the friend you would like to remove.";
                             defaultCommandsForWriter(writer, removePrompt);
 
@@ -569,6 +615,8 @@ public class Server extends Thread {
                             defaultCommandsForWriter(writer, foundBool);
 
                             String canBlockBool = "true";
+                            listOfFriendUsernames = smp.getUsernamesOfFriends(user.getUsername(), friends);
+                            System.out.println(listOfFriendUsernames);
                             for (int i = 0; i < listOfFriendUsernames.size(); i++) {
                                 if (listOfFriendUsernames.get(i).equals(userFound.getUsername())) {
                                     canBlockBool = "false";
@@ -816,7 +864,7 @@ public class Server extends Thread {
                             Random random = new Random();
                             int randomInt = random.nextInt(0, posts.size());
                             String postPath = posts.get(randomInt);
-                            String newPostPath = postPath.substring(0, postPath.indexOf(",", postPath.indexOf("Posts")));
+                            String newPostPath = postPath.substring(0, postPath.indexOf(" ", postPath.indexOf("Posts") + 7));
                             defaultCommandsForWriter(writer, newPostPath);
 
                             String interactWithPostPrompt = "Do you want to like or dislike this post, or add a comment? (Like/Dislike/Add)";
@@ -825,25 +873,29 @@ public class Server extends Thread {
                             String interactWithPostChoice = reader.readLine();
                             String likeOrDislikeBool = "";
                             if (interactWithPostChoice.equals("Like")) {
-                                //System.out.println(people);
                                 likeOrDislikeBool = "like";
                                 defaultCommandsForWriter(writer, likeOrDislikeBool);
 
                                 String userPosted = newPostPath.substring(newPostPath.indexOf(":") + 2, newPostPath.indexOf(","));
                                 User userPostedObj = smp.viewUser(userPosted);
 
-                                int indexPostColon = newPostPath.indexOf(":", newPostPath.indexOf("Posts")) + 2;
-                                int indexSpace = newPostPath.indexOf(" ", indexPostColon);
+                                int indexPostColon = postPath.indexOf(":", newPostPath.indexOf("Posts")) + 2;
+                                int indexSpace = postPath.indexOf(" ", indexPostColon);
 
                                 String postText = newPostPath.substring(indexPostColon, indexSpace);
 
-                                int indexLikesWord = newPostPath.indexOf(":", newPostPath.indexOf("Likes")) + 2;
-                                int spaceAfterLikes = newPostPath.indexOf(" ", indexLikesWord);
+                                int indexLikesWord = postPath.indexOf(":", postPath.indexOf("Likes")) + 2;
+                                int spaceAfterLikes = postPath.indexOf(" ", indexLikesWord);
 
-                                int currentLikes = Integer.parseInt(newPostPath.substring(indexLikesWord, spaceAfterLikes));
+                                int indexDislikesWord = postPath.indexOf(":", postPath.indexOf("Dislikes")) + 2;
+                                int spaceAfterDislikes = postPath.indexOf(" ", indexDislikesWord);
+
+                                int currentLikes = Integer.parseInt(postPath.substring(indexLikesWord, spaceAfterLikes));
+                                int currentDislikes = Integer.parseInt(postPath.substring(indexDislikesWord, spaceAfterDislikes));
 
                                 Post displayedPost = new Post(userPostedObj, postText);
                                 displayedPost.setLikes(currentLikes);
+                                displayedPost.setDislikes(currentDislikes);
                                 displayedPost.likePost();
 
                                 smp.writeDatabasePostFile(userPostedObj, displayedPost, true, "posts.txt");
@@ -860,17 +912,22 @@ public class Server extends Thread {
                                 String userPosted = newPostPath.substring(newPostPath.indexOf(":") + 2, newPostPath.indexOf(","));
                                 User userPostedObj = smp.viewUser(userPosted);
 
-                                int indexPostColon = newPostPath.indexOf(":", newPostPath.indexOf("Posts")) + 2;
-                                int indexSpace = newPostPath.indexOf(" ", indexPostColon);
+                                int indexPostColon = postPath.indexOf(":", newPostPath.indexOf("Posts")) + 2;
+                                int indexSpace = postPath.indexOf(" ", indexPostColon);
 
                                 String postText = newPostPath.substring(indexPostColon, indexSpace);
 
-                                int indexDislikesWord = newPostPath.indexOf(":", newPostPath.indexOf("Likes")) + 2;
-                                int spaceAfterDislikes = newPostPath.indexOf(" ", indexDislikesWord);
+                                int indexLikesWord = postPath.indexOf(":", postPath.indexOf("Likes")) + 2;
+                                int spaceAfterLikes = postPath.indexOf(" ", indexLikesWord);
 
-                                int currentDislikes = Integer.parseInt(newPostPath.substring(indexDislikesWord, spaceAfterDislikes));
+                                int indexDislikesWord = postPath.indexOf(":", postPath.indexOf("Dislikes")) + 2;
+                                int spaceAfterDislikes = postPath.indexOf(" ", indexDislikesWord);
+
+                                int currentLikes = Integer.parseInt(postPath.substring(indexLikesWord, spaceAfterLikes));
+                                int currentDislikes = Integer.parseInt(postPath.substring(indexDislikesWord, spaceAfterDislikes));
 
                                 Post displayedPost = new Post(userPostedObj, postText);
+                                displayedPost.setLikes(currentLikes);
                                 displayedPost.setDislikes(currentDislikes);
                                 displayedPost.dislikePost();
 
@@ -891,12 +948,13 @@ public class Server extends Thread {
                                 String userPosted = newPostPath.substring(newPostPath.indexOf(":") + 2, newPostPath.indexOf(","));
                                 User userPostedObj = smp.viewUser(userPosted);
 
-                                //System.out.println(commentPath);
+                                System.out.println(commentPath);
 
-                                int indexPostColon = commentPath.indexOf("Comments:") + 2;
+                                int indexPostColon = commentPath.indexOf("Comments:") + 10;
                                 int indexSpace = commentPath.indexOf(" ", indexPostColon);
 
-                                String postText = newPostPath.substring(indexPostColon, indexSpace);
+                                //String postText = commentPath.substring(indexPostColon, indexSpace);
+                                String postText = commentPath.substring(0, commentPath.indexOf(","));
 
                                 System.out.println(postText);
 
@@ -951,7 +1009,7 @@ public class Server extends Thread {
                                 defaultCommandsForWriter(writer, commentChoiceBool);
                                 continue outer2;
                             } else {
-                                System.out.println(listOfPosts);
+                                //System.out.println(listOfPosts);
                                 commentChoiceBool = "true";
                                 defaultCommandsForWriter(writer, commentChoiceBool);
                                 ArrayList<String> postComments = new ArrayList<>();
@@ -960,29 +1018,31 @@ public class Server extends Thread {
                                     //if (listOfPosts.get(i).contains(user.getUsername())) {
                                     String userPost = listOfPosts.get(i);
                                     text = userPost.substring(0, userPost.indexOf(" "));
-                                    System.out.println(text);
+                                    //System.out.println(text);
                                     for (int j = 0; j < comments.size(); j++) {
                                         postComments = smp.getCommentsOfPost(text, comments);
-                                        System.out.println(postComments);
+                                        //System.out.println(postComments);
                                     }
                                     break;
                                     //}
                                 }
                                 String postCommentsString = String.join(",", postComments);
                                 String[] arrOfComments = postCommentsString.split(",");
+                                //System.out.println(postCommentsString);
 
                                 String postCommentsSize = arrOfComments.length + "";
                                 defaultCommandsForWriter(writer, postCommentsSize);
+                                //System.out.println(postCommentsSize);
 
                                 for (String c : arrOfComments) {
                                     defaultCommandsForWriter(writer, c);
                                 }
 
-                                for (int i = 0; i < arrOfComments.length; i++) {
-                                    if (!arrOfComments[i].contains("^[a-zA-Z0-9]+$")) {
-                                        continue outer2;
-                                    }
-                                }
+//                                for (int i = 0; i < arrOfComments.length; i++) {
+//                                    if (!arrOfComments[i].contains("^[a-zA-Z0-9]+$")) {
+//                                        continue outer2;
+//                                    }
+//                                }
 
                                 String commentChoicePrompt = "Which comment do you want to delete? Enter the valid index that it's at.";
                                 defaultCommandsForWriter(writer, commentChoicePrompt);
