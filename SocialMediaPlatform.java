@@ -164,6 +164,7 @@ public class SocialMediaPlatform extends Thread {
         return listOfUsernames;
     }
 
+    // gets usernames of friends of the specified user
     public ArrayList<String> getUsernamesOfFriends(String username, ArrayList<String> friends) {
         ArrayList<String> listOfUsernames = new ArrayList<>();
 
@@ -182,7 +183,7 @@ public class SocialMediaPlatform extends Thread {
         return listOfUsernames;
     }
 
-    // a void method that removes the username of the file from the friends file and removes the user's name from the friends file
+    // a void method that removes the username of the file from the friends file and removes the user's name from the friends
     public void removeFriendUsername(String username, String friendUsername, ArrayList<String> friends, String outputFile) {
         ArrayList<String> listOfUsernames = new ArrayList<>();
 
@@ -192,6 +193,10 @@ public class SocialMediaPlatform extends Thread {
                 int endIndex = friends.get(i).indexOf(",", begIndex + 1);
                 while (endIndex != -1) {
                     listOfUsernames.add(friends.get(i).substring(begIndex, endIndex));
+                    if (friends.get(i).substring(begIndex, endIndex).equals(friendUsername)) {
+                        String replacement = friends.get(i).replace(friends.get(i).substring(begIndex, endIndex), "");
+                        friends.set(i, replacement);
+                    }
 
                     begIndex = endIndex + 1;
                     endIndex = friends.get(i).indexOf(",", begIndex + 1);
@@ -219,10 +224,9 @@ public class SocialMediaPlatform extends Thread {
             e.printStackTrace();
         }
 
-        ArrayList<String> friendss = updatedListOfUsernames;
         String usersFriends = "Username: " + username + ",Friends: ";
-        for (int f = 0; f < friendss.size(); f++) {
-            usersFriends += friendss.get(f) + ",";
+        for (int f = 0; f < listOfUsernames.size(); f++) {
+            usersFriends += listOfUsernames.get(f) + "";
         }
 
         usersFriends += "" + ",";
@@ -252,17 +256,26 @@ public class SocialMediaPlatform extends Thread {
     // A method that returns an ArrayList of Strings that consist of the user's username and their posts
     public ArrayList<String> getPostsOfUser(String username, ArrayList<String> posts) {
         ArrayList<String> listOfPosts = new ArrayList<>();
+        //System.out.println(posts);
 
         for (int i = 0; i < posts.size(); i++) {
             if (posts.get(i).contains(username)) {
-                int begIndex = posts.get(i).indexOf(",") + 8;
-                int endIndex = posts.get(i).indexOf("Likes", begIndex + 1) - 1;
+                int begIndex = posts.get(i).indexOf(":", posts.get(i).indexOf("Posts")) + 2;
+                int endIndex = posts.get(i).indexOf(",", begIndex + 1);
                 while (endIndex != -1) {
                     listOfPosts.add(posts.get(i).substring(begIndex, endIndex));
 
                     begIndex = endIndex + 1;
                     endIndex = posts.get(i).indexOf(",", begIndex + 1);
                 }
+            }
+        }
+
+        String formatSpecifier = "Likes:\\s*\\d+\\s*Dislikes:\\s*\\d+";
+
+        for (int i = 0; i < listOfPosts.size(); i++) {
+            if (listOfPosts.get(i).matches(formatSpecifier)) {
+                listOfPosts.remove(i);
             }
         }
 
@@ -297,12 +310,18 @@ public class SocialMediaPlatform extends Thread {
             String updatedPostString = post + "";
             ArrayList<String> posts = getPostsOfUser(user.getUsername(), readFile(outputFile));
             System.out.println(post.getPostText());
+            System.out.println(posts);
             for (int f = 0; f < posts.size(); f++) {
-                if (posts.get(f).substring(0, posts.get(f).indexOf(" ")).equals(updatedPostString.substring(0, updatedPostString.indexOf(" ")))) {
+                if (posts.size() == 1) {
+                    posts.set(0, updatedPostString);
+                    System.out.println("nope");
+                    break;
+                } else if (posts.get(f).substring(0, posts.get(f).indexOf(" ")).equals(updatedPostString.substring(0, updatedPostString.indexOf(" ")))) {
                     posts.set(f, updatedPostString);
                 }
             }
 
+            System.out.println(posts);
             for (int f = 0; f < posts.size(); f++) {
                 usersPosts += posts.get(f) + ",";
             }
@@ -333,11 +352,12 @@ public class SocialMediaPlatform extends Thread {
     // A method that returns an ArrayList of strings containing the text in the posts and their comments
     public ArrayList<String> getCommentsOfPost(String postText, ArrayList<String> comments) {
         ArrayList<String> listOfCommentsOfPost = new ArrayList<>();
+        //System.out.println(comments);
 
         for (int i = 0; i < comments.size(); i++) {
             if (comments.get(i).contains(postText)) {
                 int begIndex = comments.get(i).indexOf(":") + 2;
-                int endIndex = comments.get(i).indexOf(" ", begIndex + 1);
+                int endIndex = comments.get(i).indexOf(",", begIndex + 1);
                 while (endIndex != -1) {
                     listOfCommentsOfPost.add(comments.get(i).substring(begIndex, endIndex));
 
@@ -377,6 +397,7 @@ public class SocialMediaPlatform extends Thread {
 
             String updatedPostString = newComment + "";
             ArrayList<String> comments = getCommentsOfPost(postText, readFile(outputFile));
+            System.out.println(comments);
             for (int f = 0; f < comments.size(); f++) {
                 int beggIndex = comments.get(f).indexOf("Comments:") + 2;
                 int enddIndex = comments.get(f).indexOf("Upvotes") - 1;
@@ -384,6 +405,16 @@ public class SocialMediaPlatform extends Thread {
                     comments.set(f, updatedPostString);
                 }
             }
+
+//            String formatSpecifier = "^[a-zA-Z]+$";
+//
+//            for (int i = 0; i < comments.size(); i++) {
+//                if (comments.get(i).matches(formatSpecifier)) {
+//                    continue;
+//                } else {
+//                    comments.remove(i);
+//                }
+//            }
 
             for (int f = 0; f < comments.size(); f++) {
                 usersPosts += comments.get(f) + ",";
