@@ -6,6 +6,7 @@ import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 
 import javax.xml.stream.events.Comment;
+import java.net.Socket;
 import java.util.ArrayList;
 
 public class RunLocalTests {
