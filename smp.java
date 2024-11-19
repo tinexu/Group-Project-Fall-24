@@ -34,6 +34,7 @@ public class SocialMediaPlatform extends Thread {
         locks = new ArrayList<>();
     }
 
+    // returns an ArrayList of Strings that consists of the content in each line of the file given in the parameter
     public synchronized ArrayList<String> readFile(String filename) {
         ArrayList<String> lines = new ArrayList<>();
         try (BufferedReader bfr = new BufferedReader(new FileReader(filename))) {
@@ -48,6 +49,7 @@ public class SocialMediaPlatform extends Thread {
         return lines;
     }
 
+    // A void method that writes the given username and password into the output file given in the parameter
     public synchronized void writeDatabaseFile(String username, String password, String outputFile) {
         try (PrintWriter pw = new PrintWriter(new FileOutputStream(outputFile, true))) {
             pw.print("Username: " + username + ",");
@@ -57,6 +59,7 @@ public class SocialMediaPlatform extends Thread {
         }
     }
 
+    // A void method that writes the user and the otherUsername passed in the parameter into the output file
     public synchronized void writeDatabaseFriendsFile(User user, String otherUsername, String outputFile) {
         ArrayList<String> contents = new ArrayList<>();
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(outputFile))) {
@@ -99,6 +102,7 @@ public class SocialMediaPlatform extends Thread {
         }
     }
 
+    // A void method that writes the user and other username into the output file passed in the parameter
     public synchronized void writeDatabaseBlockedFile(User user, String otherUsername, String outputFile) {
         ArrayList<String> contents = new ArrayList<>();
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(outputFile))) {
@@ -141,6 +145,7 @@ public class SocialMediaPlatform extends Thread {
         }
     }
 
+    // A method that returns an ArrayList of Strings consisting of the usernames of the users the main user has blocked
     public ArrayList<String> getUsernamesOfBlocked(String username, ArrayList<String> blocked) {
         ArrayList<String> listOfUsernames = new ArrayList<>();
 
@@ -159,6 +164,7 @@ public class SocialMediaPlatform extends Thread {
         return listOfUsernames;
     }
 
+    // gets usernames of friends of the specified user
     public ArrayList<String> getUsernamesOfFriends(String username, ArrayList<String> friends) {
         ArrayList<String> listOfUsernames = new ArrayList<>();
 
@@ -177,6 +183,7 @@ public class SocialMediaPlatform extends Thread {
         return listOfUsernames;
     }
 
+    // a void method that removes the username of the file from the friends file and removes the user's name from the friends
     public void removeFriendUsername(String username, String friendUsername, ArrayList<String> friends, String outputFile) {
         ArrayList<String> listOfUsernames = new ArrayList<>();
 
@@ -246,6 +253,7 @@ public class SocialMediaPlatform extends Thread {
         }
     }
 
+    // A method that returns an ArrayList of Strings that consist of the user's username and their posts
     public ArrayList<String> getPostsOfUser(String username, ArrayList<String> posts) {
         ArrayList<String> listOfPosts = new ArrayList<>();
         //System.out.println(posts);
@@ -274,6 +282,7 @@ public class SocialMediaPlatform extends Thread {
         return listOfPosts;
     }
 
+    // A void method that writes the User, their post, and the boolean into the output file given in the parameter
     public synchronized void writeDatabasePostFile(User user, Post post, boolean updateOrNot, String outputFile) {
         ArrayList<String> contents = new ArrayList<>();
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(outputFile))) {
@@ -340,6 +349,7 @@ public class SocialMediaPlatform extends Thread {
         }
     }
 
+    // A method that returns an ArrayList of strings containing the text in the posts and their comments
     public ArrayList<String> getCommentsOfPost(String postText, ArrayList<String> comments) {
         ArrayList<String> listOfCommentsOfPost = new ArrayList<>();
         //System.out.println(comments);
@@ -360,6 +370,7 @@ public class SocialMediaPlatform extends Thread {
         return listOfCommentsOfPost;
     }
 
+    // A void method that writes the post text, the comments, the boolean, into the output file given in the parameter
     public synchronized void writeDatabaseCommentsFile(String postText, Comments newComment, boolean updateOrNot, String outputFile) {
         ArrayList<String> contents = new ArrayList<>();
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(outputFile))) {
@@ -489,6 +500,7 @@ public class SocialMediaPlatform extends Thread {
 //
 //    }
 
+    // A void method that removes the post text, and the comment from the output file given in the parameter 
     public void removeCommentFromFile(String postText, String comment, ArrayList<String> comments, String outputFile) {
         ArrayList<String> listOfCommentsOfPost = new ArrayList<>();
 
