@@ -737,7 +737,7 @@ public class Server extends Thread {
                                             } else {
                                                 notFoundBool = "false";
                                                 defaultCommandsForWriter(writer, notFoundBool);
-                                                break;
+                                                break switchInner5;
                                             }
                                         } else {
                                             foundBool = "true";
@@ -772,7 +772,7 @@ public class Server extends Thread {
                                                     } else {
                                                         returnBool = "false";
                                                         defaultCommandsForWriter(writer, returnBool);
-                                                        break;
+                                                        break switchInner5;
                                                     }
                                                 }
                                             }
@@ -801,7 +801,7 @@ public class Server extends Thread {
                                                     } else {
                                                         returnBool = "false";
                                                         defaultCommandsForWriter(writer, returnBool);
-                                                        break;
+                                                        break switchInner5;
                                                     }
                                                 }
                                             }
@@ -826,7 +826,7 @@ public class Server extends Thread {
                                                     } else {
                                                         alreadyBlockedBool = "false";
                                                         defaultCommandsForWriter(writer, alreadyBlockedBool);
-                                                        break;
+                                                        break switchInner5;
                                                     }
                                                 }
                                             }
@@ -848,7 +848,7 @@ public class Server extends Thread {
                                                     } else {
                                                         alreadyBlockedBool = "false";
                                                         defaultCommandsForWriter(writer, alreadyBlockedBool);
-                                                        break;
+                                                        break switchInner5;
                                                     }
                                                 }
                                             }
@@ -875,14 +875,13 @@ public class Server extends Thread {
                                             } else {
                                                 returnBool = "false";
                                                 defaultCommandsForWriter(writer, returnBool);
-                                                break;
+                                                break switchInner5;
                                             }
                                         }
                                     } while (true);
                                     break;
                                 case 6:
                                     switchInner6: do {
-                                        System.out.println(posts);
                                         Random random = new Random();
                                         int randomInt = random.nextInt(0, posts.size());
                                         //System.out.println(randomInt);
