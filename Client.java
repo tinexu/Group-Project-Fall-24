@@ -20,21 +20,22 @@ import java.awt.*;
  *
  */
 public class Client extends JFrame implements ListSelectionListener {
-    private static ImageIcon welcomeImage = new ImageIcon("/Users/christinexu/Downloads/social-media.png");
-    private static ImageIcon searchGifImage = new ImageIcon("/Users/christinexu/Downloads/target.gif");
-    private static ImageIcon errorImage = new ImageIcon("/Users/christinexu/Downloads/computer.png");
-    private static ImageIcon successGifImage = new ImageIcon("/Users/christinexu/Downloads/success.gif");
-    private static ImageIcon postGifImage = new ImageIcon("/Users/christinexu/Downloads/instagram-post.gif");
-    private static ImageIcon friendGifImage = new ImageIcon("/Users/christinexu/Downloads/friend.gif");
-    private static ImageIcon removeFriendGifImage = new ImageIcon("/Users/christinexu/Downloads/remove-user.gif");
-    private static ImageIcon blockGifImage = new ImageIcon("/Users/christinexu/Downloads/block.gif");
-    private static ImageIcon feedGifImage = new ImageIcon("/Users/christinexu/Downloads/activity-feed.gif");
-    private static ImageIcon likeGifImage = new ImageIcon("/Users/christinexu/Downloads/like.gif");
-    private static ImageIcon dislikeGifImage = new ImageIcon("/Users/christinexu/Downloads/heart.gif");
-    private static ImageIcon commentGifImage = new ImageIcon("/Users/christinexu/Downloads/comments.gif");
-    private static ImageIcon logoutGifImage = new ImageIcon("/Users/christinexu/Downloads/logout.gif");
-    private static ImageIcon yesLogoutGifImage = new ImageIcon("/Users/christinexu/Downloads/wave.gif");
-    private static ImageIcon noLogoutGifImage = new ImageIcon("/Users/christinexu/Downloads/backward.gif");
+    private static ImageIcon welcomeImage = new ImageIcon("/Users/christinexu/Downloads/social-media.png"); // image for the welcome screen
+    private static ImageIcon searchGifImage = new ImageIcon("/Users/christinexu/Downloads/target.gif"); // image for the search screens
+    private static ImageIcon errorImage = new ImageIcon("/Users/christinexu/Downloads/computer.png"); // image for the error screens
+    private static ImageIcon successGifImage = new ImageIcon("/Users/christinexu/Downloads/success.gif"); // image for the success screens
+    private static ImageIcon postGifImage = new ImageIcon("/Users/christinexu/Downloads/instagram-post.gif"); // image for the post screens
+    private static ImageIcon friendGifImage = new ImageIcon("/Users/christinexu/Downloads/friend.gif"); // image for the friend functionality screens
+    private static ImageIcon removeFriendGifImage = new ImageIcon("/Users/christinexu/Downloads/remove-user.gif"); // image for the remove friends screens
+    private static ImageIcon blockGifImage = new ImageIcon("/Users/christinexu/Downloads/block.gif"); // image for the block screens
+    private static ImageIcon feedGifImage = new ImageIcon("/Users/christinexu/Downloads/activity-feed.gif"); // image for the feed screens
+    private static ImageIcon likeGifImage = new ImageIcon("/Users/christinexu/Downloads/like.gif"); // image for the like screen
+    private static ImageIcon dislikeGifImage = new ImageIcon("/Users/christinexu/Downloads/heart.gif"); // image for the dislike screen
+    private static ImageIcon commentGifImage = new ImageIcon("/Users/christinexu/Downloads/comments.gif"); // image for the comment screens
+    private static ImageIcon logoutGifImage = new ImageIcon("/Users/christinexu/Downloads/logout.gif"); // image for the logout screen
+    private static ImageIcon yesLogoutGifImage = new ImageIcon("/Users/christinexu/Downloads/wave.gif"); // image for the confirm logout screen
+    private static ImageIcon noLogoutGifImage = new ImageIcon("/Users/christinexu/Downloads/backward.gif"); // image for the confirm logout screen
+    
     // default commands for the writer to decrease duplications
     public static void defaultCommandsForWriter(PrintWriter w, String input) {
         w.write(input);
@@ -72,39 +73,51 @@ public class Client extends JFrame implements ListSelectionListener {
         Image scaledErrorImage = errorImage.getImage().getScaledInstance(120, 120, Image.SCALE_DEFAULT);
         errorImage = new ImageIcon(scaledErrorImage);
 
+        // Success Gif
         Image scaledSuccessGifImage = successGifImage.getImage().getScaledInstance(120, 120, Image.SCALE_DEFAULT);
         successGifImage = new ImageIcon(scaledSuccessGifImage);
 
+        // Post Gif
         Image scaledPostGifImage = postGifImage.getImage().getScaledInstance(120, 120, Image.SCALE_DEFAULT);
         postGifImage = new ImageIcon(scaledPostGifImage);
 
+        // Friend Gif
         Image scaledFriendGifImage = friendGifImage.getImage().getScaledInstance(120, 120, Image.SCALE_DEFAULT);
         friendGifImage = new ImageIcon(scaledFriendGifImage);
 
+        // Remove friend Gif
         Image scaledRemoveFriendGifImage = removeFriendGifImage.getImage().getScaledInstance(120, 120, Image.SCALE_DEFAULT);
         removeFriendGifImage = new ImageIcon(scaledRemoveFriendGifImage);
 
+        // Block Gif
         Image scaledBlockGifImage = blockGifImage.getImage().getScaledInstance(120, 120, Image.SCALE_DEFAULT);
         blockGifImage = new ImageIcon(scaledBlockGifImage);
 
+        // Feed Gif
         Image scaledFeedGifImage = feedGifImage.getImage().getScaledInstance(120, 120, Image.SCALE_DEFAULT);
         feedGifImage = new ImageIcon(scaledFeedGifImage);
 
+        // Like a post Gif
         Image scaledLikeGifImage = likeGifImage.getImage().getScaledInstance(120, 120, Image.SCALE_DEFAULT);
         likeGifImage = new ImageIcon(scaledLikeGifImage);
 
+        // Dislike a post Gif
         Image scaledDislikeGifImage = dislikeGifImage.getImage().getScaledInstance(120, 120, Image.SCALE_DEFAULT);
         dislikeGifImage = new ImageIcon(scaledDislikeGifImage);
 
+        // Comment Gif
         Image scaledCommentGifImage = commentGifImage.getImage().getScaledInstance(120, 120, Image.SCALE_DEFAULT);
         commentGifImage = new ImageIcon(scaledCommentGifImage);
 
+        // Logout of platform Gif
         Image scaledLogoutGifImage = logoutGifImage.getImage().getScaledInstance(120, 120, Image.SCALE_DEFAULT);
         logoutGifImage = new ImageIcon(scaledLogoutGifImage);
 
+        // Confirm logout of platform Gif
         Image scaledYesLogoutGifImage = yesLogoutGifImage.getImage().getScaledInstance(120, 120, Image.SCALE_DEFAULT);
         yesLogoutGifImage = new ImageIcon(scaledYesLogoutGifImage);
 
+        // Return to homepage Gif
         Image scaledNoLogoutGifImage = noLogoutGifImage.getImage().getScaledInstance(120, 120, Image.SCALE_DEFAULT);
         noLogoutGifImage = new ImageIcon(scaledNoLogoutGifImage);
 
@@ -685,6 +698,7 @@ public class Client extends JFrame implements ListSelectionListener {
         });
     }
 
+    // Method to set JOptionPanes below the frame
     public static String showMessageAtBottomFeed(JFrame parentFrame, String prompt) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
@@ -698,6 +712,7 @@ public class Client extends JFrame implements ListSelectionListener {
         return choice;
     }
 
+    // Method to set the frame to the right of the screen
     public static void setLocationToRight(JFrame frame) {
         GraphicsConfiguration config = frame.getGraphicsConfiguration();
         Rectangle bounds = config.getBounds();
@@ -708,6 +723,7 @@ public class Client extends JFrame implements ListSelectionListener {
         frame.setLocation(x, y);
     }
 
+    // Method to set the frame to the left of the screen
     public static void setLocationToLeft(JFrame frame) {
         GraphicsConfiguration config = frame.getGraphicsConfiguration();
         Rectangle bounds = config.getBounds();
@@ -719,6 +735,7 @@ public class Client extends JFrame implements ListSelectionListener {
         frame.setLocation(x, y);
     }
 
+    // Method required for implementation of the ListSelectionListener interface
     @Override
     public void valueChanged(ListSelectionEvent e) {
     }
