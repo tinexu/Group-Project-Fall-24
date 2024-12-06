@@ -607,7 +607,7 @@ public class Client extends JFrame implements ListSelectionListener {
                                     break;
                                 } else if (likeOrDislikeBool.equals("add")) {
                                     String commentToAddMessage = reader.readLine();
-                                    String commentToAddChoice = JOptionPane.showInputDialog(null, commentToAddMessage, "Feed", JOptionPane.INFORMATION_MESSAGE);
+                                    String commentToAddChoice = (String) JOptionPane.showInputDialog(null, commentToAddMessage, "Feed", JOptionPane.INFORMATION_MESSAGE, commentGifImage, null, "");
                                     defaultCommandsForWriter(writer, commentToAddChoice);
 
                                     String addComment = reader.readLine();
