@@ -20,21 +20,21 @@ import java.awt.*;
  *
  */
 public class Client extends JFrame implements ListSelectionListener {
-    private static ImageIcon welcomeImage = new ImageIcon("/Users/christinexu/Downloads/social-media.png");
-    private static ImageIcon searchGifImage = new ImageIcon("/Users/christinexu/Downloads/target.gif");
-    private static ImageIcon errorImage = new ImageIcon("/Users/christinexu/Downloads/computer.png");
-    private static ImageIcon successGifImage = new ImageIcon("/Users/christinexu/Downloads/success.gif");
-    private static ImageIcon postGifImage = new ImageIcon("/Users/christinexu/Downloads/instagram-post.gif");
-    private static ImageIcon friendGifImage = new ImageIcon("/Users/christinexu/Downloads/friend.gif");
-    private static ImageIcon removeFriendGifImage = new ImageIcon("/Users/christinexu/Downloads/remove-user.gif");
-    private static ImageIcon blockGifImage = new ImageIcon("/Users/christinexu/Downloads/block.gif");
-    private static ImageIcon feedGifImage = new ImageIcon("/Users/christinexu/Downloads/activity-feed.gif");
-    private static ImageIcon likeGifImage = new ImageIcon("/Users/christinexu/Downloads/like.gif");
-    private static ImageIcon dislikeGifImage = new ImageIcon("/Users/christinexu/Downloads/heart.gif");
-    private static ImageIcon commentGifImage = new ImageIcon("/Users/christinexu/Downloads/comments.gif");
-    private static ImageIcon logoutGifImage = new ImageIcon("/Users/christinexu/Downloads/logout.gif");
-    private static ImageIcon yesLogoutGifImage = new ImageIcon("/Users/christinexu/Downloads/wave.gif");
-    private static ImageIcon noLogoutGifImage = new ImageIcon("/Users/christinexu/Downloads/backward.gif");
+    private static ImageIcon welcomeImage = new ImageIcon("/Users/christinexu/Downloads/social-media.png"); // image for welcome page
+    private static ImageIcon searchGifImage = new ImageIcon("/Users/christinexu/Downloads/target.gif"); // image for search screens
+    private static ImageIcon errorImage = new ImageIcon("/Users/christinexu/Downloads/computer.png"); // image for error pages
+    private static ImageIcon successGifImage = new ImageIcon("/Users/christinexu/Downloads/success.gif"); // image for success pages
+    private static ImageIcon postGifImage = new ImageIcon("/Users/christinexu/Downloads/instagram-post.gif"); // image for post screens
+    private static ImageIcon friendGifImage = new ImageIcon("/Users/christinexu/Downloads/friend.gif"); // image for screens that involve friends
+    private static ImageIcon removeFriendGifImage = new ImageIcon("/Users/christinexu/Downloads/remove-user.gif"); // image for remove friend screens
+    private static ImageIcon blockGifImage = new ImageIcon("/Users/christinexu/Downloads/block.gif"); // image for block screens
+    private static ImageIcon feedGifImage = new ImageIcon("/Users/christinexu/Downloads/activity-feed.gif"); // image for feed screens
+    private static ImageIcon likeGifImage = new ImageIcon("/Users/christinexu/Downloads/like.gif"); // image for like screens
+    private static ImageIcon dislikeGifImage = new ImageIcon("/Users/christinexu/Downloads/heart.gif"); // image for dislike screens
+    private static ImageIcon commentGifImage = new ImageIcon("/Users/christinexu/Downloads/comments.gif"); // image for comment screens
+    private static ImageIcon logoutGifImage = new ImageIcon("/Users/christinexu/Downloads/logout.gif"); // image for logout screen
+    private static ImageIcon yesLogoutGifImage = new ImageIcon("/Users/christinexu/Downloads/wave.gif"); // image for confirm logout screen
+    private static ImageIcon noLogoutGifImage = new ImageIcon("/Users/christinexu/Downloads/backward.gif"); // image for confirm logout screen
     // default commands for the writer to decrease duplications
     public static void defaultCommandsForWriter(PrintWriter w, String input) {
         w.write(input);
@@ -686,6 +686,7 @@ public class Client extends JFrame implements ListSelectionListener {
         });
     }
 
+    // Method to position JOPtionPanes at the bottom of the JFrame for certain switch cases
     public static String showMessageAtBottomFeed(JFrame parentFrame, String prompt) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
@@ -699,6 +700,7 @@ public class Client extends JFrame implements ListSelectionListener {
         return choice;
     }
 
+    // Image to position a frame at the right of the screen
     public static void setLocationToRight(JFrame frame) {
         GraphicsConfiguration config = frame.getGraphicsConfiguration();
         Rectangle bounds = config.getBounds();
@@ -709,6 +711,7 @@ public class Client extends JFrame implements ListSelectionListener {
         frame.setLocation(x, y);
     }
 
+    // image to position a frame at the left of the screen
     public static void setLocationToLeft(JFrame frame) {
         GraphicsConfiguration config = frame.getGraphicsConfiguration();
         Rectangle bounds = config.getBounds();
@@ -720,6 +723,7 @@ public class Client extends JFrame implements ListSelectionListener {
         frame.setLocation(x, y);
     }
 
+    // Method required to be implemented in order for Client to implement the ListSelectionListener interface
     @Override
     public void valueChanged(ListSelectionEvent e) {
     }
