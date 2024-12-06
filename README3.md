@@ -7,3 +7,8 @@ For Phase 1, compiling our project will involve using the command line "javac cl
 **Submission Details** <br />
 For Brightspace: Srinidhi Saravanan<br />
 For Vocareum: Christine Xu<br />
+
+**Description of Project at the Conclusion of this Phase** <br />
+- At the end of this phase, our platform was full-functioning with a GUI and client/server interaction implemented. Each user of the platform can like or dislike posts, add comments + explore their functionalities, and interact with other users.
+- The classes written and implemented in Phase 2 have not deleted and no new classes have been added; however, our Client and Server classes have been reformatted in order to reflect the implementation of a GUI. For instance, the "System.out.println()" lines were changed to JOptionPanes or included some way in a JFrame so that nothing (except for debugging purposes) was printed to the console.
+- We were able to incorporate text into the GUI as well as images for icons and our feed feature. We believe that this adds increased user interaction with the interface and resembles even more of an existing social media platform.
