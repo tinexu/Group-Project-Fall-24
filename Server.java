@@ -97,7 +97,7 @@ public class Server extends Thread {
                     File file = new File("/Users/christinexu/IdeaProjects/groupproject/posts.txt");
                     if (Files.size(Paths.get("/Users/christinexu/IdeaProjects/groupproject/posts.txt")) == 0) {
                         try (PrintWriter printWriter = new PrintWriter(file)) {
-                            printWriter.println("Username: HelloWorld,Posts: HelloWorld /Users/christinexu/Downloads/influencer.png Likes: 0 Dislikes: 0 Comments: 0 ,/Users/christinexu/Downloads/influencer.png,");
+                            printWriter.println("Username: HelloWorld,Posts: HelloWorld /Users/christinexu/Downloads/influencer.png Likes: 0 Dislikes: 0 Comments:  /Users/christinexu/Downloads/influencer.png,");
                         }
                     }
                 } catch (IOException e) {
@@ -320,8 +320,8 @@ public class Server extends Thread {
                                             String searchPrompt = "Type in the username of the User you are looking for.";
                                             defaultCommandsForWriter(writer, searchPrompt);
 
-                                            String actionOption = reader.readLine();
-                                            if (actionOption.equals("Cancel")) {
+                                            String actionOptionSearch = reader.readLine();
+                                            if (actionOptionSearch.equals("Cancel")) {
                                                 break;
                                             }
 
@@ -376,6 +376,11 @@ public class Server extends Thread {
                                         String optionPostPrompt = "Would you like to make another post or go back to the home page? (Post/Home)";
                                         defaultCommandsForWriter(writer, optionPostPrompt);
 
+                                        String actionOptionPost = reader.readLine();
+                                        if (actionOptionPost.equals("Cancel")) {
+                                            break;
+                                        }
+
                                         String optionPost = reader.readLine();
                                         String optionBool = "";
                                         if (optionPost.equals("Post")) {
@@ -410,6 +415,11 @@ public class Server extends Thread {
                                             String notFoundPrompt = "That user does not exist. Would you like to add someone else or return to the home page? (Add/Home)";
                                             defaultCommandsForWriter(writer, notFoundPrompt);
 
+                                            String actionOptionNotFound = reader.readLine();
+                                            if (actionOptionNotFound.equals("Cancel")) {
+                                                break;
+                                            }
+
                                             String notFoundChoice = reader.readLine();
                                             String notFoundBool = "";
                                             if (notFoundChoice.equals("Add")) {
@@ -436,6 +446,11 @@ public class Server extends Thread {
                                                 String alreadyFriend = "This User is already your friend! Would you like to add someone else or return to the home page? (Add/Home)";
                                                 defaultCommandsForWriter(writer, alreadyFriend);
 
+                                                String actionOptionAlreadyFriend = reader.readLine();
+                                                if (actionOptionAlreadyFriend.equals("Cancel")) {
+                                                    break switchInner3;
+                                                }
+
                                                 String alreadyFriendChoice = reader.readLine();
                                                 String alreadyFriendBool = "";
                                                 if (alreadyFriendChoice.equals("Add")) {
@@ -457,6 +472,11 @@ public class Server extends Thread {
                                                 checkFriendBool = true;
                                                 String alreadyFriend = "This User is already your friend! Would you like to add someone else or return to the home page? (Add/Home)";
                                                 defaultCommandsForWriter(writer, alreadyFriend);
+
+                                                String actionOptionAlreadyFriend = reader.readLine();
+                                                if (actionOptionAlreadyFriend.equals("Cancel")) {
+                                                    break switchInner3;
+                                                }
 
                                                 String alreadyFriendChoice = reader.readLine();
                                                 String alreadyFriendBool = "";
@@ -485,6 +505,11 @@ public class Server extends Thread {
                                                 String alreadyBlocked = "You have blocked this user! They cannot be your friend. Would you like to add someone else or return to the home page? (Add/Home)";
                                                 defaultCommandsForWriter(writer, alreadyBlocked);
 
+                                                String actionOptionBlocked = reader.readLine();
+                                                if (actionOptionBlocked.equals("Cancel")) {
+                                                    break switchInner3;
+                                                }
+
                                                 String alreadyBlockedChoice = reader.readLine();
                                                 String alreadyBlockedBool = "";
                                                 if (alreadyBlockedChoice.equals("Add")) {
@@ -506,6 +531,11 @@ public class Server extends Thread {
                                                 checkFriendBool = true;
                                                 String alreadyBlocked = "You have blocked this user! They cannot be your friend. Would you like to add someone else or return to the home page? (Add/Home)";
                                                 defaultCommandsForWriter(writer, alreadyBlocked);
+
+                                                String actionOptionBlocked = reader.readLine();
+                                                if (actionOptionBlocked.equals("Cancel")) {
+                                                    break switchInner3;
+                                                }
 
                                                 String alreadyBlockedChoice = reader.readLine();
                                                 String alreadyBlockedBool = "";
@@ -532,6 +562,11 @@ public class Server extends Thread {
                                                 String otherAlreadyBlocked = "This user has blocked you! They cannot be your friend. Would you like to add someone else or return to the home page? (Add/Home)";
                                                 defaultCommandsForWriter(writer, otherAlreadyBlocked);
 
+                                                String actionOptionOtherBlocked = reader.readLine();
+                                                if (actionOptionOtherBlocked.equals("Cancel")) {
+                                                    break switchInner3;
+                                                }
+
                                                 String otherAlreadyBlockedChoice = reader.readLine();
                                                 String otherAlreadyBlockedBool = "";
                                                 if (otherAlreadyBlockedChoice.equals("Add")) {
@@ -553,6 +588,11 @@ public class Server extends Thread {
                                                 checkFriendBool = true;
                                                 String otherAlreadyBlocked = "This user has blocked you! They cannot be your friend. Would you like to add someone else or return to the home page? (Add/Home)";
                                                 defaultCommandsForWriter(writer, otherAlreadyBlocked);
+
+                                                String actionOptionOtherBlocked = reader.readLine();
+                                                if (actionOptionOtherBlocked.equals("Cancel")) {
+                                                    break switchInner3;
+                                                }
 
                                                 String otherAlreadyBlockedChoice = reader.readLine();
                                                 String otherAlreadyBlockedBool = "";
@@ -581,6 +621,11 @@ public class Server extends Thread {
 
                                         String endAddFriendPrompt = "Would you like to add someone else or return to the home page? (Add/Home)";
                                         defaultCommandsForWriter(writer, endAddFriendPrompt);
+
+                                        String actionOptionAddedFriend = reader.readLine();
+                                        if (actionOptionAddedFriend.equals("Cancel")) {
+                                            break;
+                                        }
 
                                         String endAddFriendChoice = reader.readLine();
                                         String endAddFriendBool = "";
@@ -615,6 +660,11 @@ public class Server extends Thread {
                                             String notFound = "That user does not exist. Would you like to remove someone else or return to the home page? (Remove/Home)";
                                             defaultCommandsForWriter(writer, notFound);
 
+                                            String actionOptionNotFound = reader.readLine();
+                                            if (actionOptionNotFound.equals("Cancel")) {
+                                                break;
+                                            }
+
                                             String notFoundChoice = reader.readLine();
                                             String notFoundBool = "";
                                             if (notFoundChoice.equals("Remove")) {
@@ -645,6 +695,11 @@ public class Server extends Thread {
                                                         "Would you like to remove someone else or return to the home page? (Remove/Home)";
                                                 defaultCommandsForWriter(writer, removedFriendPrompt);
 
+                                                String actionOptionRemovedFriend = reader.readLine();
+                                                if (actionOptionRemovedFriend.equals("Cancel")) {
+                                                    break;
+                                                }
+
                                                 String removedFriendChoice = reader.readLine();
                                                 String removedFriendBool = "";
                                                 if (removedFriendChoice.equals("Remove")) {
@@ -672,6 +727,11 @@ public class Server extends Thread {
                                                         "Would you like to remove someone else or return to the home page? (Remove/Home)";
                                                 defaultCommandsForWriter(writer, removedFriendPrompt);
 
+                                                String actionOptionRemovedFriend = reader.readLine();
+                                                if (actionOptionRemovedFriend.equals("Cancel")) {
+                                                    break;
+                                                }
+
                                                 String removedFriendChoice = reader.readLine();
                                                 String removedFriendBool = "";
                                                 if (removedFriendChoice.equals("Remove")) {
@@ -691,6 +751,11 @@ public class Server extends Thread {
                                         String errorRemove = userFound.getUsername() + " is not your friend, so you cannot remove them! " +
                                                 "Would you like to remove someone else or return to the home page? (Remove/Home)";
                                         defaultCommandsForWriter(writer, errorRemove);
+
+                                        String actionOptionError = reader.readLine();
+                                        if (actionOptionError.equals("Cancel")) {
+                                            break;
+                                        }
 
                                         String errorChoice = reader.readLine();
                                         String errorBool = "";
@@ -728,6 +793,11 @@ public class Server extends Thread {
                                             String notFoundPrompt = "That user does not exist. Would you like to block someone else or return to the home page? (Block/Home)";
                                             defaultCommandsForWriter(writer, notFoundPrompt);
 
+                                            String actionOptionNotFound = reader.readLine();
+                                            if (actionOptionNotFound.equals("Cancel")) {
+                                                break;
+                                            }
+
                                             String notFoundChoice = reader.readLine();
                                             String notFoundBool = "";
                                             if (notFoundChoice.equals("Block")) {
@@ -763,6 +833,12 @@ public class Server extends Thread {
 
                                                     String returnPrompt = "Would you like to block someone else or return to the home page? (Block/Home)";
                                                     defaultCommandsForWriter(writer, returnPrompt);
+
+                                                    String actionOptionReturn = reader.readLine();
+                                                    if (actionOptionReturn.equals("Cancel")) {
+                                                        break switchInner5;
+                                                    }
+
                                                     String returnChoice = reader.readLine();
                                                     String returnBool = "";
                                                     if (returnChoice.equals("Block")) {
@@ -792,6 +868,12 @@ public class Server extends Thread {
 
                                                     String returnPrompt = "Would you like to block someone else or return to the home page? (Block/Home)";
                                                     defaultCommandsForWriter(writer, returnPrompt);
+
+                                                    String actionOptionReturn = reader.readLine();
+                                                    if (actionOptionReturn.equals("Cancel")) {
+                                                        break switchInner5;
+                                                    }
+
                                                     String returnChoice = reader.readLine();
                                                     String returnBool = "";
                                                     if (returnChoice.equals("Block")) {
@@ -817,6 +899,11 @@ public class Server extends Thread {
                                                     String alreadyBlocked = "You have already blocked this user! Would you like to block someone else or return to the home page? (Block/Home)";
                                                     defaultCommandsForWriter(writer, alreadyBlocked);
 
+                                                    String actionOptionBlocked = reader.readLine();
+                                                    if (actionOptionBlocked.equals("Cancel")) {
+                                                        break switchInner5;
+                                                    }
+
                                                     String alreadyBlockedChoice = reader.readLine();
                                                     String alreadyBlockedBool = "";
                                                     if (alreadyBlockedChoice.equals("Block")) {
@@ -838,6 +925,11 @@ public class Server extends Thread {
                                                     checkBlockedBool = true;
                                                     String alreadyBlocked = "You have already blocked this user! Would you like to block someone else or return to the home page? (Block/Home)";
                                                     defaultCommandsForWriter(writer, alreadyBlocked);
+
+                                                    String actionOptionBlocked = reader.readLine();
+                                                    if (actionOptionBlocked.equals("Cancel")) {
+                                                        break switchInner5;
+                                                    }
 
                                                     String alreadyBlockedChoice = reader.readLine();
                                                     String alreadyBlockedBool = "";
@@ -866,6 +958,11 @@ public class Server extends Thread {
                                             String returnPrompt = "Would you like to block someone else or return to the home page? (Block/Home)";
                                             defaultCommandsForWriter(writer, returnPrompt);
 
+                                            String actionOptionOtherReturn = reader.readLine();
+                                            if (actionOptionOtherReturn.equals("Cancel")) {
+                                                break;
+                                            }
+
                                             String returnChoice = reader.readLine();
                                             String returnBool = "";
                                             if (returnChoice.equals("Block")) {
@@ -884,11 +981,19 @@ public class Server extends Thread {
                                     switchInner6: do {
                                         Random random = new Random();
                                         int randomInt = random.nextInt(0, posts.size());
-                                        //System.out.println(randomInt);
+                                        int randomInt2 = random.nextInt(0, posts.size());
+                                        int randomInt3 = random.nextInt(0, posts.size());
+
                                         String postPath1 = posts.get(randomInt);
-                                        //System.out.println(postPath1);
+                                        System.out.println(postPath1);
                                         String newPostPath = postPath1.substring(0, postPath1.indexOf(" ", postPath1.indexOf("Posts") + 7));
                                         defaultCommandsForWriter(writer, postPath1);
+
+                                        String postPath2 = posts.get(randomInt2);
+                                        defaultCommandsForWriter(writer, postPath2);
+
+                                        String postPath3 = posts.get(randomInt3);
+                                        defaultCommandsForWriter(writer, postPath3);
 
                                         String interactWithPostPrompt = "Do you want to like or dislike this post, or add a comment? (Like/Dislike/Add)";
                                         defaultCommandsForWriter(writer, interactWithPostPrompt);
@@ -903,9 +1008,10 @@ public class Server extends Thread {
                                             User userPostedObj = smp.viewUser(userPosted);
 
                                             int indexPostColon = postPath1.indexOf(":", newPostPath.indexOf("Posts")) + 2;
-                                            int indexSpace = postPath1.indexOf(" ", indexPostColon);
+                                            int indexSpace = postPath1.indexOf("Likes") - 1;
 
-                                            String postText = newPostPath.substring(indexPostColon, indexSpace);
+                                            String postText = postPath1.substring(indexPostColon, indexSpace);
+                                            // System.out.println(postText);
 
                                             int indexLikesWord = postPath1.indexOf(":", postPath1.indexOf("Likes")) + 2;
                                             int spaceAfterLikes = postPath1.indexOf(" ", indexLikesWord);
@@ -997,100 +1103,6 @@ public class Server extends Thread {
                                         }
                                     } while (true);
                                     break;
-//                                case 7:
-//                                    switchInner7: do {
-//                                        listOfFriendUsernames = smp.getUsernamesOfFriends(user.getUsername(), friends);
-//                                        String userFriends = "";
-//                                        userFriends += user.getFriends() + " ";
-//                                        for (int i = 0; i < listOfFriendUsernames.size(); i++) {
-//                                            userFriends += listOfFriendUsernames.get(i) + " ";
-//                                        }
-//
-//                                        ArrayList<String> listOfPosts = smp.getPostsOfUser(user.getUsername(), posts);
-//                                        String userPosts = "";
-//                                        userPosts += user.getPosts() + " ";
-//                                        for (int i = 0; i < listOfPosts.size(); i++) {
-//                                            userPosts += listOfPosts.get(i) + " ";
-//                                        }
-//
-//                                        ArrayList<String> accountList = new ArrayList<>();
-//                                        accountList.add(user.toString());
-//                                        accountList.add("Friend's Names: " + userFriends);
-//                                        accountList.add("Posts: " + listOfPosts.get(0));
-//
-////                        Post post = new Post(user, listOfPosts.get(0));
-//
-//                                        for (String acc : accountList) {
-//                                            defaultCommandsForWriter(writer, acc);
-//                                        }
-//
-//                                        String wantToDeleteComment = "Do you want to delete a comment? (Yes/No)";
-//                                        defaultCommandsForWriter(writer, wantToDeleteComment);
-//
-//                                        String commentChoiceBool = "";
-//                                        String commentChoice = reader.readLine();
-//                                        if (commentChoice.equals("No")) {
-//                                            commentChoiceBool = "false";
-//                                            defaultCommandsForWriter(writer, commentChoiceBool);
-//                                            break;
-//                                        } else {
-//                                            //System.out.println(listOfPosts);
-//                                            commentChoiceBool = "true";
-//                                            defaultCommandsForWriter(writer, commentChoiceBool);
-//                                            ArrayList<String> postComments = new ArrayList<>();
-//                                            String text = "";
-//                                            for (int i = 0; i < listOfPosts.size(); i++) {
-//                                                //if (listOfPosts.get(i).contains(user.getUsername())) {
-//                                                String userPost = listOfPosts.get(i);
-//                                                text = userPost.substring(0, userPost.indexOf(" "));
-//                                                //System.out.println(text);
-//                                                for (int j = 0; j < comments.size(); j++) {
-//                                                    postComments = smp.getCommentsOfPost(text, comments);
-//                                                    //System.out.println(postComments);
-//                                                }
-//                                                break;
-//                                                //}
-//                                            }
-//                                            String postCommentsString = String.join(",", postComments);
-//                                            String[] arrOfComments = postCommentsString.split(",");
-//                                            //System.out.println(postCommentsString);
-//
-//                                            String postCommentsSize = arrOfComments.length + "";
-//                                            defaultCommandsForWriter(writer, postCommentsSize);
-//                                            //System.out.println(postCommentsSize);
-//
-//                                            for (String c : arrOfComments) {
-//                                                defaultCommandsForWriter(writer, c);
-//                                            }
-//
-////                                for (int i = 0; i < arrOfComments.length; i++) {
-////                                    if (!arrOfComments[i].contains("^[a-zA-Z0-9]+$")) {
-////                                        continue outer2;
-////                                    }
-////                                }
-//
-//                                            String commentChoicePrompt = "Which comment do you want to delete? Enter the valid index that it's at.";
-//                                            defaultCommandsForWriter(writer, commentChoicePrompt);
-//
-//                                            String commentToDelete = reader.readLine();
-//                                            int commentToDeleteInt = Integer.parseInt(commentToDelete);
-//
-//                                            ArrayList<String> splitListOfComments = new ArrayList<>();
-//                                            for (int i = 0; i < arrOfComments.length; i++) {
-//                                                splitListOfComments.add(arrOfComments[i]);
-//                                            }
-//
-//                                            String commentToRemove = splitListOfComments.remove(commentToDeleteInt);
-//
-//                                            smp.removeCommentFromFile(text, commentToRemove, comments, "comments.txt");
-//
-//                                            String successRemoved = "Comment successfully removed. Returning to the home page...";
-//                                            defaultCommandsForWriter(writer, successRemoved);
-//
-//                                            break;
-//                                        }
-//                                    } while (true);
-//                                    break;
                                 case 7:
                                     String logoutPrompt = "Are you sure you would like to log out? (Yes/No)";
                                     defaultCommandsForWriter(writer, logoutPrompt);
