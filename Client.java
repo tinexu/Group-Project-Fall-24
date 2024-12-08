@@ -20,22 +20,23 @@ import java.awt.*;
  *
  */
 public class Client extends JFrame implements ListSelectionListener {
-    private static ImageIcon welcomeImage = new ImageIcon("/Users/christinexu/Downloads/social-media.png"); // image for the welcome screen
-    private static ImageIcon searchGifImage = new ImageIcon("/Users/christinexu/Downloads/target.gif"); // image for the search screens
-    private static ImageIcon errorImage = new ImageIcon("/Users/christinexu/Downloads/computer.png"); // image for the error screens
-    private static ImageIcon successGifImage = new ImageIcon("/Users/christinexu/Downloads/success.gif"); // image for the success screens
-    private static ImageIcon postGifImage = new ImageIcon("/Users/christinexu/Downloads/instagram-post.gif"); // image for the post screens
-    private static ImageIcon friendGifImage = new ImageIcon("/Users/christinexu/Downloads/friend.gif"); // image for the friend functionality screens
-    private static ImageIcon removeFriendGifImage = new ImageIcon("/Users/christinexu/Downloads/remove-user.gif"); // image for the remove friends screens
-    private static ImageIcon blockGifImage = new ImageIcon("/Users/christinexu/Downloads/block.gif"); // image for the block screens
-    private static ImageIcon feedGifImage = new ImageIcon("/Users/christinexu/Downloads/activity-feed.gif"); // image for the feed screens
-    private static ImageIcon likeGifImage = new ImageIcon("/Users/christinexu/Downloads/like.gif"); // image for the like screen
-    private static ImageIcon dislikeGifImage = new ImageIcon("/Users/christinexu/Downloads/heart.gif"); // image for the dislike screen
-    private static ImageIcon commentGifImage = new ImageIcon("/Users/christinexu/Downloads/comments.gif"); // image for the comment screens
-    private static ImageIcon logoutGifImage = new ImageIcon("/Users/christinexu/Downloads/logout.gif"); // image for the logout screen
-    private static ImageIcon yesLogoutGifImage = new ImageIcon("/Users/christinexu/Downloads/wave.gif"); // image for the confirm logout screen
-    private static ImageIcon noLogoutGifImage = new ImageIcon("/Users/christinexu/Downloads/backward.gif"); // image for the confirm logout screen
-    
+    // Images for our GUI (icons and feed images)
+    private static ImageIcon welcomeImage = new ImageIcon("/Users/christinexu/Downloads/social-media.png");
+    private static ImageIcon searchGifImage = new ImageIcon("/Users/christinexu/Downloads/target.gif");
+    private static ImageIcon errorImage = new ImageIcon("/Users/christinexu/Downloads/computer.png");
+    private static ImageIcon successGifImage = new ImageIcon("/Users/christinexu/Downloads/success.gif");
+    private static ImageIcon postGifImage = new ImageIcon("/Users/christinexu/Downloads/instagram-post.gif");
+    private static ImageIcon friendGifImage = new ImageIcon("/Users/christinexu/Downloads/friend.gif");
+    private static ImageIcon removeFriendGifImage = new ImageIcon("/Users/christinexu/Downloads/remove-user.gif");
+    private static ImageIcon blockGifImage = new ImageIcon("/Users/christinexu/Downloads/block.gif");
+    private static ImageIcon feedGifImage = new ImageIcon("/Users/christinexu/Downloads/activity-feed.gif");
+    private static ImageIcon likeGifImage = new ImageIcon("/Users/christinexu/Downloads/like.gif");
+    private static ImageIcon dislikeGifImage = new ImageIcon("/Users/christinexu/Downloads/heart.gif");
+    private static ImageIcon commentGifImage = new ImageIcon("/Users/christinexu/Downloads/comments.gif");
+    private static ImageIcon logoutGifImage = new ImageIcon("/Users/christinexu/Downloads/logout.gif");
+    private static ImageIcon yesLogoutGifImage = new ImageIcon("/Users/christinexu/Downloads/wave.gif");
+    private static ImageIcon noLogoutGifImage = new ImageIcon("/Users/christinexu/Downloads/backward.gif");
+
     // default commands for the writer to decrease duplications
     public static void defaultCommandsForWriter(PrintWriter w, String input) {
         w.write(input);
@@ -47,7 +48,6 @@ public class Client extends JFrame implements ListSelectionListener {
     public static void main(String[] args) throws IOException {
         // Images for our platform
 
-        // Welcome message GIF
         ImageIcon welcomeGifImage = new ImageIcon("/Users/christinexu/Downloads/content-marketing.gif");
         Image scaledWelcomeGifImage = welcomeGifImage.getImage().getScaledInstance(120, 120, Image.SCALE_DEFAULT);
         welcomeGifImage = new ImageIcon(scaledWelcomeGifImage);
@@ -55,69 +55,53 @@ public class Client extends JFrame implements ListSelectionListener {
         Image scaledWelcomeImage = welcomeImage.getImage().getScaledInstance(120, 120, Image.SCALE_DEFAULT);
         welcomeImage = new ImageIcon(scaledWelcomeImage);
 
-        // Successful login GIF
         ImageIcon loginGifImage = new ImageIcon("/Users/christinexu/Downloads/login.gif");
         Image scaledLoginGifImage = loginGifImage.getImage().getScaledInstance(120, 120, Image.SCALE_DEFAULT);
         loginGifImage = new ImageIcon(scaledLoginGifImage);
 
-        // Welcome to the platform GIF
         ImageIcon welcomeToGifImage = new ImageIcon("/Users/christinexu/Downloads/happy.gif");
         Image scaledWelcomeToGifImage = welcomeToGifImage.getImage().getScaledInstance(120, 120, Image.SCALE_DEFAULT);
         welcomeToGifImage = new ImageIcon(scaledWelcomeToGifImage);
 
-        // Search for a user GIF
         Image scaledSearchGifImage = searchGifImage.getImage().getScaledInstance(120, 120, Image.SCALE_DEFAULT);
         searchGifImage = new ImageIcon(scaledSearchGifImage);
 
-        // Error image
         Image scaledErrorImage = errorImage.getImage().getScaledInstance(120, 120, Image.SCALE_DEFAULT);
         errorImage = new ImageIcon(scaledErrorImage);
 
-        // Success Gif
         Image scaledSuccessGifImage = successGifImage.getImage().getScaledInstance(120, 120, Image.SCALE_DEFAULT);
         successGifImage = new ImageIcon(scaledSuccessGifImage);
 
-        // Post Gif
         Image scaledPostGifImage = postGifImage.getImage().getScaledInstance(120, 120, Image.SCALE_DEFAULT);
         postGifImage = new ImageIcon(scaledPostGifImage);
 
-        // Friend Gif
         Image scaledFriendGifImage = friendGifImage.getImage().getScaledInstance(120, 120, Image.SCALE_DEFAULT);
         friendGifImage = new ImageIcon(scaledFriendGifImage);
 
-        // Remove friend Gif
         Image scaledRemoveFriendGifImage = removeFriendGifImage.getImage().getScaledInstance(120, 120, Image.SCALE_DEFAULT);
         removeFriendGifImage = new ImageIcon(scaledRemoveFriendGifImage);
 
-        // Block Gif
         Image scaledBlockGifImage = blockGifImage.getImage().getScaledInstance(120, 120, Image.SCALE_DEFAULT);
         blockGifImage = new ImageIcon(scaledBlockGifImage);
 
-        // Feed Gif
         Image scaledFeedGifImage = feedGifImage.getImage().getScaledInstance(120, 120, Image.SCALE_DEFAULT);
         feedGifImage = new ImageIcon(scaledFeedGifImage);
 
-        // Like a post Gif
         Image scaledLikeGifImage = likeGifImage.getImage().getScaledInstance(120, 120, Image.SCALE_DEFAULT);
         likeGifImage = new ImageIcon(scaledLikeGifImage);
 
-        // Dislike a post Gif
         Image scaledDislikeGifImage = dislikeGifImage.getImage().getScaledInstance(120, 120, Image.SCALE_DEFAULT);
         dislikeGifImage = new ImageIcon(scaledDislikeGifImage);
 
-        // Comment Gif
         Image scaledCommentGifImage = commentGifImage.getImage().getScaledInstance(120, 120, Image.SCALE_DEFAULT);
         commentGifImage = new ImageIcon(scaledCommentGifImage);
 
-        // Logout of platform Gif
         Image scaledLogoutGifImage = logoutGifImage.getImage().getScaledInstance(120, 120, Image.SCALE_DEFAULT);
         logoutGifImage = new ImageIcon(scaledLogoutGifImage);
 
-        // Confirm logout of platform Gif
         Image scaledYesLogoutGifImage = yesLogoutGifImage.getImage().getScaledInstance(120, 120, Image.SCALE_DEFAULT);
         yesLogoutGifImage = new ImageIcon(scaledYesLogoutGifImage);
 
-        // Return to homepage Gif
         Image scaledNoLogoutGifImage = noLogoutGifImage.getImage().getScaledInstance(120, 120, Image.SCALE_DEFAULT);
         noLogoutGifImage = new ImageIcon(scaledNoLogoutGifImage);
 
@@ -323,6 +307,13 @@ public class Client extends JFrame implements ListSelectionListener {
 
                                 String optionPostPromptMessage = reader.readLine();
                                 String optionPost = (String) JOptionPane.showInputDialog(null, optionPostPromptMessage, "Post", JOptionPane.INFORMATION_MESSAGE, welcomeImage, null, "");
+
+                                if (optionPost == null) {
+                                    defaultCommandsForWriter(writer, "Cancel");
+                                    break;
+                                }
+                                defaultCommandsForWriter(writer, "Not canceled");
+
                                 defaultCommandsForWriter(writer, optionPost);
 
                                 String reloopBool = reader.readLine();
@@ -352,6 +343,13 @@ public class Client extends JFrame implements ListSelectionListener {
                                 if (!foundBoolBool) {
                                     String notFoundPromptMessage = reader.readLine();
                                     String notFoundChoice = (String) JOptionPane.showInputDialog(null, notFoundPromptMessage, "Add Friend", JOptionPane.INFORMATION_MESSAGE, errorImage, null, "");
+
+                                    if (notFoundChoice == null) {
+                                        defaultCommandsForWriter(writer, "Cancel");
+                                        break;
+                                    }
+                                    defaultCommandsForWriter(writer, "Not canceled");
+
                                     defaultCommandsForWriter(writer, notFoundChoice);
 
                                     String notFoundBool = reader.readLine();
@@ -367,6 +365,13 @@ public class Client extends JFrame implements ListSelectionListener {
                                     if (!checkFriendBoolBool) {
                                         String alreadyFriend = reader.readLine();
                                         String alreadyFriendChoice = (String) JOptionPane.showInputDialog(null, alreadyFriend, "Add Friend", JOptionPane.INFORMATION_MESSAGE, errorImage, null, "");
+
+                                        if (alreadyFriendChoice == null) {
+                                            defaultCommandsForWriter(writer, "Cancel");
+                                            break;
+                                        }
+                                        defaultCommandsForWriter(writer, "Not canceled");
+
                                         defaultCommandsForWriter(writer, alreadyFriendChoice);
 
                                         String alreadyFriendBool = reader.readLine();
@@ -382,6 +387,13 @@ public class Client extends JFrame implements ListSelectionListener {
                                         if (!checkBlockedBoolBool) {
                                             String alreadyBlocked = reader.readLine();
                                             String alreadyBlockedChoice = (String) JOptionPane.showInputDialog(null, alreadyBlocked, "Add Friend", JOptionPane.INFORMATION_MESSAGE, errorImage, null, "");
+
+                                            if (alreadyBlockedChoice == null) {
+                                                defaultCommandsForWriter(writer, "Cancel");
+                                                break;
+                                            }
+                                            defaultCommandsForWriter(writer, "Not canceled");
+
                                             defaultCommandsForWriter(writer, alreadyBlockedChoice);
 
                                             String alreadyBlockedBool = reader.readLine();
@@ -397,6 +409,13 @@ public class Client extends JFrame implements ListSelectionListener {
                                             if (!checkOtherBlockedBoolBool) {
                                                 String alreadyOtherBlocked = reader.readLine();
                                                 String alreadyOtherBlockedChoice = (String) JOptionPane.showInputDialog(null, alreadyOtherBlocked, "Add Friend", JOptionPane.INFORMATION_MESSAGE, errorImage, null, "");
+
+                                                if (alreadyOtherBlockedChoice == null) {
+                                                    defaultCommandsForWriter(writer, "Cancel");
+                                                    break;
+                                                }
+                                                defaultCommandsForWriter(writer, "Not canceled");
+
                                                 defaultCommandsForWriter(writer, alreadyOtherBlockedChoice);
 
                                                 String alreadyOtherBlockedBool = reader.readLine();
@@ -412,6 +431,13 @@ public class Client extends JFrame implements ListSelectionListener {
 
                                                 String endAddFriendMessage = reader.readLine();
                                                 String endAddFriendChoice = (String) JOptionPane.showInputDialog(null, endAddFriendMessage, "Add Friend", JOptionPane.INFORMATION_MESSAGE, welcomeImage, null, "");
+
+                                                if (endAddFriendChoice == null) {
+                                                    defaultCommandsForWriter(writer, "Cancel");
+                                                    break;
+                                                }
+                                                defaultCommandsForWriter(writer, "Not canceled");
+
                                                 defaultCommandsForWriter(writer, endAddFriendChoice);
 
                                                 String endAddFriendBool = reader.readLine();
@@ -445,6 +471,13 @@ public class Client extends JFrame implements ListSelectionListener {
                                 if (!foundBoolBool) {
                                     String notFoundPromptMessage = reader.readLine();
                                     String notFoundChoice = (String) JOptionPane.showInputDialog(null, notFoundPromptMessage, "Remove Friend", JOptionPane.INFORMATION_MESSAGE, errorImage, null, "");
+
+                                    if (notFoundChoice == null) {
+                                        defaultCommandsForWriter(writer, "Cancel");
+                                        break;
+                                    }
+                                    defaultCommandsForWriter(writer, "Not canceled");
+
                                     defaultCommandsForWriter(writer, notFoundChoice);
 
                                     String notFoundBool = reader.readLine();
@@ -460,6 +493,13 @@ public class Client extends JFrame implements ListSelectionListener {
                                     if (!canBlockBoolBool) {
                                         String removedFriendMessage = reader.readLine();
                                         String removedFriendChoice = (String) JOptionPane.showInputDialog(null, removedFriendMessage, "Remove Friend", JOptionPane.INFORMATION_MESSAGE, successGifImage, null, "");
+
+                                        if (removedFriendChoice == null) {
+                                            defaultCommandsForWriter(writer, "Cancel");
+                                            break;
+                                        }
+                                        defaultCommandsForWriter(writer, "Not canceled");
+
                                         defaultCommandsForWriter(writer, removedFriendChoice);
 
                                         String removedFriendBool = reader.readLine();
@@ -472,6 +512,13 @@ public class Client extends JFrame implements ListSelectionListener {
                                     } else {
                                         String errorRemoveMessage = reader.readLine();
                                         String errorChoice = (String) JOptionPane.showInputDialog(null, errorRemoveMessage, "Remove Friend", JOptionPane.INFORMATION_MESSAGE, errorImage, null, "");
+
+                                        if (errorChoice == null) {
+                                            defaultCommandsForWriter(writer, "Cancel");
+                                            break;
+                                        }
+                                        defaultCommandsForWriter(writer, "Not canceled");
+
                                         defaultCommandsForWriter(writer, errorChoice);
 
                                         String errorRemoveBool = reader.readLine();
@@ -503,6 +550,13 @@ public class Client extends JFrame implements ListSelectionListener {
                                 if (!foundBoolBool) {
                                     String notFoundPromptMessage = reader.readLine();
                                     String notFoundChoice = (String) JOptionPane.showInputDialog(null, notFoundPromptMessage, "Block", JOptionPane.INFORMATION_MESSAGE, errorImage, null, "");
+
+                                    if (notFoundChoice == null) {
+                                        defaultCommandsForWriter(writer, "Cancel");
+                                        break;
+                                    }
+                                    defaultCommandsForWriter(writer, "Not canceled");
+
                                     defaultCommandsForWriter(writer, notFoundChoice);
 
                                     String notFoundBool = reader.readLine();
@@ -521,6 +575,13 @@ public class Client extends JFrame implements ListSelectionListener {
 
                                         String returnPromptMessage = reader.readLine();
                                         String returnChoice = (String) JOptionPane.showInputDialog(null, returnPromptMessage, "Block", JOptionPane.INFORMATION_MESSAGE, welcomeImage, null, "");
+
+                                        if (returnChoice == null) {
+                                            defaultCommandsForWriter(writer, "Cancel");
+                                            break;
+                                        }
+                                        defaultCommandsForWriter(writer, "Not canceled");
+
                                         defaultCommandsForWriter(writer, returnChoice);
 
                                         String returnBool = reader.readLine();
@@ -536,6 +597,13 @@ public class Client extends JFrame implements ListSelectionListener {
                                         if (!checkBlockedBoolBool) {
                                             String alreadyBlocked = reader.readLine();
                                             String alreadyBlockedChoice = (String) JOptionPane.showInputDialog(null, alreadyBlocked, "Block", JOptionPane.INFORMATION_MESSAGE, errorImage, null, "");
+
+                                            if (alreadyBlockedChoice == null) {
+                                                defaultCommandsForWriter(writer, "Cancel");
+                                                break;
+                                            }
+                                            defaultCommandsForWriter(writer, "Not canceled");
+
                                             defaultCommandsForWriter(writer, alreadyBlockedChoice);
 
                                             String alreadyBlockedBool = reader.readLine();
@@ -551,6 +619,13 @@ public class Client extends JFrame implements ListSelectionListener {
 
                                             String returnPromptMessage = reader.readLine();
                                             String returnChoice = (String) JOptionPane.showInputDialog(null, returnPromptMessage, "Block", JOptionPane.INFORMATION_MESSAGE, welcomeImage, null, "");
+
+                                            if (returnChoice == null) {
+                                                defaultCommandsForWriter(writer, "Cancel");
+                                                break;
+                                            }
+                                            defaultCommandsForWriter(writer, "Not canceled");
+
                                             defaultCommandsForWriter(writer, returnChoice);
 
                                             String returnBool = reader.readLine();
@@ -570,10 +645,17 @@ public class Client extends JFrame implements ListSelectionListener {
                             inner6: do {
                                 setLocationToLeft(frame);
                                 String randomPostPath1 = reader.readLine();
-                                System.out.println(randomPostPath1);
 
-                                String firstPartOfPath = randomPostPath1.substring(0, randomPostPath1.indexOf(" ", randomPostPath1.indexOf("Posts") + 7));
+                                String randomPostPath2 = reader.readLine();
+
+                                String randomPostPath3 = reader.readLine();
+
+                                // String firstPartOfPath = randomPostPath1.substring(0, randomPostPath1.indexOf(" ", randomPostPath1.indexOf("Posts") + 7));
                                 String urlPartOfPath = randomPostPath1.substring(randomPostPath1.indexOf("/"), randomPostPath1.indexOf(" ", randomPostPath1.indexOf("/")));
+
+                                String urlPartOfPath2 = randomPostPath2.substring(randomPostPath2.indexOf("/"), randomPostPath2.indexOf(" ", randomPostPath2.indexOf("/")));
+
+                                String urlPartOfPath3 = randomPostPath3.substring(randomPostPath3.indexOf("/"), randomPostPath3.indexOf(" ", randomPostPath3.indexOf("/")));
 
                                 JFrame feedFrame = new JFrame();
                                 Container content = feedFrame.getContentPane();
@@ -582,20 +664,37 @@ public class Client extends JFrame implements ListSelectionListener {
                                 feedFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
                                 BufferedImage firstFeedImage = ImageIO.read(new File(urlPartOfPath));
-                                BufferedImage secondFeedImage = ImageIO.read(new File("/Users/christinexu/Downloads/beach.png"));
-                                BufferedImage thirdFeedImage = ImageIO.read(new File("/Users/christinexu/Downloads/bride.png"));
-
                                 JLabel firstImageLabel = new JLabel(new ImageIcon(firstFeedImage));
+                                int postIndex = randomPostPath1.indexOf("Posts") + 7;
+                                JLabel textLabel = new JLabel(randomPostPath1.substring(postIndex, randomPostPath1.indexOf(" ", postIndex)) + " " + randomPostPath1.substring(randomPostPath1.indexOf("Likes"), randomPostPath1.indexOf("Comments") - 1));
+                                textLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+                                BufferedImage secondFeedImage = ImageIO.read(new File(urlPartOfPath2));
                                 JLabel secondImageLabel = new JLabel(new ImageIcon(secondFeedImage));
+                                int postIndex2 = randomPostPath2.indexOf("Posts") + 7;
+                                JLabel textLabel2 = new JLabel(randomPostPath2.substring(postIndex2, randomPostPath2.indexOf(" ", postIndex2)) + " " + randomPostPath2.substring(randomPostPath2.indexOf("Likes"), randomPostPath2.indexOf("Comments") - 1));
+                                textLabel2.setHorizontalAlignment(SwingConstants.CENTER);
+
+                                BufferedImage thirdFeedImage = ImageIO.read(new File(urlPartOfPath3));
                                 JLabel thirdImageLabel = new JLabel(new ImageIcon(thirdFeedImage));
+                                int postIndex3 = randomPostPath3.indexOf("Posts") + 7;
+                                JLabel textLabel3 = new JLabel(randomPostPath3.substring(postIndex3, randomPostPath3.indexOf(" ", postIndex3)) + " " + randomPostPath2.substring(randomPostPath3.indexOf("Likes"), randomPostPath3.indexOf("Comments") - 1));
+                                textLabel3.setHorizontalAlignment(SwingConstants.CENTER);
 
                                 JPanel feedPanel = new JPanel();
                                 feedPanel.setLayout(new BoxLayout(feedPanel, BoxLayout.Y_AXIS));
+
                                 feedPanel.add(firstImageLabel);
+                                feedPanel.add(textLabel);
+
                                 feedPanel.add(secondImageLabel);
+                                feedPanel.add(textLabel2);
+
                                 feedPanel.add(thirdImageLabel);
+                                feedPanel.add(textLabel3);
 
                                 JScrollPane feedScrollPane = new JScrollPane(feedPanel);
+                                feedScrollPane.getVerticalScrollBar().setUnitIncrement(11);
 
                                 content.add(feedScrollPane, BorderLayout.CENTER);
 
@@ -626,51 +725,8 @@ public class Client extends JFrame implements ListSelectionListener {
                                     JOptionPane.showMessageDialog(null, addComment, "Feed", JOptionPane.INFORMATION_MESSAGE, commentGifImage);
                                     break;
                                 }
-
                             } while (true);
                             break;
-//                        case 7:
-//                            inner7: do {
-//                                String lineAcc = "";
-//                                int k = 1;
-//                                while (k <= 3) {
-//                                    lineAcc = reader.readLine();
-//                                    System.out.println(lineAcc);
-//                                    k++;
-//                                }
-//
-//                                String wantToDeleteCommentMessage = reader.readLine();
-//                                String commentChoice = JOptionPane.showInputDialog(null, wantToDeleteCommentMessage, "Search", JOptionPane.INFORMATION_MESSAGE);
-//                                defaultCommandsForWriter(writer, commentChoice);
-//
-//                                String commentChoiceBool = reader.readLine();
-//                                boolean commentChoiceBoolBool = Boolean.parseBoolean(commentChoiceBool);
-//                                if (!commentChoiceBoolBool) {
-//                                    break;
-//                                } else {
-//                                    String commentLineSize = reader.readLine();
-//                                    int commentLineSizeInt = Integer.parseInt(commentLineSize);
-//
-//                                    String commentLine = "";
-//                                    int j = 1;
-//                                    while (j <= commentLineSizeInt) {
-//                                        commentLine = reader.readLine();
-//                                        System.out.println(commentLine);
-//                                        j++;
-//                                    }
-//
-//                                    String commentChoiceMessage = reader.readLine();
-//                                    String commentToDeleteChoice = JOptionPane.showInputDialog(null, commentChoiceMessage, "Search", JOptionPane.INFORMATION_MESSAGE);
-//                                    defaultCommandsForWriter(writer, commentToDeleteChoice);
-//
-//                                    String successMessage = reader.readLine();
-//                                    System.out.println(successMessage);
-//
-//                                    break;
-//
-//                                }
-//                            } while (true);
-//                            break;
                         case 7:
                             String logoutPromptMessage = reader.readLine();
                             String logoutClient = (String) JOptionPane.showInputDialog(null, logoutPromptMessage, "Logout", JOptionPane.INFORMATION_MESSAGE, logoutGifImage, null, "");
@@ -698,7 +754,7 @@ public class Client extends JFrame implements ListSelectionListener {
         });
     }
 
-    // Method to set JOptionPanes below the frame
+    // Method to put JOptionPane at the bottom of the platform frame
     public static String showMessageAtBottomFeed(JFrame parentFrame, String prompt) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
@@ -735,7 +791,7 @@ public class Client extends JFrame implements ListSelectionListener {
         frame.setLocation(x, y);
     }
 
-    // Method required for implementation of the ListSelectionListener interface
+    // Method to implement the required interface
     @Override
     public void valueChanged(ListSelectionEvent e) {
     }
